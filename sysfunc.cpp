@@ -1,7 +1,7 @@
 //
 // AYA version 5
 //
-// ƒVƒXƒeƒ€ŠÖ”‚ğÀs‚·‚éƒNƒ‰ƒX@CSystemFunction
+// ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’å®Ÿè¡Œã™ã‚‹ã‚¯ãƒ©ã‚¹ã€€CSystemFunction
 // written by umeici. 2004
 //
 
@@ -105,7 +105,7 @@ extern "C" {
 ////////////////////////////////////////
 
 /* -----------------------------------------------------------------------
- *  ƒVƒXƒeƒ€ŠÖ”ƒe[ƒuƒ‹
+ *  ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ãƒ†ãƒ¼ãƒ–ãƒ«
  * -----------------------------------------------------------------------
  */
 
@@ -119,22 +119,22 @@ extern "C" {
 #define SYSFUNC_HIS_NAME L"EmBeD_HiStOrY"
 
 constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
-	// Œ^æ“¾/•ÏŠ·
+	// å‹å–å¾—/å¤‰æ›
 	{ &CSystemFunction::TOINT , L"TOINT" } ,
 	{ &CSystemFunction::TOREAL , L"TOREAL" } ,
 	{ &CSystemFunction::TOSTR , L"TOSTR" } ,
 	{ &CSystemFunction::GETTYPE , L"GETTYPE" } ,
 	{ &CSystemFunction::ISFUNC , L"ISFUNC" } ,
 	{ &CSystemFunction::ISVAR , L"ISVAR" } ,
-	// ƒfƒoƒbƒO
+	// ãƒ‡ãƒãƒƒã‚°
 	{ &CSystemFunction::LOGGING , L"LOGGING" } ,
 	{ &CSystemFunction::GETLASTERROR , L"GETLASTERROR" } ,
-	// ŠO•”ƒ‰ƒCƒuƒ‰ƒŠ
+	// å¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
 	{ &CSystemFunction::LOADLIB , L"LOADLIB" } ,
 	{ &CSystemFunction::UNLOADLIB , L"UNLOADLIB" } ,
 	{ &CSystemFunction::REQUESTLIB , L"REQUESTLIB" } ,
 	{ &CSystemFunction::CHARSETLIB , L"CHARSETLIB" } ,
-	// ”’l
+	// æ•°å€¤
 	{ &CSystemFunction::RAND , L"RAND" } ,
 	{ &CSystemFunction::FLOOR , L"FLOOR" } ,
 	{ &CSystemFunction::CEIL , L"CEIL" } ,
@@ -146,7 +146,7 @@ constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
 	{ &CSystemFunction::LOG10 , L"LOG10" } ,
 	{ &CSystemFunction::POW , L"POW" } ,
 	{ &CSystemFunction::SQRT , L"SQRT" } ,
-	// •¶š—ñ‘€ì
+	// æ–‡å­—åˆ—æ“ä½œ
 	{ &CSystemFunction::STRSTR , L"STRSTR" } ,
 	{ &CSystemFunction::STRLEN , L"STRLEN" } ,
 	{ &CSystemFunction::REPLACE , L"REPLACE" } ,
@@ -161,7 +161,7 @@ constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
 	{ &CSystemFunction::BINSTRTOI , L"BINSTRTOI" } ,
 	{ &CSystemFunction::HEXSTRTOI , L"HEXSTRTOI" } ,
 	{ &CSystemFunction::CHR , L"CHR" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ
 	{ &CSystemFunction::FOPEN , L"FOPEN" } ,
 	{ &CSystemFunction::FCLOSE , L"FCLOSE" } ,
 	{ &CSystemFunction::FREAD , L"FREAD" } ,
@@ -176,148 +176,148 @@ constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
 	{ &CSystemFunction::FSIZE , L"FSIZE" } ,
 	{ &CSystemFunction::FENUM , L"FENUM" } ,
 	{ &CSystemFunction::FCHARSET , L"FCHARSET" } ,
-	// ”z—ñ
+	// é…åˆ—
 	{ &CSystemFunction::ArraySize , L"ARRAYSIZE" } ,
 	{ &CSystemFunction::SETDELIM , L"SETDELIM" } ,
-	// “Áê
+	// ç‰¹æ®Š
 	{ &CSystemFunction::EVAL , L"EVAL" } ,
 	{ &CSystemFunction::ERASEVAR , L"ERASEVAR" } ,
-	// ƒVƒXƒeƒ€/ƒƒ‚ƒŠî•ñ
+	// ã‚·ã‚¹ãƒ†ãƒ æ™‚åˆ»/ãƒ¡ãƒ¢ãƒªæƒ…å ±
 	{ &CSystemFunction::GETTIME , L"GETTIME" } ,
 	{ &CSystemFunction::GETTICKCOUNT , L"GETTICKCOUNT" } ,
 	{ &CSystemFunction::GETMEMINFO , L"GETMEMINFO" } ,
-	// ³‹K•\Œ»
+	// æ­£è¦è¡¨ç¾
 	{ &CSystemFunction::RE_SEARCH , L"RE_SEARCH" } ,
 	{ &CSystemFunction::RE_MATCH , L"RE_MATCH" } ,
 	{ &CSystemFunction::RE_GREP , L"RE_GREP" } ,
-	// ƒVƒXƒeƒ€‚Åg—p
-	{ &CSystemFunction::EmBeD_HiStOrY , L"EmBeD_HiStOrY" } ,	// %[n]i’uŠ·Ï‚Ì’l‚ÌÄ—˜—pjˆ——p
-	// ƒfƒoƒbƒO—p(2)
+	// ã‚·ã‚¹ãƒ†ãƒ ã§ä½¿ç”¨
+	{ &CSystemFunction::EmBeD_HiStOrY , L"EmBeD_HiStOrY" } ,	// %[n]ï¼ˆç½®æ›æ¸ˆã®å€¤ã®å†åˆ©ç”¨ï¼‰å‡¦ç†ç”¨
+	// ãƒ‡ãƒãƒƒã‚°ç”¨(2)
 	{ &CSystemFunction::SETLASTERROR , L"SETLASTERROR" } ,
-	// ³‹K•\Œ»(2)
+	// æ­£è¦è¡¨ç¾(2)
 	{ &CSystemFunction::RE_REPLACE , L"RE_REPLACE" } ,
 	{ &CSystemFunction::RE_SPLIT , L"RE_SPLIT" } ,
 	{ &CSystemFunction::RE_GETSTR , L"RE_GETSTR" } ,
 	{ &CSystemFunction::RE_GETPOS , L"RE_GETPOS" } ,
 	{ &CSystemFunction::RE_GETLEN , L"RE_GETLEN" } ,
-	// •¶š—ñ‘€ì(2)
+	// æ–‡å­—åˆ—æ“ä½œ(2)
 	{ &CSystemFunction::CHRCODE , L"CHRCODE" } ,
 	{ &CSystemFunction::ISINTSTR , L"ISINTSTR" } ,
 	{ &CSystemFunction::ISREALSTR , L"ISREALSTR" } ,
-	// ”z—ñ(2)
+	// é…åˆ—(2)
 	{ &CSystemFunction::IARRAY , L"IARRAY" } ,
-	// •¶š—ñ‘€ì(3)
+	// æ–‡å­—åˆ—æ“ä½œ(3)
 	{ &CSystemFunction::SPLITPATH , L"SPLITPATH" } ,
-	// Œ^æ“¾/•ÏŠ·(2)
+	// å‹å–å¾—/å¤‰æ›(2)
 	{ &CSystemFunction::CVINT , L"CVINT" } ,
 	{ &CSystemFunction::CVSTR , L"CVSTR" } ,
 	{ &CSystemFunction::CVREAL , L"CVREAL" } ,
-	// “Áê(2)
+	// ç‰¹æ®Š(2)
 	{ &CSystemFunction::LETTONAME , L"LETTONAME" } ,
 	{ &CSystemFunction::LSO , L"LSO" } ,
-	// •¶š—ñ‘€ì(4)
+	// æ–‡å­—åˆ—æ“ä½œ(4)
 	{ &CSystemFunction::STRFORM , L"STRFORM" } ,
 	{ &CSystemFunction::ANY , L"ANY" } ,
-	// “Áê(3)
+	// ç‰¹æ®Š(3)
 	{ &CSystemFunction::SAVEVAR , L"SAVEVAR" } ,
-	// •¶š—ñ‘€ì(5)
+	// æ–‡å­—åˆ—æ“ä½œ(5)
 	{ &CSystemFunction::GETSTRBYTES , L"GETSTRBYTES" } ,
-	// ”z—ñ(3)
+	// é…åˆ—(3)
 	{ &CSystemFunction::ASEARCH , L"ASEARCH" } ,
 	{ &CSystemFunction::ASEARCHEX , L"ASEARCHEX" } ,
-	// ”z—ñ(4)
+	// é…åˆ—(4)
 	{ &CSystemFunction::GETDELIM , L"GETDELIM" } ,
-	// “Áê(4)
+	// ç‰¹æ®Š(4)
 	{ &CSystemFunction::GETSETTING , L"GETSETTING" } ,
-	// ”’l(2)
+	// æ•°å€¤(2)
 	{ &CSystemFunction::ASIN , L"ASIN" } ,
 	{ &CSystemFunction::ACOS , L"ACOS" } ,
 	{ &CSystemFunction::ATAN , L"ATAN" } ,
-	// •¶š—ñ‘€ì(6)
+	// æ–‡å­—åˆ—æ“ä½œ(6)
 	{ &CSystemFunction::SPLIT , L"SPLIT" } ,
 	{ &CSystemFunction::ARRAYDEDUP , L"ARRAYDEDUP" },
-	// ƒtƒ@ƒCƒ‹‘€ì(2)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(2)
 	{ &CSystemFunction::FATTRIB , L"FATTRIB" } ,
-	// Œ^æ“¾/•ÏŠ·(3)
+	// å‹å–å¾—/å¤‰æ›(3)
 	{ &CSystemFunction::GETFUNCLIST , L"GETFUNCLIST" } ,
 	{ &CSystemFunction::GETVARLIST , L"GETVARLIST" } ,
-	// ³‹K•\Œ»(3)
+	// æ­£è¦è¡¨ç¾(3)
 	{ &CSystemFunction::RE_REPLACEEX , L"RE_REPLACEEX" } ,
-	// ŠO•”ƒ‰ƒCƒuƒ‰ƒŠ(2)
+	// å¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(2)
 	{ &CSystemFunction::CHARSETLIBEX , L"CHARSETLIBEX" } ,
-	// •¶šƒR[ƒh
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰
 	{ &CSystemFunction::CHARSETTEXTTOID , L"CHARSETTEXTTOID" } ,
 	{ &CSystemFunction::CHARSETIDTOTEXT , L"CHARSETIDTOTEXT" } ,
-	// ƒrƒbƒg‰‰Z
+	// ãƒ“ãƒƒãƒˆæ¼”ç®—
 	{ &CSystemFunction::BITWISE_AND , L"BITWISE_AND" } ,
 	{ &CSystemFunction::BITWISE_OR , L"BITWISE_OR" } ,
 	{ &CSystemFunction::BITWISE_XOR , L"BITWISE_XOR" } ,
 	{ &CSystemFunction::BITWISE_NOT , L"BITWISE_NOT" } ,
 	{ &CSystemFunction::BITWISE_SHIFT , L"BITWISE_SHIFT" } ,
-	// ”¼Šp<->‘SŠp
+	// åŠè§’<->å…¨è§’
 	{ &CSystemFunction::ZEN2HAN , L"ZEN2HAN" } ,
 	{ &CSystemFunction::HAN2ZEN , L"HAN2ZEN" } ,
-	// Œ^æ“¾/•ÏŠ·(3)
+	// å‹å–å¾—/å¤‰æ›(3)
 	{ &CSystemFunction::CVAUTO , L"CVAUTO" } ,
 	{ &CSystemFunction::TOAUTO , L"TOAUTO" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(3)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(3)
 	{ &CSystemFunction::FREADBIN , L"FREADBIN" } ,
 	{ &CSystemFunction::FWRITEBIN , L"FWRITEBIN" } ,
-	// “Áê(5)
+	// ç‰¹æ®Š(5)
 	{ &CSystemFunction::RESTOREVAR , L"RESTOREVAR" } ,
 	{ &CSystemFunction::GETCALLSTACK , L"GETCALLSTACK" } ,
-	// •¶š—ñ‘€ì(7) ŒİŠ·—p
+	// æ–‡å­—åˆ—æ“ä½œ(7) äº’æ›ç”¨
 	{ &CSystemFunction::STRENCODE , L"GETSTRURLENCODE" } ,
 	{ &CSystemFunction::STRDECODE , L"GETSTRURLDECODE" } ,
-	// ”’l(3)
+	// æ•°å€¤(3)
 	{ &CSystemFunction::SINH , L"SINH" } ,
 	{ &CSystemFunction::COSH , L"COSH" } ,
 	{ &CSystemFunction::TANH , L"TANH" } ,
-	// ƒVƒXƒeƒ€/ƒƒ‚ƒŠî•ñ(2)
+	// ã‚·ã‚¹ãƒ†ãƒ æ™‚åˆ»/ãƒ¡ãƒ¢ãƒªæƒ…å ±(2)
 	{ &CSystemFunction::GETSECCOUNT , L"GETSECCOUNT" } ,
 	// FMO(1)
 	{ &CSystemFunction::READFMO , L"READFMO" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(4)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(4)
 	{ &CSystemFunction::FDIGEST , L"FDIGEST" } ,
 	{ &CSystemFunction::STRDIGEST , L"STRDIGEST" } ,
-	// “Áê(6)
+	// ç‰¹æ®Š(6)
 	{ &CSystemFunction::EXECUTE , L"EXECUTE" } ,
 	{ &CSystemFunction::SETSETTING , L"SETSETTING" } ,
-	// ƒfƒoƒbƒO—p(3)
+	// ãƒ‡ãƒãƒƒã‚°ç”¨(3)
 	{ &CSystemFunction::DUMPVAR , L"DUMPVAR" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(5)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(5)
 	{ &CSystemFunction::FSEEK , L"FSEEK" } ,
 	{ &CSystemFunction::FTELL , L"FTELL" } ,
-	//ƒ‰ƒCƒZƒ“ƒX
+	//ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
 	{ &CSystemFunction::LICENSE , L"LICENSE" } ,
-	// •¶š—ñ‘€ì(8)
+	// æ–‡å­—åˆ—æ“ä½œ(8)
 	{ &CSystemFunction::STRENCODE , L"STRENCODE" } ,
 	{ &CSystemFunction::STRDECODE , L"STRDECODE" } ,
-	// “Áê(7)
+	// ç‰¹æ®Š(7)
 	{ &CSystemFunction::EXECUTE_WAIT , L"EXECUTE_WAIT" } ,
-	// ³‹K•\Œ»(4)
+	// æ­£è¦è¡¨ç¾(4)
 	{ &CSystemFunction::RE_OPTION , L"RE_OPTION" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(6)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(6)
 	{ &CSystemFunction::FREADENCODE , L"FREADENCODE" } ,
-	// Œ^æ“¾/•ÏŠ·(4)
+	// å‹å–å¾—/å¤‰æ›(4)
 	{ &CSystemFunction::GETTYPEEX , L"GETTYPEEX" } ,
-	// ³‹K•\Œ»(5)
+	// æ­£è¦è¡¨ç¾(5)
 	{ &CSystemFunction::RE_ASEARCHEX , L"RE_ASEARCHEX" } ,
 	{ &CSystemFunction::RE_ASEARCH , L"RE_ASEARCH" } ,
-	// ”z—ñ(5)
+	// é…åˆ—(5)
 	{ &CSystemFunction::ASORT , L"ASORT" } ,
-	// •¶š—ñ‘€ì(9)
+	// æ–‡å­—åˆ—æ“ä½œ(9)
 	{ &CSystemFunction::TRANSLATE , L"TRANSLATE" } ,
-	// ”’l(4)
+	// æ•°å€¤(4)
 	{ &CSystemFunction::SRAND , L"SRAND" } ,
-	// “Áê(8)
+	// ç‰¹æ®Š(8)
 	{ &CSystemFunction::GETENV , L"GETENV" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(7)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(7)
 	{ &CSystemFunction::FWRITEDECODE , L"FWRITEDECODE" } ,
-	// ƒfƒoƒbƒO—p(4)
+	// ãƒ‡ãƒãƒƒã‚°ç”¨(4)
 	{ &CSystemFunction::GETERRORLOG , L"GETERRORLOG" } ,
 	{ &CSystemFunction::CLEARERRORLOG , L"CLEARERRORLOG" },
-	// “Áê(9)
+	// ç‰¹æ®Š(9)
 	{ &CSystemFunction::DICLOAD , L"DICLOAD" } ,
 	{ &CSystemFunction::GETSYSTEMFUNCLIST , L"GETSYSTEMFUNCLIST" } ,
 	{ &CSystemFunction::GETFUNCINFO , L"GETFUNCINFO" } ,
@@ -342,18 +342,18 @@ constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
 	{ &CSystemFunction::LINT_GetLocalVarUsedBy , L"LINT.GetLocalVarUsedBy" },
 	{ &CSystemFunction::LINT_GetGlobalVarLetted , L"LINT.GetGlobalVarLetted" },
 	{ &CSystemFunction::LINT_GetLocalVarLetted , L"LINT.GetLocalVarLetted" },
-	// Œ^æ“¾/•ÏŠ·(5)
+	// å‹å–å¾—/å¤‰æ›(5)
 	{ &CSystemFunction::CVAUTOEX , L"CVAUTOEX" } ,
 	{ &CSystemFunction::TOAUTOEX , L"TOAUTOEX" } ,
-	// “Áê(9)
+	// ç‰¹æ®Š(9)
 	{ &CSystemFunction::DIRECTSSTP , L"DIRECTSSTP" } ,
-	// ƒtƒ@ƒCƒ‹‘€ì(9)
+	// ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ(9)
 	{ &CSystemFunction::FSTATUS , L"FSTATUS" } ,
 };
 
 #define SYSFUNC_NUM (sizeof(CSystemFunction::sysfunc)/sizeof(CSystemFunction::sysfunc[0]))
 
-//‚±‚ÌƒOƒ[ƒoƒ‹•Ï”‚Íƒ}ƒ‹ƒ`ƒCƒ“ƒXƒ^ƒ“ƒX‚Å‚à‹¤’Ê
+//ã“ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã¯ãƒãƒ«ãƒã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã‚‚å…±é€š
 class CSystemFunctionInit {
 public:
 	size_t sysfunc_len[SYSFUNC_NUM];
@@ -387,7 +387,7 @@ public:
 CSystemFunctionInit sysfuncinit;
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CSystemFunction
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CSystemFunction
  * -----------------------------------------------------------------------
  */
 CSystemFunction::CSystemFunction(CAyaVM &vmr)
@@ -400,8 +400,8 @@ CSystemFunction::CSystemFunction(CAyaVM &vmr)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GetMaxNameLength
- *  ‹@”\ŠT—vF  ƒVƒXƒeƒ€ŠÖ”‚Ì–¼‘O‚ÌÅ‘å’l‚ğ•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GetMaxNameLength
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã®åå‰ã®æœ€å¤§å€¤ã‚’è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 size_t CSystemFunction::GetMaxNameLength(void)
@@ -410,8 +410,8 @@ size_t CSystemFunction::GetMaxNameLength(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FindIndex
- *  ‹@”\ŠT—vF  ƒVƒXƒeƒ€ŠÖ”‚ğ’Tõ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FindIndex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’æ¢ç´¢ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 ptrdiff_t CSystemFunction::FindIndex(const yaya::string_t &str)
@@ -425,8 +425,8 @@ ptrdiff_t CSystemFunction::FindIndex(const yaya::string_t &str)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FindIndexLongestMatch
- *  ‹@”\ŠT—vF  ‚¢‚¿‚Î‚ñ’·‚­ƒ}ƒbƒ`‚·‚éƒVƒXƒeƒ€ŠÖ”‚ğ’Tõ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FindIndexLongestMatch
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã„ã¡ã°ã‚“é•·ããƒãƒƒãƒã™ã‚‹ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’æ¢ç´¢ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 size_t CSystemFunction::FindIndexLongestMatch(const yaya::string_t &str, size_t max_len)
@@ -445,8 +445,8 @@ size_t CSystemFunction::FindIndexLongestMatch(const yaya::string_t &str, size_t 
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GetNameFromIndex
- *  ‹@”\ŠT—vF  Index->–¼‘O
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GetNameFromIndex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  Index->åå‰
  * -----------------------------------------------------------------------
  */
 const yaya::char_t* CSystemFunction::GetNameFromIndex(int idx)
@@ -456,8 +456,8 @@ const yaya::char_t* CSystemFunction::GetNameFromIndex(int idx)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::HistoryIndex / HistoryFunctionName
- *  ‹@”\ŠT—vF  —š—ğŒn‚Ì’è”‚ğ•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::HistoryIndex / HistoryFunctionName
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å±¥æ­´ç³»ã®å®šæ•°ã‚’è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 size_t CSystemFunction::HistoryIndex(void)
@@ -471,10 +471,10 @@ const yaya::char_t* CSystemFunction::HistoryFunctionName(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::Execute
- *  ‹@”\ŠT—vF  ƒVƒXƒeƒ€ŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::Execute
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  thisfunc‚Í‚±‚ÌŠÖ”‚ğÀs‚µ‚½CFunctionƒCƒ“ƒXƒ^ƒ“ƒX‚Å‚·
+ *  thisfuncã¯ã“ã®é–¢æ•°ã‚’å®Ÿè¡Œã—ãŸCFunctionã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã§ã™
  * -----------------------------------------------------------------------
  */
 class CSF_FUNCPARAM
@@ -510,7 +510,7 @@ CValue	CSystemFunction::Execute(ptrdiff_t index, const CValue &arg, const std::v
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOINT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOINT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOINT(CSF_FUNCPARAM &p)
@@ -525,7 +525,7 @@ CValue	CSystemFunction::TOINT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOREAL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOREAL
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOREAL(CSF_FUNCPARAM &p)
@@ -540,7 +540,7 @@ CValue	CSystemFunction::TOREAL(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOSTR(CSF_FUNCPARAM &p)
@@ -605,7 +605,7 @@ CValue	CSystemFunction::TOSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOAUTO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOAUTO
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOAUTO(CSF_FUNCPARAM &p)
@@ -634,7 +634,7 @@ CValue	CSystemFunction::TOAUTO(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOAUTOEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOAUTOEX
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOAUTOEX(CSF_FUNCPARAM &p)
@@ -674,8 +674,8 @@ CValue	CSystemFunction::TOAUTOEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETTYPE
- *  •Ô’l@@F  0/1/2/3/4/5=ƒGƒ‰[/®”/À”/•¶š—ñ/”z—ñ/˜A‘z”z—ñ
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETTYPE
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1/2/3/4/5=ã‚¨ãƒ©ãƒ¼/æ•´æ•°/å®Ÿæ•°/æ–‡å­—åˆ—/é…åˆ—/é€£æƒ³é…åˆ—
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETTYPE(CSF_FUNCPARAM &p)
@@ -695,7 +695,7 @@ CValue	CSystemFunction::GETTYPE(CSF_FUNCPARAM &p)
 		return CValue(2);
 	case F_TAG_STRING:
 		return CValue(3);
-	case F_TAG_ARRAY: //ŒİŠ·ˆ—
+	case F_TAG_ARRAY: //äº’æ›å‡¦ç†
 		{
 			if ( p.valuearg[0].array_size() == 1 ) {
 				int t = p.valuearg[0].array()[0].GetType();
@@ -723,8 +723,8 @@ CValue	CSystemFunction::GETTYPE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETTYPEEX
- *  •Ô’l@@F  0/1/2/3/4=ƒGƒ‰[/®”/À”/•¶š—ñ/”z—ñ
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETTYPEEX
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1/2/3/4=ã‚¨ãƒ©ãƒ¼/æ•´æ•°/å®Ÿæ•°/æ–‡å­—åˆ—/é…åˆ—
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETTYPEEX(CSF_FUNCPARAM &p)
@@ -737,7 +737,7 @@ CValue	CSystemFunction::GETTYPEEX(CSF_FUNCPARAM &p)
 		return CValue(F_TAG_NOP, 0/*dmy*/);
 	}
 
-	//•¶š—ñ‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN - Œx‚Í“f‚­‚ªˆ—‘±s
+	//æ–‡å­—åˆ—ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ - è­¦å‘Šã¯åããŒå‡¦ç†ç¶šè¡Œ
 	if ( ! p.arg.array()[0].IsString() ) {
 		vm.logger().Error(E_W, 9, L"GETTYPEEX", p.dicname, p.line);
 		SetError(9);
@@ -778,7 +778,7 @@ CValue	CSystemFunction::GETTYPEEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISFUNC
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISFUNC
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISFUNC(CSF_FUNCPARAM &p)
@@ -807,7 +807,7 @@ CValue	CSystemFunction::ISFUNC(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISVAR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISVAR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISVAR(CSF_FUNCPARAM &p)
@@ -837,9 +837,9 @@ CValue	CSystemFunction::ISVAR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LOGGING
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LOGGING
  *
- *  •¶š—ñ‚Ìê‡‚Íƒ_ƒuƒ‹ƒNƒH[ƒg‚µ‚Ü‚·B
+ *  æ–‡å­—åˆ—ã®å ´åˆã¯ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LOGGING(CSF_FUNCPARAM &p)
@@ -853,9 +853,9 @@ CValue	CSystemFunction::LOGGING(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETERRORLOG
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETERRORLOG
  *
- *  ƒGƒ‰[ƒƒO‚ğ”z—ñ‚Å•Ô‚µ‚Ü‚·
+ *  ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’é…åˆ—ã§è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETERRORLOG(CSF_FUNCPARAM &p)
@@ -863,7 +863,7 @@ CValue	CSystemFunction::GETERRORLOG(CSF_FUNCPARAM &p)
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 
-	//i‚è‚±‚İ•¶š—ñ‚ª‚È‚¢ê‡
+	//çµã‚Šã“ã¿æ–‡å­—åˆ—ãŒãªã„å ´åˆ
 	std::deque<yaya::string_t> &log = vm.logger().GetErrorLogHistory();
 
 	for(std::deque<yaya::string_t>::iterator it = log.begin(); it != log.end(); it++) {
@@ -874,9 +874,9 @@ CValue	CSystemFunction::GETERRORLOG(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CLEARERRORLOG
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CLEARERRORLOG
  *
- *  ƒGƒ‰[ƒƒO‚ğÁ‹‚µ‚Ü‚·
+ *  ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’æ¶ˆå»ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CLEARERRORLOG(CSF_FUNCPARAM &p)
@@ -884,14 +884,14 @@ CValue	CSystemFunction::CLEARERRORLOG(CSF_FUNCPARAM &p)
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 
-	//i‚è‚±‚İ•¶š—ñ‚ª‚È‚¢ê‡
+	//çµã‚Šã“ã¿æ–‡å­—åˆ—ãŒãªã„å ´åˆ
 	vm.logger().GetErrorLogHistory().clear();
 
 	return result;
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LOADLIB
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LOADLIB
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LOADLIB(CSF_FUNCPARAM &p)
@@ -918,7 +918,7 @@ CValue	CSystemFunction::LOADLIB(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::UNLOADLIB
+ *  é–¢æ•°å  ï¼š  CSystemFunction::UNLOADLIB
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::UNLOADLIB(CSF_FUNCPARAM &p)
@@ -950,7 +950,7 @@ CValue	CSystemFunction::UNLOADLIB(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::REQUESTLIB
+ *  é–¢æ•°å  ï¼š  CSystemFunction::REQUESTLIB
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::REQUESTLIB(CSF_FUNCPARAM &p)
@@ -978,7 +978,7 @@ CValue	CSystemFunction::REQUESTLIB(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHARSETTEXTTOID
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHARSETTEXTTOID
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHARSETTEXTTOID(CSF_FUNCPARAM &p)
@@ -999,7 +999,7 @@ CValue	CSystemFunction::CHARSETTEXTTOID(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHARSETIDTOTEXT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHARSETIDTOTEXT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHARSETIDTOTEXT(CSF_FUNCPARAM &p)
@@ -1020,8 +1020,8 @@ CValue	CSystemFunction::CHARSETIDTOTEXT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::BITWISE_***
- *  ƒrƒbƒg‰‰ZŠÖ˜A‚Å‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::BITWISE_***
+ *  ãƒ“ãƒƒãƒˆæ¼”ç®—é–¢é€£ã§ã™
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::BITWISE_AND(CSF_FUNCPARAM &p)
@@ -1085,31 +1085,31 @@ CValue CSystemFunction::BITWISE_SHIFT(CSF_FUNCPARAM &p)
 	}
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ZEN2HAN / HAN2ZEN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ZEN2HAN / HAN2ZEN
  *
- *  ”¼Šp<->‘SŠp
+ *  åŠè§’<->å…¨è§’
  * -----------------------------------------------------------------------
  */
 
 static const yaya::char_t zen_support_symbol[] =
-	L"@Igh”“•efijbeo{–pƒ„HQ[O—GFEDmn";
+	L"ã€€ï¼â€œâ€ï¼ƒï¼„ï¼…ï¼†â€˜â€™ï¼ˆï¼‰ï¼ï½œâ€˜ï½›ï¼‹ï¼Šï½ï¼œï¼ï¼Ÿï¼¿ãƒ¼ï¼¾ï¿¥ï¼ ï¼›ï¼šãƒ»ï¼ï¼»ï¼½";
 static const yaya::char_t han_support_symbol[] =
-	L" !\"\"#$%&''()=|`{+*}<>?_-^\\@;:¥.[]";
+	L" !\"\"#$%&''()=|`{+*}<>?_-^\\@;:ï½¥.[]";
 
 static const yaya::char_t zen_support_kana[] =
-	L"ƒAƒCƒEƒGƒIƒJƒLƒNƒPƒRƒTƒVƒXƒZ\x30bdƒ^ƒ`ƒcƒeƒgƒiƒjƒkƒlƒmƒnƒqƒtƒwƒzƒ}ƒ~ƒ€ƒƒ‚ƒ„ƒ†ƒˆƒ‰ƒŠƒ‹ƒŒƒƒƒ’ƒ“ƒ@ƒBƒDƒFƒHƒƒƒ…ƒ‡ƒbJKAB";
+	L"ã‚¢ã‚¤ã‚¦ã‚¨ã‚ªã‚«ã‚­ã‚¯ã‚±ã‚³ã‚µã‚·ã‚¹ã‚»\x30bdã‚¿ãƒãƒ„ãƒ†ãƒˆãƒŠãƒ‹ãƒŒãƒãƒãƒãƒ’ãƒ•ãƒ˜ãƒ›ãƒãƒŸãƒ ãƒ¡ãƒ¢ãƒ¤ãƒ¦ãƒ¨ãƒ©ãƒªãƒ«ãƒ¬ãƒ­ãƒ¯ãƒ²ãƒ³ã‚¡ã‚£ã‚¥ã‚§ã‚©ãƒ£ãƒ¥ãƒ§ãƒƒã‚›ã‚œã€ã€‚";
 static const yaya::char_t han_support_kana[] =
-	L"±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜ¦İ§¨©ª«¬­®¯Şß¤¡";
+	L"ï½±ï½²ï½³ï½´ï½µï½¶ï½·ï½¸ï½¹ï½ºï½»ï½¼ï½½ï½¾ï½¿ï¾€ï¾ï¾‚ï¾ƒï¾„ï¾…ï¾†ï¾‡ï¾ˆï¾‰ï¾Šï¾‹ï¾Œï¾ï¾ï¾ï¾ï¾‘ï¾’ï¾“ï¾”ï¾•ï¾–ï¾—ï¾˜ï¾™ï¾šï¾›ï¾œï½¦ï¾ï½§ï½¨ï½©ï½ªï½«ï½¬ï½­ï½®ï½¯ï¾ï¾Ÿï½¤ï½¡";
 
 static const yaya::char_t zen_support_kana2[] =
-	L"ƒKƒMƒOƒQƒSƒUƒWƒYƒ[ƒ]ƒ_ƒaƒdƒfƒhƒoƒrƒuƒxƒ{ƒ”";
+	L"ã‚¬ã‚®ã‚°ã‚²ã‚´ã‚¶ã‚¸ã‚ºã‚¼ã‚¾ãƒ€ãƒ‚ãƒ…ãƒ‡ãƒ‰ãƒãƒ“ãƒ–ãƒ™ãƒœãƒ´";
 static const yaya::char_t han_support_kana2[] =
-	L"¶·¸¹º»¼½¾¿ÀÁÂÃÄÊËÌÍÎ³";
+	L"ï½¶ï½·ï½¸ï½¹ï½ºï½»ï½¼ï½½ï½¾ï½¿ï¾€ï¾ï¾‚ï¾ƒï¾„ï¾Šï¾‹ï¾Œï¾ï¾ï½³";
 
 static const yaya::char_t zen_support_kana3[] =
-	L"ƒpƒsƒvƒyƒ|";
+	L"ãƒ‘ãƒ”ãƒ—ãƒšãƒ";
 static const yaya::char_t han_support_kana3[] =
-	L"ÊËÌÍÎ";
+	L"ï¾Šï¾‹ï¾Œï¾ï¾";
 
 
 #define ZH_FLAG_NUMBER   0x1U
@@ -1280,7 +1280,7 @@ CValue CSystemFunction::HAN2ZEN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHARSETLIB
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHARSETLIB
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHARSETLIB(CSF_FUNCPARAM &p)
@@ -1300,7 +1300,7 @@ CValue	CSystemFunction::CHARSETLIB(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHARSETLIBEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHARSETLIBEX
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHARSETLIBEX(CSF_FUNCPARAM &p)
@@ -1342,10 +1342,10 @@ CValue	CSystemFunction::CHARSETLIBEX(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RAND
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RAND
  *
- *  ˆø”‚È‚µ‚ÍRAND(100)ˆµ‚¢‚Å‚·B
- *  ˆø”ƒGƒ‰[‚Å‚Í0‚ğ•Ô‚µ‚Ü‚·B
+ *  å¼•æ•°ãªã—ã¯RAND(100)æ‰±ã„ã§ã™ã€‚
+ *  å¼•æ•°ã‚¨ãƒ©ãƒ¼ã§ã¯0ã‚’è¿”ã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RAND(CSF_FUNCPARAM &p)
@@ -1371,9 +1371,9 @@ CValue	CSystemFunction::RAND(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SRAND
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SRAND
  *
- *  RAND‚ÌseedBƒpƒ‰ƒ[ƒ^‚Í•¶š—ñ‚à‰ÂB
+ *  RANDã®seedã€‚ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã¯æ–‡å­—åˆ—ã‚‚å¯ã€‚
  * -----------------------------------------------------------------------
  */
 
@@ -1440,7 +1440,7 @@ CValue	CSystemFunction::SRAND(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FLOOR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FLOOR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FLOOR(CSF_FUNCPARAM &p)
@@ -1459,7 +1459,7 @@ CValue	CSystemFunction::FLOOR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CEIL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CEIL
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CEIL(CSF_FUNCPARAM &p)
@@ -1478,7 +1478,7 @@ CValue	CSystemFunction::CEIL(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ROUND
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ROUND
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ROUND(CSF_FUNCPARAM &p)
@@ -1506,7 +1506,7 @@ CValue	CSystemFunction::ROUND(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SIN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SIN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SIN(CSF_FUNCPARAM &p)
@@ -1525,7 +1525,7 @@ CValue	CSystemFunction::SIN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::COS
+ *  é–¢æ•°å  ï¼š  CSystemFunction::COS
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::COS(CSF_FUNCPARAM &p)
@@ -1544,7 +1544,7 @@ CValue	CSystemFunction::COS(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TAN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TAN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TAN(CSF_FUNCPARAM &p)
@@ -1563,7 +1563,7 @@ CValue	CSystemFunction::TAN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SINH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SINH
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SINH(CSF_FUNCPARAM &p)
@@ -1582,7 +1582,7 @@ CValue	CSystemFunction::SINH(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::COSH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::COSH
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::COSH(CSF_FUNCPARAM &p)
@@ -1601,7 +1601,7 @@ CValue	CSystemFunction::COSH(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TANH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TANH
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TANH(CSF_FUNCPARAM &p)
@@ -1620,7 +1620,7 @@ CValue	CSystemFunction::TANH(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ASIN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ASIN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ASIN(CSF_FUNCPARAM &p)
@@ -1639,7 +1639,7 @@ CValue	CSystemFunction::ASIN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ACOS
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ACOS
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ACOS(CSF_FUNCPARAM &p)
@@ -1658,7 +1658,7 @@ CValue	CSystemFunction::ACOS(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ATAN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ATAN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ATAN(CSF_FUNCPARAM &p)
@@ -1677,7 +1677,7 @@ CValue	CSystemFunction::ATAN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LOG
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LOG
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LOG(CSF_FUNCPARAM &p)
@@ -1696,7 +1696,7 @@ CValue	CSystemFunction::LOG(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LOG10
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LOG10
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LOG10(CSF_FUNCPARAM &p)
@@ -1715,7 +1715,7 @@ CValue	CSystemFunction::LOG10(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::POW
+ *  é–¢æ•°å  ï¼š  CSystemFunction::POW
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::POW(CSF_FUNCPARAM &p)
@@ -1734,7 +1734,7 @@ CValue	CSystemFunction::POW(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SQRT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SQRT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SQRT(CSF_FUNCPARAM &p)
@@ -1759,7 +1759,7 @@ CValue	CSystemFunction::SQRT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::STRSTR(CSF_FUNCPARAM &p)
@@ -1786,7 +1786,7 @@ CValue	CSystemFunction::STRSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRLEN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRLEN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::STRLEN(CSF_FUNCPARAM &p)
@@ -1806,7 +1806,7 @@ CValue	CSystemFunction::STRLEN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::REPLACE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::REPLACE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::REPLACE(CSF_FUNCPARAM &p)
@@ -1847,7 +1847,7 @@ CValue	CSystemFunction::REPLACE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SUBSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SUBSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SUBSTR(CSF_FUNCPARAM &p)
@@ -1870,8 +1870,8 @@ CValue	CSystemFunction::SUBSTR(CSF_FUNCPARAM &p)
 
 	if ( pos < 0 ) {
 		pos += src.length();
-		if ( pos < 0 ) { //‚Ü‚¾•‰‚È‚ç‹­§•â³
-			len += pos; //•‰’l‚È‚Ì‚Å‚½‚µ‚´‚ñ‚Åˆø‚©‚ê‚é
+		if ( pos < 0 ) { //ã¾ã è² ãªã‚‰å¼·åˆ¶è£œæ­£
+			len += pos; //è² å€¤ãªã®ã§ãŸã—ã–ã‚“ã§å¼•ã‹ã‚Œã‚‹
 			pos = 0;
 			if ( len <= 0 ) {
 				return yaya::string_t();
@@ -1890,7 +1890,7 @@ CValue	CSystemFunction::SUBSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ERASE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ERASE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ERASE(CSF_FUNCPARAM &p)
@@ -1914,8 +1914,8 @@ CValue	CSystemFunction::ERASE(CSF_FUNCPARAM &p)
 
 	if ( pos < 0 ) {
 		pos += src.length();
-		if ( pos < 0 ) { //‚Ü‚¾•‰‚È‚ç‹­§•â³
-			len += pos; //•‰’l‚È‚Ì‚Å‚½‚µ‚´‚ñ‚Åˆø‚©‚ê‚é
+		if ( pos < 0 ) { //ã¾ã è² ãªã‚‰å¼·åˆ¶è£œæ­£
+			len += pos; //è² å€¤ãªã®ã§ãŸã—ã–ã‚“ã§å¼•ã‹ã‚Œã‚‹
 			pos = 0;
 			if ( len <= 0 ) {
 				return yaya::string_t();
@@ -1934,7 +1934,7 @@ CValue	CSystemFunction::ERASE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::INSERT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::INSERT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::INSERT(CSF_FUNCPARAM &p)
@@ -1957,7 +1957,7 @@ CValue	CSystemFunction::INSERT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOUPPER
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOUPPER
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOUPPER(CSF_FUNCPARAM &p)
@@ -1966,7 +1966,7 @@ CValue	CSystemFunction::TOUPPER(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOLOWER
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOLOWER
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOLOWER(CSF_FUNCPARAM &p)
@@ -1975,7 +1975,7 @@ CValue	CSystemFunction::TOLOWER(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  TOLOWER/TOUPPER‚Ì–{‘Ì
+ *  TOLOWER/TOUPPERã®æœ¬ä½“
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::ToLowerOrUpper(CSF_FUNCPARAM &p,const yaya::char_t *funcname,bool isUpper)
@@ -2010,7 +2010,7 @@ CValue CSystemFunction::ToLowerOrUpper(CSF_FUNCPARAM &p,const yaya::char_t *func
 		if ( isUpper ) {
 			for ( size_t i = 0; i < len; ++i ) {
 				if (result[i] >= L'a' && result[i] <= L'z') {
-					result[i] -= static_cast<yaya::string_t::value_type>(L'a' - L'A'); //¬•¶š‚Ì‚Ù‚¤‚ª‚Å‚©‚¢
+					result[i] -= static_cast<yaya::string_t::value_type>(L'a' - L'A'); //å°æ–‡å­—ã®ã»ã†ãŒã§ã‹ã„
 				}
 			}
 		}
@@ -2044,7 +2044,7 @@ CValue CSystemFunction::ToLowerOrUpper(CSF_FUNCPARAM &p,const yaya::char_t *func
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CUTSPACE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CUTSPACE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CUTSPACE(CSF_FUNCPARAM &p)
@@ -2067,7 +2067,7 @@ CValue	CSystemFunction::CUTSPACE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOBINSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOBINSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOBINSTR(CSF_FUNCPARAM &p)
@@ -2087,7 +2087,7 @@ CValue	CSystemFunction::TOBINSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TOHEXSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TOHEXSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TOHEXSTR(CSF_FUNCPARAM &p)
@@ -2107,7 +2107,7 @@ CValue	CSystemFunction::TOHEXSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::BINSTRTOI
+ *  é–¢æ•°å  ï¼š  CSystemFunction::BINSTRTOI
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::BINSTRTOI(CSF_FUNCPARAM &p)
@@ -2133,7 +2133,7 @@ CValue	CSystemFunction::BINSTRTOI(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::HEXSTRTOI
+ *  é–¢æ•°å  ï¼š  CSystemFunction::HEXSTRTOI
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::HEXSTRTOI(CSF_FUNCPARAM &p)
@@ -2165,7 +2165,7 @@ CValue	CSystemFunction::HEXSTRTOI(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHR(CSF_FUNCPARAM &p)
@@ -2192,7 +2192,7 @@ CValue	CSystemFunction::CHR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FOPEN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FOPEN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FOPEN(CSF_FUNCPARAM &p)
@@ -2214,7 +2214,7 @@ CValue	CSystemFunction::FOPEN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FCLOSE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FCLOSE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FCLOSE(CSF_FUNCPARAM &p)
@@ -2246,7 +2246,7 @@ CValue	CSystemFunction::FCLOSE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FREAD
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FREAD
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FREAD(CSF_FUNCPARAM &p)
@@ -2280,7 +2280,7 @@ CValue	CSystemFunction::FREAD(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FREADBIN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FREADBIN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FREADBIN(CSF_FUNCPARAM &p)
@@ -2326,7 +2326,7 @@ CValue	CSystemFunction::FREADBIN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FREADENCODE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FREADENCODE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FREADENCODE(CSF_FUNCPARAM &p)
@@ -2367,7 +2367,7 @@ CValue	CSystemFunction::FREADENCODE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FWRITE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FWRITE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FWRITE(CSF_FUNCPARAM &p)
@@ -2394,7 +2394,7 @@ CValue	CSystemFunction::FWRITE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FWRITEBIN
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FWRITEBIN
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FWRITEBIN(CSF_FUNCPARAM &p)
@@ -2433,7 +2433,7 @@ CValue	CSystemFunction::FWRITEBIN(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FWRITEDECODE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FWRITEDECODE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FWRITEDECODE(CSF_FUNCPARAM &p)
@@ -2471,7 +2471,7 @@ CValue	CSystemFunction::FWRITEDECODE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FWRITE2
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FWRITE2
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FWRITE2(CSF_FUNCPARAM &p)
@@ -2498,7 +2498,7 @@ CValue	CSystemFunction::FWRITE2(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FSEEK
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FSEEK
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FSEEK(CSF_FUNCPARAM &p){
@@ -2522,7 +2522,7 @@ CValue	CSystemFunction::FSEEK(CSF_FUNCPARAM &p){
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FTELL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FTELL
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FTELL(CSF_FUNCPARAM &p){
@@ -2543,7 +2543,7 @@ CValue	CSystemFunction::FTELL(CSF_FUNCPARAM &p){
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FSTATUS
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FSTATUS
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FSTATUS(CSF_FUNCPARAM &p){
@@ -2565,7 +2565,7 @@ CValue	CSystemFunction::FSTATUS(CSF_FUNCPARAM &p){
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FCOPY
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FCOPY
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2584,7 +2584,7 @@ CValue	CSystemFunction::FCOPY(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// â‘ÎƒpƒX‰»
+	// çµ¶å¯¾ãƒ‘ã‚¹åŒ–
 	yaya::char_t	drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
 	_wsplitpath(p.arg.array()[0].s_value.c_str(), drive, dir, fname, ext);
 	yaya::string_t	s_path = ((::wcslen(drive)) ? yaya::string_t() : vm.basis().base_path) + p.arg.array()[0].s_value;
@@ -2600,7 +2600,7 @@ CValue	CSystemFunction::FCOPY(CSF_FUNCPARAM &p)
 		result = ::CopyFileW(s_path.c_str(),d_path.c_str(),FALSE) ? 1 : 0;
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char	*s_pstr = Ccct::Ucs2ToMbcs(s_path, CHARSET_DEFAULT);
 		if (s_pstr == NULL) {
 			vm.logger().Error(E_E, 89, L"FCOPY", p.dicname, p.line);
@@ -2614,7 +2614,7 @@ CValue	CSystemFunction::FCOPY(CSF_FUNCPARAM &p)
 			return CValue(0);
 		}
 
-		// Às
+		// å®Ÿè¡Œ
 		result = (::CopyFileA(s_pstr, d_pstr, FALSE) ? 1 : 0);
 		free(s_pstr);
 		s_pstr = NULL;
@@ -2639,14 +2639,14 @@ CValue CSystemFunction::FCOPY(CSF_FUNCPARAM &p) {
 		return CValue(0);
 	}
 
-	// â‘ÎƒpƒX‰»
+	// çµ¶å¯¾ãƒ‘ã‚¹åŒ–
 	std::string src = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	std::string dest = narrow(vm.basis().ToFullPath(p.arg.array()[1].s_value));
 	fix_filepath(src);
 	fix_filepath(dest);
 
-	// src‚Í’Êíƒtƒ@ƒCƒ‹‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
-	// FCOPY("/dev/zero", "/tmp/hoge") ‚Æ‚©‚â‚ç‚ê‚½‚çŒ™‰ß‚¬B
+	// srcã¯é€šå¸¸ãƒ•ã‚¡ã‚¤ãƒ«ã§ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+	// FCOPY("/dev/zero", "/tmp/hoge") ã¨ã‹ã‚„ã‚‰ã‚ŒãŸã‚‰å«Œéãã€‚
 	struct stat sb;
 	if (stat(src.c_str(), &sb) != 0) {
 	return CValue(0);
@@ -2655,8 +2655,8 @@ CValue CSystemFunction::FCOPY(CSF_FUNCPARAM &p) {
 	return CValue(0);
 	}
 
-	// Às
-	std::remove(dest.c_str()); // ƒRƒs[æ‚ªƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚Æ‚©‚¾‚ÆŒ™B
+	// å®Ÿè¡Œ
+	std::remove(dest.c_str()); // ã‚³ãƒ”ãƒ¼å…ˆãŒã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã¨ã‹ã ã¨å«Œã€‚
 	std::ifstream is(src.c_str());
 	int result = 0;
 	if (is.good()) {
@@ -2680,7 +2680,7 @@ CValue CSystemFunction::FCOPY(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FMOVE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FMOVE
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2699,7 +2699,7 @@ CValue	CSystemFunction::FMOVE(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// â‘ÎƒpƒX‰»
+	// çµ¶å¯¾ãƒ‘ã‚¹åŒ–
 	yaya::char_t	drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
 	_wsplitpath(p.arg.array()[0].s_value.c_str(), drive, dir, fname, ext);
 	yaya::string_t	s_path = ((::wcslen(drive)) ? yaya::string_t() : vm.basis().base_path) + p.arg.array()[0].s_value;
@@ -2715,7 +2715,7 @@ CValue	CSystemFunction::FMOVE(CSF_FUNCPARAM &p)
 		result = ::MoveFileW(s_path.c_str(),d_path.c_str()) ? 1 : 0;
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char	*s_pstr = Ccct::Ucs2ToMbcs(s_path, CHARSET_DEFAULT);
 		if (s_pstr == NULL) {
 			vm.logger().Error(E_E, 89, L"FMOVE", p.dicname, p.line);
@@ -2729,7 +2729,7 @@ CValue	CSystemFunction::FMOVE(CSF_FUNCPARAM &p)
 			return CValue(0);
 		}
 
-		// Às
+		// å®Ÿè¡Œ
 		result = (::MoveFileA(s_pstr, d_pstr) ? 1 : 0);
 		free(s_pstr);
 		s_pstr = NULL;
@@ -2754,13 +2754,13 @@ CValue CSystemFunction::FMOVE(CSF_FUNCPARAM &p) {
 	return CValue(0);
 	}
 
-	// â‘ÎƒpƒX‰»
+	// çµ¶å¯¾ãƒ‘ã‚¹åŒ–
 	std::string src = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	std::string dest = narrow(vm.basis().ToFullPath(p.arg.array()[1].s_value));
 	fix_filepath(src);
 	fix_filepath(dest);
 
-	// Às
+	// å®Ÿè¡Œ
 	int result = rename(src.c_str(), dest.c_str()) ? 0 : 1;
 
 	return CValue(result);
@@ -2768,7 +2768,7 @@ CValue CSystemFunction::FMOVE(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::MKDIR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::MKDIR
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2786,15 +2786,15 @@ CValue	CSystemFunction::MKDIR(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// ƒpƒX‚ğMBCS‚É•ÏŠ·
+	// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 	char	*s_dirstr = Ccct::Ucs2ToMbcs(vm.basis().ToFullPath(p.arg.array()[0].s_value), CHARSET_DEFAULT);
 	if (s_dirstr == NULL) {
 		vm.logger().Error(E_E, 89, L"MKDIR", p.dicname, p.line);
 		return CValue(0);
 	}
 
-	// Às
-	int	result = (::CreateDirectoryA(s_dirstr,NULL) ? 1 : 0); //mkdir‚Æ˜_—‚ª‹t
+	// å®Ÿè¡Œ
+	int	result = (::CreateDirectoryA(s_dirstr,NULL) ? 1 : 0); //mkdirã¨è«–ç†ãŒé€†
 	free(s_dirstr);
 	s_dirstr = NULL;
 
@@ -2817,7 +2817,7 @@ CValue CSystemFunction::MKDIR(CSF_FUNCPARAM &p) {
 	std::string dirstr = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	fix_filepath(dirstr);
 
-	// Às
+	// å®Ÿè¡Œ
 	int result = (mkdir(dirstr.c_str(), 0644) == 0 ? 1 : 0);
 
 	return CValue(result);
@@ -2825,7 +2825,7 @@ CValue CSystemFunction::MKDIR(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RMDIR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RMDIR
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2843,14 +2843,14 @@ CValue	CSystemFunction::RMDIR(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// ƒpƒX‚ğMBCS‚É•ÏŠ·
+	// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 	char	*s_dirstr = Ccct::Ucs2ToMbcs(vm.basis().ToFullPath(p.arg.array()[0].s_value), CHARSET_DEFAULT);
 	if (s_dirstr == NULL) {
 		vm.logger().Error(E_E, 89, L"RMDIR", p.dicname, p.line);
 		return CValue(0);
 	}
 
-	// Às
+	// å®Ÿè¡Œ
 	int	result = (::RemoveDirectoryA(s_dirstr) == 0 ? 0 : 1);
 	free(s_dirstr);
 	s_dirstr = NULL;
@@ -2874,7 +2874,7 @@ CValue CSystemFunction::RMDIR(CSF_FUNCPARAM &p) {
 	std::string dirstr = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	fix_filepath(dirstr);
 
-	// ÀsB
+	// å®Ÿè¡Œã€‚
 	int result = (std::remove(dirstr.c_str()) ? 0 : 1);
 
 	return CValue(result);
@@ -2882,7 +2882,7 @@ CValue CSystemFunction::RMDIR(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FDEL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FDEL
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2907,14 +2907,14 @@ CValue	CSystemFunction::FDEL(CSF_FUNCPARAM &p)
 		result = (::DeleteFileW(fullpath.c_str()) ? 1 : 0);
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char	*s_filestr = Ccct::Ucs2ToMbcs(fullpath, CHARSET_DEFAULT);
 		if (s_filestr == NULL) {
 			vm.logger().Error(E_E, 89, L"FDEL", p.dicname, p.line);
 			return CValue(0);
 		}
 
-		// Às
+		// å®Ÿè¡Œ
 		result = (::DeleteFileA(s_filestr) ? 1 : 0);
 		free(s_filestr);
 		s_filestr = NULL;
@@ -2939,7 +2939,7 @@ CValue CSystemFunction::FDEL(CSF_FUNCPARAM &p) {
 	std::string filestr = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	fix_filepath(filestr);
 
-	// Às
+	// å®Ÿè¡Œ
 	int result = (std::remove(filestr.c_str()) ? 0 : 1);
 
 	return CValue(result);
@@ -2947,7 +2947,7 @@ CValue CSystemFunction::FDEL(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FRENAME
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FRENAME
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -2975,7 +2975,7 @@ CValue	CSystemFunction::FRENAME(CSF_FUNCPARAM &p)
 		result = ::MoveFileW(s_file.c_str(), d_file.c_str()) ? 1 : 0;
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char	*s_filestr = Ccct::Ucs2ToMbcs(s_file, CHARSET_DEFAULT);
 		if (s_filestr == NULL) {
 			vm.logger().Error(E_E, 89, L"FRENAME", p.dicname, p.line);
@@ -2989,7 +2989,7 @@ CValue	CSystemFunction::FRENAME(CSF_FUNCPARAM &p)
 			return CValue(0);
 		}
 
-		// Às
+		// å®Ÿè¡Œ
 		result = (::MoveFileA(s_filestr, d_filestr) ? 1 : 0);
 		free(s_filestr);
 		s_filestr = NULL;
@@ -3014,13 +3014,13 @@ CValue CSystemFunction::FRENAME(CSF_FUNCPARAM &p) {
 		return CValue(0);
 	}
 
-	// â‘ÎƒpƒX‰»
+	// çµ¶å¯¾ãƒ‘ã‚¹åŒ–
 	std::string src = narrow(vm.basis().ToFullPath(p.arg.array()[0].s_value));
 	std::string dest = narrow(vm.basis().ToFullPath(p.arg.array()[1].s_value));
 	fix_filepath(src);
 	fix_filepath(dest);
 
-	// Às
+	// å®Ÿè¡Œ
 	int result = rename(src.c_str(), dest.c_str()) ? 0 : 1;
 
 	return CValue(result);
@@ -3029,7 +3029,7 @@ CValue CSystemFunction::FRENAME(CSF_FUNCPARAM &p) {
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FDIGEST
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FDIGEST
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FDIGEST(CSF_FUNCPARAM &p)
@@ -3060,7 +3060,7 @@ CValue	CSystemFunction::FDIGEST(CSF_FUNCPARAM &p)
 		pF = _wfopen(full_path.c_str(),L"rb");
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		const char *s_filestr = Ccct::Ucs2ToMbcs(full_path, CHARSET_DEFAULT);
 		if (s_filestr == NULL) {
 			vm.logger().Error(E_E, 89, L"FDIGEST", p.dicname, p.line);
@@ -3135,7 +3135,7 @@ CValue	CSystemFunction::FDIGEST(CSF_FUNCPARAM &p)
 	fclose(pF);
 
 	yaya::char_t md5str[65];
-	md5str[digest_len*2] = 0; //ƒ[ƒI’[
+	md5str[digest_len*2] = 0; //ã‚¼ãƒ­çµ‚ç«¯
 
 	for ( unsigned int i = 0 ; i < digest_len ; ++i ) {
 		yaya::snprintf(md5str+i*2,sizeof(md5str)/sizeof(md5str[0]), L"%02X",digest_result[i]);
@@ -3145,7 +3145,7 @@ CValue	CSystemFunction::FDIGEST(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRDIGEST
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRDIGEST
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::STRDIGEST(CSF_FUNCPARAM &p)
@@ -3205,7 +3205,7 @@ CValue	CSystemFunction::STRDIGEST(CSF_FUNCPARAM &p)
 	}
 
 	yaya::char_t md5str[65];
-	md5str[digest_len*2] = 0; //ƒ[ƒI’[
+	md5str[digest_len*2] = 0; //ã‚¼ãƒ­çµ‚ç«¯
 
 	for ( unsigned int i = 0 ; i < digest_len ; ++i ) {
 		yaya::snprintf(md5str+i*2,sizeof(md5str)/sizeof(md5str[0]), L"%02X",digest_result[i]);
@@ -3215,7 +3215,7 @@ CValue	CSystemFunction::STRDIGEST(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::DICLOAD
+ *  é–¢æ•°å  ï¼š  CSystemFunction::DICLOAD
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::DICLOAD(CSF_FUNCPARAM &p)
@@ -3255,7 +3255,7 @@ CValue	CSystemFunction::DICLOAD(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::DICUNLOAD
+ *  é–¢æ•°å  ï¼š  CSystemFunction::DICUNLOAD
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::DICUNLOAD(CSF_FUNCPARAM &p)
@@ -3282,8 +3282,8 @@ CValue	CSystemFunction::DICUNLOAD(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::UNDEFFUNC
- *  ˆø”@@F@_argv[0] = ŠÖ”–¼
+ *  é–¢æ•°å  ï¼š  CSystemFunction::UNDEFFUNC
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = é–¢æ•°å
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::UNDEFFUNC(CSF_FUNCPARAM &p)
@@ -3312,8 +3312,8 @@ CValue	CSystemFunction::UNDEFFUNC(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::UNDEFGLOBALDEFINE
- *  ˆø”@@F@_argv[0] = GLOBALDEFINE name
+ *  é–¢æ•°å  ï¼š  CSystemFunction::UNDEFGLOBALDEFINE
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = GLOBALDEFINE name
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::UNDEFGLOBALDEFINE(CSF_FUNCPARAM &p)
@@ -3351,8 +3351,8 @@ CValue	CSystemFunction::UNDEFGLOBALDEFINE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISGLOBALDEFINE
- *  ˆø”@@F@_argv[0] = GLOBALDEFINE name
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISGLOBALDEFINE
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = GLOBALDEFINE name
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISGLOBALDEFINE(CSF_FUNCPARAM &p)
@@ -3387,8 +3387,8 @@ CValue	CSystemFunction::ISGLOBALDEFINE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::APPEND_RUNTIME_DIC
- *  ˆø”@@F@_argv[0] = temporary dictionary text
+ *  é–¢æ•°å  ï¼š  CSystemFunction::APPEND_RUNTIME_DIC
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = temporary dictionary text
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::APPEND_RUNTIME_DIC(CSF_FUNCPARAM &p)
@@ -3413,8 +3413,8 @@ CValue	CSystemFunction::APPEND_RUNTIME_DIC(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SETGLOBALDEFINE
- *  ˆø”@@F@_argv[0] = GLOBALDEFINE name
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SETGLOBALDEFINE
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = GLOBALDEFINE name
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SETGLOBALDEFINE(CSF_FUNCPARAM &p)
@@ -3453,7 +3453,7 @@ CValue	CSystemFunction::SETGLOBALDEFINE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETFUNCINFO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETFUNCINFO
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::GETFUNCINFO(CSF_FUNCPARAM &p)
@@ -3491,7 +3491,7 @@ CValue CSystemFunction::GETFUNCINFO(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::PROCESSGLOBALDEFINE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::PROCESSGLOBALDEFINE
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::PROCESSGLOBALDEFINE(CSF_FUNCPARAM &p)
@@ -3515,8 +3515,8 @@ CValue CSystemFunction::PROCESSGLOBALDEFINE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FUNCDECL_READ
- *  •Ï”“Ç‚İ‚İƒtƒbƒN@FUNCDECL_READ(•Ï”–¼,ŠÖ”–¼)
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FUNCDECL_READ
+ *  å¤‰æ•°èª­ã¿è¾¼ã¿ãƒ•ãƒƒã‚¯ã€€FUNCDECL_READ(å¤‰æ•°å,é–¢æ•°å)
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::FUNCDECL_READ(CSF_FUNCPARAM& p)
@@ -3529,7 +3529,7 @@ CValue CSystemFunction::FUNCDECL_READ(CSF_FUNCPARAM& p)
 		return CValue(0);
 	}
 
-	//•¶š—ñ‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//æ–‡å­—åˆ—ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 	if ( ! p.arg.array()[0].IsString() ) {
 		vm.logger().Error(E_W, 9, L"FUNCDECL_READ", p.dicname, p.line);
 		SetError(9);
@@ -3574,8 +3574,8 @@ CValue CSystemFunction::FUNCDECL_READ(CSF_FUNCPARAM& p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FUNCDECL_WRITE
- *  •Ï”‘‚«‚İƒtƒbƒN@FUNCDECL_WRITE(•Ï”–¼,ŠÖ”–¼)
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FUNCDECL_WRITE
+ *  å¤‰æ•°æ›¸ãè¾¼ã¿ãƒ•ãƒƒã‚¯ã€€FUNCDECL_WRITE(å¤‰æ•°å,é–¢æ•°å)
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::FUNCDECL_WRITE(CSF_FUNCPARAM& p)
@@ -3588,7 +3588,7 @@ CValue CSystemFunction::FUNCDECL_WRITE(CSF_FUNCPARAM& p)
 		return CValue(0);
 	}
 
-	//•¶š—ñ‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//æ–‡å­—åˆ—ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 	if ( ! p.arg.array()[0].IsString() ) {
 		vm.logger().Error(E_W, 9, L"FUNCDECL_WRITE", p.dicname, p.line);
 		SetError(9);
@@ -3633,8 +3633,8 @@ CValue CSystemFunction::FUNCDECL_WRITE(CSF_FUNCPARAM& p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FUNCDECL_ERASE
- *  •Ï”íœƒtƒbƒN@FUNCDECL_ERASE(•Ï”–¼,ŠÖ”–¼)
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FUNCDECL_ERASE
+ *  å¤‰æ•°å‰Šé™¤ãƒ•ãƒƒã‚¯ã€€FUNCDECL_ERASE(å¤‰æ•°å,é–¢æ•°å)
  * -----------------------------------------------------------------------
  */
 CValue CSystemFunction::FUNCDECL_ERASE(CSF_FUNCPARAM& p)
@@ -3647,7 +3647,7 @@ CValue CSystemFunction::FUNCDECL_ERASE(CSF_FUNCPARAM& p)
 		return CValue(0);
 	}
 
-	//•¶š—ñ‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//æ–‡å­—åˆ—ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 	if ( ! p.arg.array()[0].IsString() ) {
 		vm.logger().Error(E_W, 9, L"FUNCDECL_ERASE", p.dicname, p.line);
 		SetError(9);
@@ -3692,7 +3692,7 @@ CValue CSystemFunction::FUNCDECL_ERASE(CSF_FUNCPARAM& p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::OUTPUTNUM
+ *  é–¢æ•°å  ï¼š  CSystemFunction::OUTPUTNUM
  *
  *  OUTPUTNUM("function_name") -> number of candidate element
  * -----------------------------------------------------------------------
@@ -3727,7 +3727,7 @@ CValue CSystemFunction::OUTPUTNUM(CSF_FUNCPARAM& p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FSIZE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FSIZE
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -3745,7 +3745,7 @@ CValue	CSystemFunction::FSIZE(CSF_FUNCPARAM &p)
 		return CValue(-1);
 	}
 
-	//‚·‚Å‚ÉŠJ‚¢‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚È‚ç‚»‚Á‚¿‚©‚çî•ñ‚ğƒpƒN‚é
+	//ã™ã§ã«é–‹ã„ã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰ãã£ã¡ã‹ã‚‰æƒ…å ±ã‚’ãƒ‘ã‚¯ã‚‹
 	yaya::string_t fullpath = vm.basis().ToFullPath(p.arg.array()[0].s_value);
 	yaya::int_t size = vm.files().Size(fullpath);
 	if ( size >= 0 ) { return CValue((yaya::int_t)size); }
@@ -3756,14 +3756,14 @@ CValue	CSystemFunction::FSIZE(CSF_FUNCPARAM &p)
 		hFile = ::CreateFileW(fullpath.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char *s_filestr = Ccct::Ucs2ToMbcs(fullpath, CHARSET_DEFAULT);
 		if (s_filestr == NULL) {
 			vm.logger().Error(E_E, 89, L"FSIZE", p.dicname, p.line);
 			return CValue(-1);
 		}
 
-		// Às
+		// å®Ÿè¡Œ
 		hFile = ::CreateFileA(s_filestr, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 		free(s_filestr);
 		s_filestr = NULL;
@@ -3824,7 +3824,7 @@ CValue CSystemFunction::FSIZE(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FENUM
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FENUM
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FENUM(CSF_FUNCPARAM &p)
@@ -3843,7 +3843,7 @@ CValue	CSystemFunction::FENUM(CSF_FUNCPARAM &p)
 		return CValue();
 	}
 
-	// ƒfƒŠƒ~ƒ^æ“¾
+	// ãƒ‡ãƒªãƒŸã‚¿å–å¾—
 	yaya::string_t	delimiter = VAR_DELIMITER;
 	if (sz >= 2) {
 		if (p.arg.array()[1].IsString() &&
@@ -3875,10 +3875,10 @@ CValue	CSystemFunction::FENUM(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FCHARSET
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FCHARSET
  *
- *  —LŒø‚È’l‚ÍA0/1/127=Shift_JIS/UTF-8/OSƒfƒtƒHƒ‹ƒg@‚Å‚·B
- *  ‚±‚êˆÈŠO‚Ì’l‚ğ—^‚¦‚½ê‡‚Í–³Œø‚ÅAwarning‚Æ‚È‚è‚Ü‚·B
+ *  æœ‰åŠ¹ãªå€¤ã¯ã€0/1/127=Shift_JIS/UTF-8/OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã€€ã§ã™ã€‚
+ *  ã“ã‚Œä»¥å¤–ã®å€¤ã‚’ä¸ãˆãŸå ´åˆã¯ç„¡åŠ¹ã§ã€warningã¨ãªã‚Šã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::FCHARSET(CSF_FUNCPARAM &p)
@@ -3900,16 +3900,16 @@ CValue	CSystemFunction::FCHARSET(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ARRAYSIZE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ARRAYSIZE
  *
- *  •¶š—ñ‚Ìê‡‚ÍŠÈˆÕ”z—ñ‚ÌA”Ä—p”z—ñ‚Ìê‡‚Í‚»‚Ì—v‘f”‚ğ•Ô‚µ‚Ü‚·B
+ *  æ–‡å­—åˆ—ã®å ´åˆã¯ç°¡æ˜“é…åˆ—ã®ã€æ±ç”¨é…åˆ—ã®å ´åˆã¯ãã®è¦ç´ æ•°ã‚’è¿”ã—ã¾ã™ã€‚
  *
- *  winnt.h ‚Æƒ}ƒNƒ‚ª”í‚Á‚½BŒ¸“_‚QB
+ *  winnt.h ã¨ãƒã‚¯ãƒ­ãŒè¢«ã£ãŸã€‚æ¸›ç‚¹ï¼’ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ArraySize(CSF_FUNCPARAM &p)
 {
-	// ˆø”–³‚µ‚È‚ç0
+	// å¼•æ•°ç„¡ã—ãªã‚‰0
 	size_t sz = p.valuearg.size();
 	if (!sz) {
 		return CValue(0);
@@ -3922,7 +3922,7 @@ CValue	CSystemFunction::ArraySize(CSF_FUNCPARAM &p)
 		if ( p.valuearg[0].GetValueString().size() == 0 ) {
 			return CValue(0);
 		}
-		// ˆø”1‚Â‚Å•¶š—ñ‚È‚çŠÈˆÕ”z—ñ‚Ì—v‘f”‚ğ•Ô‚·@•Ï”‚Ìê‡‚Í‚»‚ÌƒfƒŠƒ~ƒ^‚Å•ªŠ„‚·‚é
+		// å¼•æ•°1ã¤ã§æ–‡å­—åˆ—ãªã‚‰ç°¡æ˜“é…åˆ—ã®è¦ç´ æ•°ã‚’è¿”ã™ã€€å¤‰æ•°ã®å ´åˆã¯ãã®ãƒ‡ãƒªãƒŸã‚¿ã§åˆ†å‰²ã™ã‚‹
 		yaya::string_t	delimiter = VAR_DELIMITER;
 		if (p.pcellarg[0]->value_GetType() == F_TAG_VARIABLE)
 			delimiter = vm.variable().GetDelimiter(p.pcellarg[0]->index);
@@ -3940,7 +3940,7 @@ CValue	CSystemFunction::ArraySize(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SETDELIM
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SETDELIM
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SETDELIM(CSF_FUNCPARAM &p)
@@ -3983,7 +3983,7 @@ CValue	CSystemFunction::SETDELIM(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISEVALUABLE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISEVALUABLE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISEVALUABLE(CSF_FUNCPARAM &p)
@@ -3999,7 +3999,7 @@ CValue	CSystemFunction::ISEVALUABLE(CSF_FUNCPARAM &p)
 		SetError(9);
 	}
 
-	// ”®‚Ö“WŠJ
+	// æ•°å¼ã¸å±•é–‹
 	yaya::string_t	str = p.arg.array()[0].GetValueString();
 	CStatement	t_state(ST_FORMULA, p.line);
 	bool result;
@@ -4016,7 +4016,7 @@ CValue	CSystemFunction::ISEVALUABLE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::EVAL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::EVAL
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::EVAL(CSF_FUNCPARAM &p)
@@ -4032,13 +4032,13 @@ CValue	CSystemFunction::EVAL(CSF_FUNCPARAM &p)
 		SetError(9);
 	}
 
-	// ”®‚Ö“WŠJ
+	// æ•°å¼ã¸å±•é–‹
 	yaya::string_t	str = p.arg.array()[0].GetValueString();
 	CStatement	t_state(ST_FORMULA, p.line);
 	if (vm.parser0().ParseEmbedString(str, t_state, p.dicname, p.line))
 		return CValue(p.arg.array()[0].GetValueString());
 
-	// Às‚µ‚ÄŒ‹‰Ê‚ğ•Ô‚·
+	// å®Ÿè¡Œã—ã¦çµæœã‚’è¿”ã™
 	CValue	result = p.thisfunc->GetFormulaAnswer(p.lvar, t_state);
 	if (t_state.type == ST_FORMULA_SUBST)
 		return CValue(F_TAG_NOP, 0/*dmy*/);
@@ -4047,10 +4047,10 @@ CValue	CSystemFunction::EVAL(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ERASEVAR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ERASEVAR
  *
- *  ƒ[ƒJƒ‹•Ï”‚Å‚ÍÁ‹ƒtƒ‰ƒO‚ğ—§‚Ä‚é‚¾‚¯‚Å‚·B
- *  ƒOƒ[ƒoƒ‹•Ï”‚Å‚ÍÁ‹ƒtƒ‰ƒO‚ğ—§‚ÄA‚³‚ç‚Éunload‚Éƒtƒ@ƒCƒ‹‚Ö’l‚ğ•Û‘¶‚µ‚È‚­‚È‚è‚Ü‚·B
+ *  ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã§ã¯æ¶ˆå»ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹ã ã‘ã§ã™ã€‚
+ *  ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã§ã¯æ¶ˆå»ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã€ã•ã‚‰ã«unloadæ™‚ã«ãƒ•ã‚¡ã‚¤ãƒ«ã¸å€¤ã‚’ä¿å­˜ã—ãªããªã‚Šã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ERASEVAR(CSF_FUNCPARAM &p)
@@ -4065,7 +4065,7 @@ CValue	CSystemFunction::ERASEVAR(CSF_FUNCPARAM &p)
 
 	for ( size_t i = 0 ; i < arg_size ; ++i ) {
 
-		//•¶š—ñ‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN - Œx‚Í“f‚­‚ªˆ—‘±s
+		//æ–‡å­—åˆ—ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ - è­¦å‘Šã¯åããŒå‡¦ç†ç¶šè¡Œ
 		if ( ! p.arg.array()[i].IsString() ) {
 			vm.logger().Error(E_W, 9, L"ERASEVAR", p.dicname, p.line);
 			SetError(9);
@@ -4091,11 +4091,11 @@ CValue	CSystemFunction::ERASEVAR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETTIME
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETTIME
  *
- *  ˆø”‚È‚µ‚©AEpoch‚©‚ç‚Ì•b”(GETSECCOUNT)
+ *  å¼•æ•°ãªã—ã‹ã€Epochã‹ã‚‰ã®ç§’æ•°(GETSECCOUNT)
  *
- *  •Ô’l@@F  year,month,day,week(0-6),hour,minute,second‚Ì”Ä—p”z—ñ
+ *  è¿”å€¤ã€€ã€€ï¼š  year,month,day,week(0-6),hour,minute,secondã®æ±ç”¨é…åˆ—
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETTIME(CSF_FUNCPARAM &p)
@@ -4127,12 +4127,12 @@ CValue	CSystemFunction::GETTIME(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETSECCOUNT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETSECCOUNT
  *
- *  ˆø”‚È‚µ‚©Ayear,month,day,week(0-6),hour,minute,second‚Ì”z—ñA‚Ü‚½‚Í
- *  “ú‚ğ•\‚·ƒeƒLƒXƒg
+ *  å¼•æ•°ãªã—ã‹ã€year,month,day,week(0-6),hour,minute,secondã®é…åˆ—ã€ã¾ãŸã¯
+ *  æ—¥æ™‚ã‚’è¡¨ã™ãƒ†ã‚­ã‚¹ãƒˆ
  *
- *  •Ô’l@@F  EPOCH‚©‚ç‚Ì•b”
+ *  è¿”å€¤ã€€ã€€ï¼š  EPOCHã‹ã‚‰ã®ç§’æ•°
  * -----------------------------------------------------------------------
  */
 /*-----------------------------------------------------
@@ -4192,7 +4192,7 @@ static int Utils_TimeZoneConvert(char *pTZ)
 			return -7*60;
 		}
 
-		if ( pTZ[1] == 0 ) { //1•¶šƒAƒ‹ƒtƒ@ƒxƒbƒgH
+		if ( pTZ[1] == 0 ) { //1æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆï¼Ÿ
 			int c = pTZ[0];
 			if ( c >= 'A' && c <= 'Z' ) {
 				c = c - 'A' + 'a';
@@ -4209,7 +4209,7 @@ static int Utils_TimeZoneConvert(char *pTZ)
 		}
 	}
 
-	if ( labs(tzdiff) <= 24 ) { //2‚¯‚½+ŠÔ
+	if ( labs(tzdiff) <= 24 ) { //2ã‘ãŸ+æ™‚é–“
 		return tzdiff * 60;
 	}
 
@@ -4258,11 +4258,11 @@ static bool Utils_HTTPToTM(const char *pText,struct tm &outTime)
 		}
 	}
 
-	if ( ! isDayOfWeekFound ) { //—j“úÈ—ªŒ`
+	if ( ! isDayOfWeekFound ) { //æ›œæ—¥çœç•¥å½¢
 		for ( int j = 7 ; j > 0 ; --j ) {
 			pTokArray[j] = pTokArray[j-1];
 		}
-		pTokArray[0] = "";
+		pTokArray[0][0] = '\0';
 		outTime.tm_wday = 0;
 	}
 	else {
@@ -4277,13 +4277,13 @@ static bool Utils_HTTPToTM(const char *pText,struct tm &outTime)
 		outTime.tm_min = static_cast<unsigned short>(strtoul(pTokArray[5],NULL,10));
 		outTime.tm_sec = static_cast<unsigned short>(strtoul(pTokArray[6],NULL,10));
 
-		if ( outTime.tm_year < 100 ) { //2Œ…‚¾‚Á‚½
+		if ( outTime.tm_year < 100 ) { //2æ¡ã ã£ãŸ
 			if ( outTime.tm_year < 70 ) {
 				outTime.tm_year += 100;
 			}
 		}
 
-		if ( pTokArray[7] ) { //•â³
+		if ( pTokArray[7] ) { //è£œæ­£
 			int diff = Utils_TimeZoneConvert(pTokArray[7]);
 			if ( diff ) {
 				outTime.tm_min -= diff;
@@ -4298,7 +4298,7 @@ static bool Utils_HTTPToTM(const char *pText,struct tm &outTime)
 		outTime.tm_sec = static_cast<unsigned short>(strtoul(pTokArray[5],NULL,10));
 		outTime.tm_year = static_cast<unsigned short>(strtoul(pTokArray[6],NULL,10)) - 1900;
 
-		if ( outTime.tm_year < 100 ) { //2Œ…‚¾‚Á‚½
+		if ( outTime.tm_year < 100 ) { //2æ¡ã ã£ãŸ
 			if ( outTime.tm_year < 70 ) {
 				outTime.tm_year += 100;
 			}
@@ -4327,7 +4327,7 @@ CValue	CSystemFunction::GETSECCOUNT(CSF_FUNCPARAM &p)
 	unsigned int asize = p.arg.array_size();
 	if ( asize > 7 ) { asize = 7; }
 
-	if ( asize == 1 && p.arg.array()[0].IsString() ) { //•¶š—ñ“ú•t‚Ì‰Â”\«
+	if ( asize == 1 && p.arg.array()[0].IsString() ) { //æ–‡å­—åˆ—æ—¥ä»˜ã®å¯èƒ½æ€§
 		char* text = Ccct::Ucs2ToMbcs(p.arg.array()[0].GetValueString().c_str(),CHARSET_DEFAULT);
 		Utils_HTTPToTM(text,input_time);
 		free(text);
@@ -4343,7 +4343,7 @@ CValue	CSystemFunction::GETSECCOUNT(CSF_FUNCPARAM &p)
 		case 5:
 			input_time.tm_hour = static_cast<int>(p.arg.array()[4].GetValueInt());
 		/*case 4:
-			input_time.tm_wday = static_cast<int>( p.arg.array()[3].GetValueInt());*/ //‘ã“ü‹Ö~
+			input_time.tm_wday = static_cast<int>( p.arg.array()[3].GetValueInt());*/ //ä»£å…¥ç¦æ­¢
 		case 3:
 			input_time.tm_mday = static_cast<int>(p.arg.array()[2].GetValueInt());
 		case 2:
@@ -4356,12 +4356,12 @@ CValue	CSystemFunction::GETSECCOUNT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETTICKCOUNT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETTICKCOUNT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETTICKCOUNT(CSF_FUNCPARAM &p)
 {
-	//for compat (64bit‚É‚È‚Á‚½‚Ì‚Å‚¢‚ç‚È‚­‚È‚Á‚½)
+	//for compat (64bitã«ãªã£ãŸã®ã§ã„ã‚‰ãªããªã£ãŸ)
 	if (p.arg.array_size() > 0) {
 		if (p.arg.array()[0].GetValueInt()) {
 			return CValue(0);
@@ -4390,10 +4390,10 @@ CValue	CSystemFunction::GETTICKCOUNT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETMEMINFO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETMEMINFO
  *
- *  •Ô’l@@F  memoryload,memorytotalphys,memoryavailphys,memorytotalvirtual,memoryavailvirtual
- *  @@@@@  ‚Ì”Ä—p”z—ñ
+ *  è¿”å€¤ã€€ã€€ï¼š  memoryload,memorytotalphys,memoryavailphys,memorytotalvirtual,memoryavailvirtual
+ *  ã€€ã€€ã€€ã€€ã€€  ã®æ±ç”¨é…åˆ—
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -4432,7 +4432,7 @@ CValue	CSystemFunction::GETMEMINFO(CSF_FUNCPARAM &p)
 }
 #elif defined(POSIX)
 CValue CSystemFunction::GETMEMINFO(CSF_FUNCPARAM &p) {
-	// ƒƒ‚ƒŠ‚Ìó‘Ô‚ğæ“¾‚·‚éƒ|[ƒ^ƒuƒ‹‚È•û–@‚Í–³‚¢‚Ì‚Åc
+	// ãƒ¡ãƒ¢ãƒªã®çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ãƒãƒ¼ã‚¿ãƒ–ãƒ«ãªæ–¹æ³•ã¯ç„¡ã„ã®ã§â€¦
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 	result.array().emplace_back(CValueSub(0)); // dwMemoryLoad
 	result.array().emplace_back(CValueSub(0)); // dwTotalPhys
@@ -4444,14 +4444,14 @@ CValue CSystemFunction::GETMEMINFO(CSF_FUNCPARAM &p) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_SEARCH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_SEARCH
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_SEARCH(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() < 2) {
 		vm.logger().Error(E_W, 8, L"RE_SEARCH", p.dicname, p.line);
 		SetError(8);
@@ -4469,7 +4469,7 @@ CValue	CSystemFunction::RE_SEARCH(CSF_FUNCPARAM &p)
 	if (!arg0.size() || !arg1.size())
 		return CValue(0);
 
-	// Às
+	// å®Ÿè¡Œ
 	MatchResult	t_result;
 	try {
 		CRegexpT<yaya::char_t> regex(arg1.c_str(),re_option);
@@ -4491,7 +4491,7 @@ CValue	CSystemFunction::RE_SEARCH(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_ASEARCH / RE_ASEARCHEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_ASEARCH / RE_ASEARCHEX
  * -----------------------------------------------------------------------
  */
 
@@ -4587,14 +4587,14 @@ CValue	CSystemFunction::RE_ASEARCHEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_MATCH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_MATCH
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_MATCH(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() < 2) {
 		vm.logger().Error(E_W, 8, L"RE_MATCH", p.dicname, p.line);
 		SetError(8);
@@ -4614,7 +4614,7 @@ CValue	CSystemFunction::RE_MATCH(CSF_FUNCPARAM &p)
 	if (!arg0.size() || !arg1.size())
 		return CValue(0);
 
-	// Às
+	// å®Ÿè¡Œ
 	MatchResult	t_result;
 	try {
 		CRegexpT<yaya::char_t> regex(arg1.c_str(),re_option);
@@ -4636,16 +4636,16 @@ CValue	CSystemFunction::RE_MATCH(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_GREP
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_GREP
  *
- *  regex_grep‚Íg—p‚¹‚¸Aregex_search‚ğŒJ‚è•Ô‚µÀs‚·‚é‚±‚Æ‚Å“¯“™‚Ì‹@”\‚Æ‚µ‚Ä‚¢‚Ü‚·B
+ *  regex_grepã¯ä½¿ç”¨ã›ãšã€regex_searchã‚’ç¹°ã‚Šè¿”ã—å®Ÿè¡Œã™ã‚‹ã“ã¨ã§åŒç­‰ã®æ©Ÿèƒ½ã¨ã—ã¦ã„ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_GREP(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() < 2) {
 		vm.logger().Error(E_W, 8, L"RE_GREP", p.dicname, p.line);
 		SetError(8);
@@ -4664,7 +4664,7 @@ CValue	CSystemFunction::RE_GREP(CSF_FUNCPARAM &p)
 	if (!arg0.size() || !arg1.size())
 		return CValue(0);
 
-	// Às
+	// å®Ÿè¡Œ
 	int	match_count = 0;
 
 	try {
@@ -4701,7 +4701,7 @@ CValue	CSystemFunction::RE_GREP(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETLASTERROR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETLASTERROR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETLASTERROR(CSF_FUNCPARAM &p)
@@ -4710,7 +4710,7 @@ CValue	CSystemFunction::GETLASTERROR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SETLASTERROR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SETLASTERROR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SETLASTERROR(CSF_FUNCPARAM &p)
@@ -4732,7 +4732,7 @@ CValue	CSystemFunction::SETLASTERROR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::EmBeD_HiStOrY
+ *  é–¢æ•°å  ï¼š  CSystemFunction::EmBeD_HiStOrY
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::EmBeD_HiStOrY(CSF_FUNCPARAM &p)
@@ -4742,14 +4742,14 @@ CValue	CSystemFunction::EmBeD_HiStOrY(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_OPTION
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_OPTION
  *
- *  ˆø”1ŒÂFPerlƒXƒ^ƒCƒ‹‚Ì³‹K•\Œ»ƒIƒvƒVƒ‡ƒ“
+ *  å¼•æ•°1å€‹ï¼šPerlã‚¹ã‚¿ã‚¤ãƒ«ã®æ­£è¦è¡¨ç¾ã‚ªãƒ—ã‚·ãƒ§ãƒ³
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_OPTION(CSF_FUNCPARAM &p)
 {
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() >= 1) {
 		yaya::string_t opt = p.arg.array()[0].GetValueString();
 
@@ -4787,16 +4787,16 @@ CValue	CSystemFunction::RE_OPTION(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_SPLIT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_SPLIT
  *
- *  regex_split‚Íg—p‚¹‚¸Aregex_search‚ğŒJ‚è•Ô‚µÀs‚·‚é‚±‚Æ‚Å“¯“™‚Ì‹@”\‚Æ‚µ‚Ä‚¢‚Ü‚·B
+ *  regex_splitã¯ä½¿ç”¨ã›ãšã€regex_searchã‚’ç¹°ã‚Šè¿”ã—å®Ÿè¡Œã™ã‚‹ã“ã¨ã§åŒç­‰ã®æ©Ÿèƒ½ã¨ã—ã¦ã„ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_SPLIT(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	int sz = p.arg.array_size();
 	if (sz < 2) {
 		vm.logger().Error(E_W, 8, L"RE_SPLIT", p.dicname, p.line);
@@ -4828,14 +4828,14 @@ CValue	CSystemFunction::RE_SPLIT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_REPLACE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_REPLACE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_REPLACE(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() < 3) {
 		vm.logger().Error(E_W, 8, L"RE_REPLACE", p.dicname, p.line);
 		SetError(8);
@@ -4867,13 +4867,13 @@ CValue	CSystemFunction::RE_REPLACE(CSF_FUNCPARAM &p)
 	if (!arg0.size() || !arg1.size())
 		return CValue(arg0);
 
-	// ‚Ü‚¸split‚·‚é
+	// ã¾ãšsplitã™ã‚‹
 	CValue	splits = RE_SPLIT_CORE(p.arg, p.dicname, p.line, L"RE_REPLACE", count);
 	int	num = splits.array_size();
 	if (!num || num == 1)
 		return CValue(arg0);
 
-	// ’uŠ·Œã•¶š—ñ‚Ìì¬
+	// ç½®æ›å¾Œæ–‡å­—åˆ—ã®ä½œæˆ
 	yaya::string_t	result;
 	int	i = 0;
 	for(i = 0; i < num; i++) {
@@ -4887,14 +4887,14 @@ CValue	CSystemFunction::RE_REPLACE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_REPLACEEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_REPLACEEX
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_REPLACEEX(CSF_FUNCPARAM &p)
 {
 	ClearReResultDetails();
 
-	// ˆø”‚Ì”/Œ^ƒ`ƒFƒbƒN
+	// å¼•æ•°ã®æ•°/å‹ãƒã‚§ãƒƒã‚¯
 	if (p.arg.array_size() < 3) {
 		vm.logger().Error(E_W, 8, L"RE_REPLACEEX", p.dicname, p.line);
 		SetError(8);
@@ -4927,7 +4927,7 @@ CValue	CSystemFunction::RE_REPLACEEX(CSF_FUNCPARAM &p)
 
 	yaya::string_t arg2 = arg2_orig;
 
-	//ÅŒã‚©‚ç1•¶šè‘O‚Ü‚Å
+	//æœ€å¾Œã‹ã‚‰1æ–‡å­—æ‰‹å‰ã¾ã§
 	if ( arg2.size() > 0 ) {
 		for ( yaya::string_t::iterator it = arg2.begin() ; it < (arg2.end()-1) ; ++it ) {
 			if ( *it == L'\\' ) {
@@ -4961,13 +4961,13 @@ CValue	CSystemFunction::RE_REPLACEEX(CSF_FUNCPARAM &p)
 					yaya::char_t rep[3] = L"$0";
 					rep[1] = c;
 					arg2.replace(it,it+2,rep);
-					it += 1; //Ÿ‚Ì•¶š‚Í“Ç‚İ”ò‚Î‚µ‚Ä—Ç‚¢
+					it += 1; //æ¬¡ã®æ–‡å­—ã¯èª­ã¿é£›ã°ã—ã¦è‰¯ã„
 				}
 			}
 		}
 	}
 
-	// Às
+	// å®Ÿè¡Œ
 	yaya::string_t str_result;
 
 	try {
@@ -5003,7 +5003,7 @@ CValue	CSystemFunction::RE_REPLACEEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_GETSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_GETSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_GETSTR(CSF_FUNCPARAM &p)
@@ -5012,7 +5012,7 @@ CValue	CSystemFunction::RE_GETSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_GETPOS
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_GETPOS
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_GETPOS(CSF_FUNCPARAM &p)
@@ -5021,7 +5021,7 @@ CValue	CSystemFunction::RE_GETPOS(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_GETSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_GETSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_GETLEN(CSF_FUNCPARAM &p)
@@ -5030,9 +5030,9 @@ CValue	CSystemFunction::RE_GETLEN(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RE_SPLIT_CORE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RE_SPLIT_CORE
  *
- *  RE_SPLIT‚Ìåˆ—•”•ª‚Å‚·BRE_REPLACE‚Å‚àg—p‚µ‚Ü‚·B
+ *  RE_SPLITã®ä¸»å‡¦ç†éƒ¨åˆ†ã§ã™ã€‚RE_REPLACEã§ã‚‚ä½¿ç”¨ã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RE_SPLIT_CORE(const CValue &arg, const yaya::string_t &d, int l, const yaya::char_t *fncname, size_t num)
@@ -5094,7 +5094,7 @@ CValue	CSystemFunction::RE_SPLIT_CORE(const CValue &arg, const yaya::string_t &d
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CHRCODE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CHRCODE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CHRCODE(CSF_FUNCPARAM &p)
@@ -5135,7 +5135,7 @@ CValue	CSystemFunction::CHRCODE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISINTSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISINTSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISINTSTR(CSF_FUNCPARAM &p)
@@ -5156,7 +5156,7 @@ CValue	CSystemFunction::ISINTSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ISREALSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ISREALSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ISREALSTR(CSF_FUNCPARAM &p)
@@ -5177,7 +5177,7 @@ CValue	CSystemFunction::ISREALSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SPLITPATH
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SPLITPATH
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -5224,12 +5224,12 @@ CValue CSystemFunction::SPLITPATH(CSF_FUNCPARAM &p) {
 	fix_filepath(path);
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
-	result.array().emplace_back(yaya::string_t()); // drive‚Íí‚É‹ó•¶š—ñ
+	result.array().emplace_back(yaya::string_t()); // driveã¯å¸¸ã«ç©ºæ–‡å­—åˆ—
 
 	yaya::string_t::size_type pos_slash = path.rfind(L'/');
 	yaya::string_t fname;
 	if (pos_slash == yaya::string_t::npos) {
-		result.array().emplace_back(yaya::string_t()); // dir‚à‹ó
+		result.array().emplace_back(yaya::string_t()); // dirã‚‚ç©º
 		fname = path;
 	}
 	else {
@@ -5240,7 +5240,7 @@ CValue CSystemFunction::SPLITPATH(CSF_FUNCPARAM &p) {
 	yaya::string_t::size_type pos_period = fname.rfind(L'.');
 	if (pos_period == yaya::string_t::npos) {
 		result.array().emplace_back(fname);
-		result.array().emplace_back(yaya::string_t()); // ext‚Í‹ó
+		result.array().emplace_back(yaya::string_t()); // extã¯ç©º
 	}
 	else {
 		result.array().emplace_back(fname.substr(0, pos_period));
@@ -5253,7 +5253,7 @@ CValue CSystemFunction::SPLITPATH(CSF_FUNCPARAM &p) {
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::IARRAY
+ *  é–¢æ•°å  ï¼š  CSystemFunction::IARRAY
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::IARRAY(CSF_FUNCPARAM &p)
@@ -5262,7 +5262,7 @@ CValue	CSystemFunction::IARRAY(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CVINT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CVINT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CVINT(CSF_FUNCPARAM &p)
@@ -5286,7 +5286,7 @@ CValue	CSystemFunction::CVINT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CVSTR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CVSTR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CVSTR(CSF_FUNCPARAM &p)
@@ -5310,7 +5310,7 @@ CValue	CSystemFunction::CVSTR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CVREAL
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CVREAL
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CVREAL(CSF_FUNCPARAM &p)
@@ -5334,7 +5334,7 @@ CValue	CSystemFunction::CVREAL(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CVAUTO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CVAUTO
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CVAUTO(CSF_FUNCPARAM &p)
@@ -5384,7 +5384,7 @@ CValue	CSystemFunction::CVAUTO(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::CVAUTOEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::CVAUTOEX
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::CVAUTOEX(CSF_FUNCPARAM &p)
@@ -5446,7 +5446,7 @@ CValue	CSystemFunction::CVAUTOEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LETTONAME
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LETTONAME
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LETTONAME(CSF_FUNCPARAM &p)
@@ -5494,7 +5494,7 @@ CValue	CSystemFunction::LETTONAME(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LSO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LSO
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LSO(CSF_FUNCPARAM &)
@@ -5503,7 +5503,7 @@ CValue	CSystemFunction::LSO(CSF_FUNCPARAM &)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRFORM
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRFORM
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::STRFORM(CSF_FUNCPARAM &p)
@@ -5522,13 +5522,13 @@ CValue	CSystemFunction::STRFORM(CSF_FUNCPARAM &p)
 		return CValue(p.arg.array()[0]);
 	}
 
-	// '$'‚Åsplit‚·‚é
+	// '$'ã§splitã™ã‚‹
 	std::vector<yaya::string_t>	vargs;
 	int	vargs_sz = SplitToMultiString(p.arg.array()[0].GetValueString(), &vargs, yaya::string_t(L"$"));
 	if (!vargs_sz)
 		return CValue();
 
-	// Še—v‘f‚²‚Æ‚É_snwprintf‚Å‘®‰»‚µ‚ÄŒ‹‡‚µ‚Ä‚¢‚­
+	// å„è¦ç´ ã”ã¨ã«_snwprintfã§æ›¸å¼åŒ–ã—ã¦çµåˆã—ã¦ã„ã
 	yaya::string_t	left, right;
 	yaya::string_t	result = vargs[0];
 	yaya::char_t	t_str[128];
@@ -5555,11 +5555,11 @@ CValue	CSystemFunction::STRFORM(CSF_FUNCPARAM &p)
 			}
 		}
 		if ( (*arg_str == L'h') || (*arg_str == L'l') || (*arg_str == L'L') ) { //extension
-			//‚±‚±‚Í“Ç‚İ”ò‚Î‚·
+			//ã“ã“ã¯èª­ã¿é£›ã°ã™
 			arg_str += 1;
 		}
 		if ( wcsncmp(arg_str,L"I64",3) == 0 ) {
-			//‚±‚±‚Í“Ç‚İ”ò‚Î‚·
+			//ã“ã“ã¯èª­ã¿é£›ã°ã™
 			arg_str += 3;
 		}
 		int type = F_TAG_VOID;
@@ -5585,11 +5585,11 @@ CValue	CSystemFunction::STRFORM(CSF_FUNCPARAM &p)
 		}
 		else if ( *arg_str == L'S' ) {
 			type = F_TAG_STRING;
-			t_format += L's'; //ƒƒCƒh•¶š—ñ‚µ‚©g‚í‚È‚¢‚Ì‚Å’²®
+			t_format += L's'; //ãƒ¯ã‚¤ãƒ‰æ–‡å­—åˆ—ã—ã‹ä½¿ã‚ãªã„ã®ã§èª¿æ•´
 			arg_str += 1;
 		}
 		else if ( (*arg_str == L'n') || (*arg_str == L'p') ) {
-			//n‚Æp‚Í–³‹
+			//nã¨pã¯ç„¡è¦–
 			arg_str += 1;
 		}
 
@@ -5625,12 +5625,12 @@ CValue	CSystemFunction::STRFORM(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ANY
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ANY
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ANY(CSF_FUNCPARAM &p)
 {
-	// ˆø”–³‚µ‚È‚ç‹ó•¶š—ñ
+	// å¼•æ•°ç„¡ã—ãªã‚‰ç©ºæ–‡å­—åˆ—
 	int	sz = p.arg.array_size();
 	if (!sz) {
 		SetLso(-1);
@@ -5638,13 +5638,13 @@ CValue	CSystemFunction::ANY(CSF_FUNCPARAM &p)
 	}
 
 	if (sz == 1) {
-		// ˆø”1‚Â‚Å•¶š—ñ‚Å‚È‚¢‚È‚çˆø”‚ª‚»‚Ì‚Ü‚Ü•Ô‚é
+		// å¼•æ•°1ã¤ã§æ–‡å­—åˆ—ã§ãªã„ãªã‚‰å¼•æ•°ãŒãã®ã¾ã¾è¿”ã‚‹
 		if (!p.arg.array()[0].IsString()) {
 			SetLso(0);
 			return CValue(p.arg.array()[0]);
 		}
 
-		// ˆø”1‚Â‚Å•¶š—ñ‚È‚çŠÈˆÕ”z—ñ‚Æ‚µ‚Äˆ—@•Ï”‚Ìê‡‚Í‚»‚ÌƒfƒŠƒ~ƒ^‚Å•ªŠ„‚·‚é
+		// å¼•æ•°1ã¤ã§æ–‡å­—åˆ—ãªã‚‰ç°¡æ˜“é…åˆ—ã¨ã—ã¦å‡¦ç†ã€€å¤‰æ•°ã®å ´åˆã¯ãã®ãƒ‡ãƒªãƒŸã‚¿ã§åˆ†å‰²ã™ã‚‹
 		yaya::string_t	delimiter = VAR_DELIMITER;
 		if (p.pcellarg[0]->value_GetType() == F_TAG_VARIABLE)
 			delimiter = vm.variable().GetDelimiter(p.pcellarg[0]->index);
@@ -5663,14 +5663,14 @@ CValue	CSystemFunction::ANY(CSF_FUNCPARAM &p)
 		return CValue(s_array[s_pos]);
 	}
 
-	// ˆø”‚ª•¡”‚È‚ç”Ä—p”z—ñ‚Æ‚µ‚Äˆ—
+	// å¼•æ•°ãŒè¤‡æ•°ãªã‚‰æ±ç”¨é…åˆ—ã¨ã—ã¦å‡¦ç†
 	size_t s_pos = vm.genrand_uint(sz);
 	SetLso(s_pos);
 	return CValue(p.arg.array()[s_pos]);
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SAVEVAR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SAVEVAR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SAVEVAR(CSF_FUNCPARAM &p)
@@ -5687,7 +5687,7 @@ CValue	CSystemFunction::SAVEVAR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::RESTOREVAR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::RESTOREVAR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::RESTOREVAR(CSF_FUNCPARAM &p)
@@ -5704,7 +5704,7 @@ CValue	CSystemFunction::RESTOREVAR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETSTRBYTES
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETSTRBYTES
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETSTRBYTES(CSF_FUNCPARAM &p)
@@ -5717,7 +5717,7 @@ CValue	CSystemFunction::GETSTRBYTES(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// •¶šƒR[ƒhæ“¾
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å–å¾—
 	int	charset = CHARSET_SJIS;
 	if (sz > 1) {
 		charset = GetCharset(p.arg.array()[1],L"GETSTRBYTES", p.dicname, p.line);
@@ -5726,7 +5726,7 @@ CValue	CSystemFunction::GETSTRBYTES(CSF_FUNCPARAM &p)
 		}
 	}
 
-	// åˆ—
+	// ä¸»å‡¦ç†
 	char	*t_str = Ccct::Ucs2ToMbcs(p.arg.array()[0].GetValueString(), charset);
 	if (t_str == NULL) {
 		vm.logger().Error(E_E, 89, L"GETSTRBYTES", p.dicname, p.line);
@@ -5740,11 +5740,11 @@ CValue	CSystemFunction::GETSTRBYTES(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRENCODE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRENCODE
  * -----------------------------------------------------------------------
  */
 
-//std::tolower‚Ì’è‹`‚ª‚Ö‚¿‚å‚¢ˆ—Œn‘Îô
+//std::tolowerã®å®šç¾©ãŒã¸ã¡ã‚‡ã„å‡¦ç†ç³»å¯¾ç­–
 struct ToLower {
 	yaya::char_t operator()(yaya::char_t c) { return ::tolower(c); }
 };
@@ -5759,7 +5759,7 @@ CValue	CSystemFunction::STRENCODE(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// •¶šƒR[ƒhæ“¾
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å–å¾—
 	int	charset = CHARSET_SJIS;
 	if (sz > 1) {
 		charset = GetCharset(p.arg.array()[1],L"STRENCODE", p.dicname, p.line);
@@ -5768,14 +5768,14 @@ CValue	CSystemFunction::STRENCODE(CSF_FUNCPARAM &p)
 		}
 	}
 
-	//•ÏŠ·ƒ^ƒCƒv
+	//å¤‰æ›ã‚¿ã‚¤ãƒ—
 	yaya::string_t type = L"url";
 	if ( sz > 2 ) {
 		type = p.arg.array()[2].GetValueString();
 		std::transform(type.begin(), type.end(), type.begin(), ToLower());
 	}
 
-	// åˆ—
+	// ä¸»å‡¦ç†
 	char *t_str = Ccct::Ucs2ToMbcs(p.arg.array()[0].GetValueString(), charset);
 	if (t_str == NULL) {
 		vm.logger().Error(E_E, 89, L"STRENCODE", p.dicname, p.line);
@@ -5804,7 +5804,7 @@ CValue	CSystemFunction::STRENCODE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::STRDECODE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::STRDECODE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::STRDECODE(CSF_FUNCPARAM &p)
@@ -5817,7 +5817,7 @@ CValue	CSystemFunction::STRDECODE(CSF_FUNCPARAM &p)
 		return CValue(0);
 	}
 
-	// •¶šƒR[ƒhæ“¾
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å–å¾—
 	int	charset = CHARSET_SJIS;
 	if (sz > 1) {
 		charset = GetCharset(p.arg.array()[1],L"STRDECODE", p.dicname, p.line);
@@ -5826,14 +5826,14 @@ CValue	CSystemFunction::STRDECODE(CSF_FUNCPARAM &p)
 		}
 	}
 
-	//•ÏŠ·ƒ^ƒCƒv
+	//å¤‰æ›ã‚¿ã‚¤ãƒ—
 	yaya::string_t type = L"url";
 	if ( sz > 2 ) {
 		type = p.arg.array()[2].GetValueString();
 		std::transform(type.begin(), type.end(), type.begin(), ToLower());
 	}
 
-	// åˆ—
+	// ä¸»å‡¦ç†
 	yaya::string_t src = p.arg.array()[0].GetValueString();
 
 	std::string str;
@@ -5863,7 +5863,7 @@ CValue	CSystemFunction::STRDECODE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ASEARCH / ASEARCHEX
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ASEARCH / ASEARCHEX
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ASEARCH(CSF_FUNCPARAM &p)
@@ -5914,13 +5914,13 @@ CValue	CSystemFunction::ASEARCHEX(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ASORT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ASORT
  * -----------------------------------------------------------------------
  */
 
 //string,ascent
 template <class TTYPE>
-class CSFSORT_StringAscent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringAscent {
 private:
 	const CValueArray &a;
 
@@ -5935,7 +5935,7 @@ public:
 
 //string,descent
 template <class TTYPE>
-class CSFSORT_StringDescent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringDescent {
 private:
 	const CValueArray &a;
 
@@ -5950,7 +5950,7 @@ public:
 
 //string,ascent,case insensitive
 template <class TTYPE>
-class CSFSORT_StringAscentI : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringAscentI {
 private:
 	const CValueArray &a;
 
@@ -5965,7 +5965,7 @@ public:
 
 //string,descent,case insensitive
 template <class TTYPE>
-class CSFSORT_StringDescentI : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringDescentI {
 private:
 	const CValueArray &a;
 
@@ -5980,7 +5980,7 @@ public:
 
 //string,ascent,length
 template <class TTYPE>
-class CSFSORT_StringAscentL : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringAscentL {
 private:
 	const CValueArray &a;
 
@@ -5995,7 +5995,7 @@ public:
 
 //string,descent,length
 template <class TTYPE>
-class CSFSORT_StringDescentL : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_StringDescentL {
 private:
 	const CValueArray &a;
 
@@ -6010,7 +6010,7 @@ public:
 
 //int,ascent
 template <class TTYPE>
-class CSFSORT_IntAscent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_IntAscent {
 private:
 	const CValueArray &a;
 
@@ -6025,7 +6025,7 @@ public:
 
 //int,descent
 template <class TTYPE>
-class CSFSORT_IntDescent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_IntDescent {
 private:
 	const CValueArray &a;
 
@@ -6040,7 +6040,7 @@ public:
 
 //double,ascent
 template <class TTYPE>
-class CSFSORT_DoubleAscent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_DoubleAscent {
 private:
 	const CValueArray &a;
 
@@ -6055,7 +6055,7 @@ public:
 
 //double,descent
 template <class TTYPE>
-class CSFSORT_DoubleDescent : public std::binary_function<TTYPE, TTYPE, bool> {
+class CSFSORT_DoubleDescent {
 private:
 	const CValueArray &a;
 
@@ -6166,7 +6166,7 @@ CValue	CSystemFunction::ASORT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETDELIM
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETDELIM
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETDELIM(CSF_FUNCPARAM &p)
@@ -6191,7 +6191,7 @@ CValue	CSystemFunction::GETDELIM(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SETSETTING
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SETSETTING
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SETSETTING(CSF_FUNCPARAM &p)
@@ -6214,7 +6214,7 @@ CValue	CSystemFunction::SETSETTING(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETSETTING
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETSETTING
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETSETTING(CSF_FUNCPARAM &p)
@@ -6275,7 +6275,7 @@ CValue	CSystemFunction::GETSETTING(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ARRAYDEDUP
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ARRAYDEDUP
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::ARRAYDEDUP(CSF_FUNCPARAM &p)
@@ -6295,7 +6295,7 @@ CValue	CSystemFunction::ARRAYDEDUP(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SPLIT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SPLIT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SPLIT(CSF_FUNCPARAM &p)
@@ -6353,7 +6353,7 @@ CValue	CSystemFunction::SPLIT(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SETTAMAHWND
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SETTAMAHWND
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SETTAMAHWND(CSF_FUNCPARAM &p)
@@ -6378,7 +6378,7 @@ CValue	CSystemFunction::SETTAMAHWND(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::FATTRIB
+ *  é–¢æ•°å  ï¼š  CSystemFunction::FATTRIB
  * -----------------------------------------------------------------------
  */
 
@@ -6441,7 +6441,7 @@ CValue	CSystemFunction::FATTRIB(CSF_FUNCPARAM &p)
 		}
 	}
 	else {
-		// ƒpƒX‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 		char	*s_filestr = Ccct::Ucs2ToMbcs(fullpath, CHARSET_DEFAULT);
 		if (s_filestr == NULL) {
 			vm.logger().Error(E_E, 89, L"FATTRIB", p.dicname, p.line);
@@ -6497,16 +6497,16 @@ CValue	CSystemFunction::FATTRIB(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETFUNCLIST
- *  ˆø”@@F@_argv[0] = i‚è‚±‚İ•¶š—ñ
- *  @@@@@@w’è‚µ‚½•¶š—ñ‚ª“ª‚É‚Â‚¢‚Ä‚é‚à‚Ì‚Ì‚İ’Šo‚µ‚Ä”z—ñ‚Å•Ô‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETFUNCLIST
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = çµã‚Šã“ã¿æ–‡å­—åˆ—
+ *  ã€€ã€€ã€€ã€€ã€€ã€€æŒ‡å®šã—ãŸæ–‡å­—åˆ—ãŒé ­ã«ã¤ã„ã¦ã‚‹ã‚‚ã®ã®ã¿æŠ½å‡ºã—ã¦é…åˆ—ã§è¿”ã™
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETFUNCLIST(CSF_FUNCPARAM &p)
 {
 	yaya::string_t name;
 
-	//STRING‚Ìê‡‚Ì‚İi‚è‚±‚İ•¶š—ñ‚Æ‚µ‚Ä”F¯
+	//STRINGã®å ´åˆã®ã¿çµã‚Šã“ã¿æ–‡å­—åˆ—ã¨ã—ã¦èªè­˜
 	if ( p.arg.array_size() ) {
 		if (p.arg.array()[0].IsString()) {
 			name = p.arg.array()[0].GetValueString();
@@ -6515,13 +6515,13 @@ CValue	CSystemFunction::GETFUNCLIST(CSF_FUNCPARAM &p)
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 
-	//i‚è‚±‚İ•¶š—ñ‚ª‚È‚¢ê‡
+	//çµã‚Šã“ã¿æ–‡å­—åˆ—ãŒãªã„å ´åˆ
 	if ( name.empty() ) {
 		for(std::vector<CFunction>::iterator it = vm.function_exec().func.begin(); it != vm.function_exec().func.end(); it++) {
 			result.array().emplace_back(CValueSub(it->name));
 		}
 	}
-	//‚ ‚éê‡
+	//ã‚ã‚‹å ´åˆ
 	else {
 		yaya::string_t::size_type len = name.length();
 
@@ -6536,15 +6536,15 @@ CValue	CSystemFunction::GETFUNCLIST(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETSYSTEMFUNCLIST
- *  ˆø”@@F@_argv[0] = i‚è‚±‚İ•¶š—ñ
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETSYSTEMFUNCLIST
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = çµã‚Šã“ã¿æ–‡å­—åˆ—
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETSYSTEMFUNCLIST(CSF_FUNCPARAM &p)
 {
 	yaya::string_t name;
 
-	//STRING‚Ìê‡‚Ì‚İi‚è‚±‚İ•¶š—ñ‚Æ‚µ‚Ä”F¯
+	//STRINGã®å ´åˆã®ã¿çµã‚Šã“ã¿æ–‡å­—åˆ—ã¨ã—ã¦èªè­˜
 	if ( p.arg.array_size() ) {
 		if (p.arg.array()[0].IsString()) {
 			name = p.arg.array()[0].GetValueString();
@@ -6553,13 +6553,13 @@ CValue	CSystemFunction::GETSYSTEMFUNCLIST(CSF_FUNCPARAM &p)
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 
-	//i‚è‚±‚İ•¶š—ñ‚ª‚È‚¢ê‡
+	//çµã‚Šã“ã¿æ–‡å­—åˆ—ãŒãªã„å ´åˆ
 	if ( name.empty() ) {
 		for ( int i = 0 ; i < sizeof(sysfunc) / sizeof(sysfunc[0]) ; ++i ) {
 			result.array().emplace_back(CValueSub(sysfunc[i].name));
 		}
 	}
-	//‚ ‚éê‡
+	//ã‚ã‚‹å ´åˆ
 	else {
 		yaya::string_t::size_type len = name.length();
 
@@ -6573,16 +6573,16 @@ CValue	CSystemFunction::GETSYSTEMFUNCLIST(CSF_FUNCPARAM &p)
 	return result;
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETVARLIST
- *  ˆø”@@F@_argv[0] = i‚è‚±‚İ•¶š—ñ
- *  @@@@@@w’è‚µ‚½•¶š—ñ‚ª“ª‚É‚Â‚¢‚Ä‚é‚à‚Ì‚Ì‚İ’Šo‚µ‚Ä”z—ñ‚Å•Ô‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETVARLIST
+ *  å¼•æ•°ã€€ã€€ï¼šã€€_argv[0] = çµã‚Šã“ã¿æ–‡å­—åˆ—
+ *  ã€€ã€€ã€€ã€€ã€€ã€€æŒ‡å®šã—ãŸæ–‡å­—åˆ—ãŒé ­ã«ã¤ã„ã¦ã‚‹ã‚‚ã®ã®ã¿æŠ½å‡ºã—ã¦é…åˆ—ã§è¿”ã™
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 {
 	yaya::string_t name;
 
-	//STRING‚Ìê‡‚Ì‚İi‚è‚±‚İ•¶š—ñ‚Æ‚µ‚Ä”F¯
+	//STRINGã®å ´åˆã®ã¿çµã‚Šã“ã¿æ–‡å­—åˆ—ã¨ã—ã¦èªè­˜
 	if ( p.arg.array_size() ) {
 		if (p.arg.array()[0].IsString()) {
 			name = p.arg.array()[0].GetValueString();
@@ -6591,9 +6591,9 @@ CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 
-	//i‚è‚±‚İ•¶š—ñ‚ª‚È‚¢ê‡
+	//çµã‚Šã“ã¿æ–‡å­—åˆ—ãŒãªã„å ´åˆ
 	if ( name.empty() ) {
-		//ƒOƒ[ƒoƒ‹•Ï”
+		//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 		size_t n = vm.variable().GetNumber();
 
 		for(size_t i = 0; i < n; ++i) {
@@ -6605,7 +6605,7 @@ CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 
 		unsigned int depthmax = p.lvar.GetDepth();
 
-		//ƒ[ƒJƒ‹•Ï”
+		//ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
 		for(unsigned int depth = 0; depth < depthmax; ++depth) {
 			size_t n = p.lvar.GetNumber(depth);
 			for(size_t i = 0; i < n; ++i) {
@@ -6616,12 +6616,12 @@ CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 			}
 		}
 	}
-	//‚ ‚éê‡
+	//ã‚ã‚‹å ´åˆ
 	else {
 		yaya::string_t::size_type len = name.length();
 
 		if (name[0] != L'_') {
-			//ƒOƒ[ƒoƒ‹•Ï”
+			//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 			size_t n = vm.variable().GetNumber();
 
 			for(size_t i = 0; i < n; ++i) {
@@ -6634,7 +6634,7 @@ CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 			}
 		}
 		else {
-			//ƒ[ƒJƒ‹•Ï”
+			//ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
 			unsigned int depthmax = p.lvar.GetDepth();
 
 			for(unsigned int depth = 0; depth < depthmax; ++depth) {
@@ -6655,7 +6655,7 @@ CValue	CSystemFunction::GETVARLIST(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETCALLSTACKiŒÄ‚Ño‚µ—š—ğj
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETCALLSTACKï¼ˆå‘¼ã³å‡ºã—å±¥æ­´ï¼‰
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETCALLSTACK(CSF_FUNCPARAM &p)
@@ -6674,8 +6674,8 @@ CValue	CSystemFunction::GETCALLSTACK(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::MakeReResultDetails
- *  ‹@”\ŠT—vF  ³‹K•\Œ»ŒnŠÖ”‚Ìˆ—Œ‹‰ÊÚ×‚ğ’~Ï‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::MakeReResultDetails
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ­£è¦è¡¨ç¾ç³»é–¢æ•°ã®å‡¦ç†çµæœè©³ç´°ã‚’è“„ç©ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CSystemFunction::StoreReResultDetails(const yaya::string_t &str,MatchResult &result)
@@ -6692,8 +6692,8 @@ void	CSystemFunction::StoreReResultDetails(const yaya::string_t &str,MatchResult
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ClearReResultDetails
- *  ‹@”\ŠT—vF  ³‹K•\Œ»ŒnŠÖ”‚Ìˆ—Œ‹‰ÊÚ×‚ğƒNƒŠƒA‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ClearReResultDetails
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ­£è¦è¡¨ç¾ç³»é–¢æ•°ã®å‡¦ç†çµæœè©³ç´°ã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CSystemFunction::ClearReResultDetails(void)
@@ -6704,8 +6704,8 @@ void	CSystemFunction::ClearReResultDetails(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::AppendReResultDetail
- *  ‹@”\ŠT—vF  ³‹K•\Œ»ŒnŠÖ”‚Ìˆ—Œ‹‰ÊÚ×‚ğ1‚Â’~Ï‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::AppendReResultDetail
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ­£è¦è¡¨ç¾ç³»é–¢æ•°ã®å‡¦ç†çµæœè©³ç´°ã‚’1ã¤è“„ç©ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CSystemFunction::AppendReResultDetail(const yaya::string_t &str, int pos, int len)
@@ -6716,8 +6716,8 @@ void	CSystemFunction::AppendReResultDetail(const yaya::string_t &str, int pos, i
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SetError
- *  ‹@”\ŠT—vF  GETLASTERROR‚ª•Ô‚·’l‚ğİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SetError
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  GETLASTERRORãŒè¿”ã™å€¤ã‚’è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CSystemFunction::SetError(int code)
@@ -6750,7 +6750,7 @@ int CSystemFunction::GetCharset(const CValueSub &var,const wchar_t *fname, const
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::READFMO
+ *  é–¢æ•°å  ï¼š  CSystemFunction::READFMO
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -6840,7 +6840,7 @@ CValue CSystemFunction::READFMO(CSF_FUNCPARAM &p)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::EXECUTE_WAIT
+ *  é–¢æ•°å  ï¼š  CSystemFunction::EXECUTE_WAIT
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::EXECUTE_WAIT(CSF_FUNCPARAM &p)
@@ -6857,7 +6857,7 @@ CValue	CSystemFunction::EXECUTE_WAIT(CSF_FUNCPARAM &p)
 		return CValue(-1);
 	}
 
-	// ƒpƒX‚ğMBCS‚É•ÏŠ·
+	// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 	int result;
 
 #if defined(WIN32)
@@ -6915,12 +6915,12 @@ CValue	CSystemFunction::EXECUTE_WAIT(CSF_FUNCPARAM &p)
 
 #endif
 
-	// Às
+	// å®Ÿè¡Œ
 	return CValue(result);
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::GETENV
+ *  é–¢æ•°å  ï¼š  CSystemFunction::GETENV
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::GETENV(CSF_FUNCPARAM &p)
@@ -6963,7 +6963,7 @@ CValue	CSystemFunction::GETENV(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::SLEEP
+ *  é–¢æ•°å  ï¼š  CSystemFunction::SLEEP
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::SLEEP(CSF_FUNCPARAM &p)
@@ -7008,7 +7008,7 @@ CValue	CSystemFunction::SLEEP(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::EXECUTE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::EXECUTE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::EXECUTE(CSF_FUNCPARAM &p)
@@ -7025,7 +7025,7 @@ CValue	CSystemFunction::EXECUTE(CSF_FUNCPARAM &p)
 		return CValue(-1);
 	}
 
-	// ƒpƒX‚ğMBCS‚É•ÏŠ·
+	// ãƒ‘ã‚¹ã‚’MBCSã«å¤‰æ›
 #if defined(WIN32)
 	int result;
 
@@ -7049,7 +7049,7 @@ CValue	CSystemFunction::EXECUTE(CSF_FUNCPARAM &p)
 	s_filestr = NULL;
 	if ( s_parameter ) { free(s_parameter); s_parameter = NULL;}
 
-	// Às
+	// å®Ÿè¡Œ
 	return CValue(result);
 
 #elif defined(POSIX)
@@ -7061,7 +7061,7 @@ CValue	CSystemFunction::EXECUTE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::TRANSLATE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::TRANSLATE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::TRANSLATE(CSF_FUNCPARAM &p)
@@ -7088,10 +7088,10 @@ CValue	CSystemFunction::TRANSLATE(CSF_FUNCPARAM &p)
 
 	if ( rep_from.size() > rep_to.size() ) {
 		if ( rep_to.size() > 0 ) {
-			//’u‚«Š·‚¦æ‚Ì‚Ù‚¤‚ª¬‚³‚¢‚Á‚Û‚¢H
+			//ç½®ãæ›ãˆå…ˆã®ã»ã†ãŒå°ã•ã„ã£ã½ã„ï¼Ÿ
 			vm.logger().Error(E_W, 12, L"TRANSLATE", p.dicname, p.line);
 			SetError(12);
-			//Œx‚ğ“f‚¢‚½Œã‚ÅAˆê”ÔÅŒã‚Ì•¶š‚Å–„‚ß‚Ä‚¨‚­
+			//è­¦å‘Šã‚’åã„ãŸå¾Œã§ã€ä¸€ç•ªæœ€å¾Œã®æ–‡å­—ã§åŸ‹ã‚ã¦ãŠã
 			yaya::char_t cx = *(rep_to.end()-1);
 			while ( rep_from.size() > rep_to.size() ) {
 				rep_to.emplace_back(cx);
@@ -7101,7 +7101,7 @@ CValue	CSystemFunction::TRANSLATE(CSF_FUNCPARAM &p)
 
 	bool is_delete = (rep_to.size() == 0);
 
-	//signed‚ÅƒJƒEƒ“ƒg‚µ‚È‚¢‚Æ erase‚É‚Ğ‚Ç‚¢‚±‚Æ‚É‚È‚é
+	//signedã§ã‚«ã‚¦ãƒ³ãƒˆã—ãªã„ã¨ eraseæ™‚ã«ã²ã©ã„ã“ã¨ã«ãªã‚‹
 	int n = str.length();
 	int rep_size = rep_from.size();
 
@@ -7132,7 +7132,7 @@ bool CSystemFunction::ProcessTranslateSyntax(std::vector<yaya::char_t> &array,ya
 	for ( size_t i = 0 ; i < n ; ++i ) {
 		if ( str[i] == L'-' ) {
 			if ( (i >= (n-1)) || (array.size() == 0) ) {
-				//-‚ª•Â‚¶‚Ä‚È‚¢A‚à‚µ‚­‚ÍŠJ‚¢‚Ä‚È‚¢
+				//-ãŒé–‰ã˜ã¦ãªã„ã€ã‚‚ã—ãã¯é–‹ã„ã¦ãªã„
 				vm.logger().Error(E_W, 12, L"TRANSLATE", d, l);
 				SetError(12);
 				array.emplace_back(L'-');
@@ -7143,7 +7143,7 @@ bool CSystemFunction::ProcessTranslateSyntax(std::vector<yaya::char_t> &array,ya
 			array.erase(array.end()-1,array.end());
 			yaya::char_t end = str[i];
 			if ( start > end ) {
-				//start‚Ì‚Ù‚¤‚ª‚Å‚©‚¢Fƒ[ƒ—v‘f‚Æ‚µ‚Äˆ—‰Â”\‚È‚Ì‚Å‘±s
+				//startã®ã»ã†ãŒã§ã‹ã„ï¼šã‚¼ãƒ­è¦ç´ ã¨ã—ã¦å‡¦ç†å¯èƒ½ãªã®ã§ç¶šè¡Œ
 				vm.logger().Error(E_W, 12, L"TRANSLATE", d, l);
 				SetError(12);
 			}
@@ -7152,7 +7152,7 @@ bool CSystemFunction::ProcessTranslateSyntax(std::vector<yaya::char_t> &array,ya
 			}
 			else {
 				if ( (end - start) >= 256 ) {
-					//”ÍˆÍ‚ª‚Å‚©‚·‚¬‚éF‚¿‚å‚ñØ‚Á‚Ä‘±s
+					//ç¯„å›²ãŒã§ã‹ã™ãã‚‹ï¼šã¡ã‚‡ã‚“åˆ‡ã£ã¦ç¶šè¡Œ
 					vm.logger().Error(E_W, 12, L"TRANSLATE", d, l);
 					SetError(12);
 					end = start + 255;
@@ -7165,7 +7165,7 @@ bool CSystemFunction::ProcessTranslateSyntax(std::vector<yaya::char_t> &array,ya
 		}
 		else if ( str[i] == L'\\' ) {
 			if ( i >= (n-1) ) {
-				//ƒGƒXƒP[ƒvŒã‚Ì•¶š‚ª‚È‚¢
+				//ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—å¾Œã®æ–‡å­—ãŒãªã„
 				vm.logger().Error(E_W, 12, L"TRANSLATE", d, l);
 				SetError(12);
 				array.emplace_back(L'-');
@@ -7207,7 +7207,7 @@ bool CSystemFunction::ProcessTranslateSyntax(std::vector<yaya::char_t> &array,ya
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::DUMPVAR
+ *  é–¢æ•°å  ï¼š  CSystemFunction::DUMPVAR
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::DUMPVAR(CSF_FUNCPARAM &p)
@@ -7218,7 +7218,7 @@ CValue	CSystemFunction::DUMPVAR(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::DIRECTSSTP
+ *  é–¢æ•°å  ï¼š  CSystemFunction::DIRECTSSTP
  * -----------------------------------------------------------------------
  */
 
@@ -7248,7 +7248,7 @@ static std::string SendDataUsingUnixSocket(const std::string &path, std::string 
 		return "";
 	}
 	addr.sun_family = AF_UNIX;
-	// null-terminated‚à‘‚«‚Ü‚¹‚é
+	// null-terminatedã‚‚æ›¸ãè¾¼ã¾ã›ã‚‹
 	strncpy(addr.sun_path, path.c_str(), path.length() + 1);
 	if (connect(soc, reinterpret_cast<const sockaddr *>(&addr), sizeof(addr)) == -1) {
 		return "";
@@ -7428,7 +7428,7 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 		return CValue(-1);
 	}
 
-	//ƒƒbƒZ[ƒW“]‘—
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è»¢é€
 	std::string res_str;
 	::SetWindowLongPtr(propertyWindow, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(&res_str));
 
@@ -7440,7 +7440,7 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 	DWORD_PTR res_dword = 0;
 	::SendMessageTimeout((HWND)hwnd, WM_COPYDATA, (WPARAM)propertyWindow, (LPARAM)&cds, SMTO_ABORTIFHUNG | SMTO_BLOCK, 5000, &res_dword);
 	
-	//ƒŠƒ\[ƒX‚ÌŠJ•ú
+	//ãƒªã‚½ãƒ¼ã‚¹ã®é–‹æ”¾
 	free(req);
 	
 	::DestroyWindow(propertyWindow);
@@ -7461,7 +7461,7 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LICENSE
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LICENSE
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LICENSE(CSF_FUNCPARAM &p)
@@ -7536,7 +7536,7 @@ CValue	CSystemFunction::LICENSE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetFuncUsedBy
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetFuncUsedBy
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetFuncUsedBy(CSF_FUNCPARAM &p)
@@ -7577,7 +7577,7 @@ CValue	CSystemFunction::LINT_GetFuncUsedBy(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetUserDefFuncUsedBy
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetUserDefFuncUsedBy
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetUserDefFuncUsedBy(CSF_FUNCPARAM &p)
@@ -7618,7 +7618,7 @@ CValue	CSystemFunction::LINT_GetUserDefFuncUsedBy(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetGlobalVarUsedBy
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetGlobalVarUsedBy
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetGlobalVarUsedBy(CSF_FUNCPARAM &p)
@@ -7659,7 +7659,7 @@ CValue	CSystemFunction::LINT_GetGlobalVarUsedBy(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetLocalVarUsedBy
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetLocalVarUsedBy
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetLocalVarUsedBy(CSF_FUNCPARAM &p)
@@ -7714,7 +7714,7 @@ CValue	CSystemFunction::LINT_GetLocalVarUsedBy(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetGlobalVarLetted
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetGlobalVarLetted
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetGlobalVarLetted(CSF_FUNCPARAM &p)
@@ -7763,7 +7763,7 @@ CValue	CSystemFunction::LINT_GetGlobalVarLetted(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::LINT.GetLocalVarLetted
+ *  é–¢æ•°å  ï¼š  CSystemFunction::LINT.GetLocalVarLetted
  * -----------------------------------------------------------------------
  */
 CValue	CSystemFunction::LINT_GetLocalVarLetted(CSF_FUNCPARAM &p)

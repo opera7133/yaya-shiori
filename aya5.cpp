@@ -85,7 +85,7 @@ public:
 			vme->logger().Message(11,E_E);
 
 			if( ! vme->basis().IsSuppress() ) {
-				vme->logger().AppendErrorLogHistoryToBegin(std_move(vm->logger().GetErrorLogHistory())); //ƒGƒ‰[ƒƒO‚ğˆø‚«Œp‚®
+				vme->logger().AppendErrorLogHistoryToBegin(std_move(vm->logger().GetErrorLogHistory())); //ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°ã‚’å¼•ãç¶™ã
 
 				std::swap(vm, vme);
 			}
@@ -141,7 +141,7 @@ class CAyaVMPrepare {
 public:
 	CAyaVMPrepare(void) {
 		vm.clear();
-		vm.emplace_back(nullptr); //0”ÔVMload‚È‚Ç]—ˆŠÖ”‚Åg‚¤•W€
+		vm.emplace_back(nullptr); //0ç•ªVMï¼loadãªã©å¾“æ¥é–¢æ•°ã§ä½¿ã†æ¨™æº–
 	}
 	~CAyaVMPrepare(void) {
 		size_t n = vm.size();
@@ -153,7 +153,7 @@ public:
 	}
 };
 
-static CAyaVMPrepare prepare; //‚±‚ê‚ÍƒRƒ“ƒXƒgƒ‰ƒNƒ^EƒfƒXƒgƒ‰ƒNƒ^ì“®—p
+static CAyaVMPrepare prepare; //ã“ã‚Œã¯ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ä½œå‹•ç”¨
 
 /* -----------------------------------------------------------------------
  *  DllMain
@@ -203,8 +203,8 @@ static void AYA_InitModule(HMODULE hModule)
 
 extern "C" BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID /*lpReserved*/)
 {
-	// ƒ‚ƒWƒ…[ƒ‹‚Ìåƒtƒ@ƒCƒ‹–¼‚ğæ“¾
-	// NTŒn‚Å‚Í‚¢‚«‚È‚èUNICODE‚Åæ“¾‚Å‚«‚é‚ªA9xŒn‚ğl—¶‚µ‚ÄMBCS‚Åæ“¾‚µ‚Ä‚©‚çUCS-2‚Ö•ÏŠ·
+	// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ä¸»ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—
+	// NTç³»ã§ã¯ã„ããªã‚ŠUNICODEã§å–å¾—ã§ãã‚‹ãŒã€9xç³»ã‚’è€ƒæ…®ã—ã¦MBCSã§å–å¾—ã—ã¦ã‹ã‚‰UCS-2ã¸å¤‰æ›
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 		AYA_InitModule(hModule);
 	}
@@ -244,7 +244,7 @@ extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB loadu(yaya::global_t h, long len)
 
 extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB load(yaya::global_t h, long len)
 {
-	if ( vm[0] ) { return 1; } //loadu‚Å“Ç‚İ‚Ü‚ê‚½ŒãÄ“xŒÄ‚Ño‚³‚ê‚½‚Æ‰¼’è
+	if ( vm[0] ) { return 1; } //loaduã§èª­ã¿è¾¼ã¾ã‚ŒãŸå¾Œå†åº¦å‘¼ã³å‡ºã•ã‚ŒãŸã¨ä»®å®š
 
 	id_now=0;
 	enlarge_loghandler_list(1);
@@ -264,7 +264,7 @@ extern "C" DLLEXPORT long FUNCATTRIB multi_loadu(yaya::global_t h, long len)
 	long id = 0;
 	
 	long n = (long)vm.size();
-	for ( long i = 1 ; i < n ; ++i ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	for ( long i = 1 ; i < n ; ++i ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		if ( vm[i] == NULL ) {
 			id = i;
 		}
@@ -293,7 +293,7 @@ extern "C" DLLEXPORT long FUNCATTRIB multi_load(yaya::global_t h, long len)
 	long id = 0;
 	
 	long n = (long)vm.size();
-	for ( long i = 1 ; i < n ; ++i ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	for ( long i = 1 ; i < n ; ++i ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		if ( vm[i] == NULL ) {
 			id = i;
 		}
@@ -333,7 +333,7 @@ extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB unload()
 
 extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB multi_unload(long id)
 {
-	if ( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	if ( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		return 0;
 	}
 
@@ -359,7 +359,7 @@ extern "C" DLLEXPORT yaya::global_t FUNCATTRIB request(yaya::global_t h, long *l
 
 extern "C" DLLEXPORT yaya::global_t FUNCATTRIB multi_request(long id, yaya::global_t h, long *len)
 {
-	if ( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	if ( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		return 0;
 	}
 
@@ -387,7 +387,7 @@ extern "C" DLLEXPORT yaya::global_t FUNCATTRIB multi_request(long id, yaya::glob
 
 extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB multi_CI_check_failed(long id)//?
 {
-	if( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	if( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		return 0;
 	}
 
@@ -418,7 +418,7 @@ extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB multi_CI_check_failed(long id)//?
 
 extern "C" DLLEXPORT void FUNCATTRIB multi_Set_loghandler(long id,void (*loghandler)(const yaya::char_t *str, int mode, int id))//?
 {
-	if( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1‚©‚ç 0”Ô‚Í]—ˆ—p
+	if( id <= 0 || id > (long)vm.size() || vm[id] == NULL ) { //1ã‹ã‚‰ 0ç•ªã¯å¾“æ¥ç”¨
 		return;
 	}
 
@@ -430,7 +430,7 @@ extern "C" DLLEXPORT void FUNCATTRIB multi_Set_loghandler(long id,void (*loghand
 }
  
 /* -----------------------------------------------------------------------
- *  logsendiAYAŒÅ—L@ƒ`ƒFƒbƒNƒc[ƒ‹‚©‚çg—pj
+ *  logsendï¼ˆAYAå›ºæœ‰ã€€ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã‹ã‚‰ä½¿ç”¨ï¼‰
  * -----------------------------------------------------------------------
  */
 #if !defined(AYA_MAKE_EXE)
@@ -454,7 +454,7 @@ extern "C" DLLEXPORT BOOL_TYPE FUNCATTRIB logsend(long hwnd)
 
 
 /* -----------------------------------------------------------------------
- *  main (Àsƒtƒ@ƒCƒ‹”Å‚Ì‚İ)
+ *  main (å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ç‰ˆã®ã¿)
  * -----------------------------------------------------------------------
  */
 
@@ -478,7 +478,7 @@ int main( int argc, char *argv[ ], char *envp[ ] )
 			bufstr += static_cast<char>(buf[0]);
 
 			if ( bufstr.size() >= 2 ) {
-				if ( strcmp(bufstr.c_str() + bufstr.size() - 2,"\r\n") == 0 ) { //‰üsŒŸo
+				if ( strcmp(bufstr.c_str() + bufstr.size() - 2,"\r\n") == 0 ) { //æ”¹è¡Œæ¤œå‡º
 					break;
 				}
 			}
@@ -510,7 +510,7 @@ int main( int argc, char *argv[ ], char *envp[ ] )
 			if ( size > 0 ) {
 				char *read_ptr = (char*)malloc(size);
 				fread(read_ptr,1,size,stdin);
-				free(read_ptr); //ƒf[ƒ^‚Ü‚Æ‚ß‚Ä”jŠü
+				free(read_ptr); //ãƒ‡ãƒ¼ã‚¿ã¾ã¨ã‚ã¦ç ´æ£„
 			}
 
 			unload();

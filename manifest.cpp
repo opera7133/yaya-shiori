@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// �萔
+// 定数
 // written by umeici. 2004
 // 
 

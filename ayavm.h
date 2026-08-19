@@ -1,10 +1,10 @@
 // 
 // AYA version 5
 //
-// AYA‚Ì1ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Û‚·‚éƒNƒ‰ƒXAYAVM
+// AYAã®1ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹AYAVM
 // written by the Maintenance Shop/C.Ponapalt 2006
 // 
-// CAyaVM‚ğ‚½‚­‚³‚ñì‚é‚Æ•¡”‚ÌAYA‚ğ1‚Â‚ÌƒvƒƒZƒX/ƒXƒŒƒbƒh/ƒ‚ƒWƒ…[ƒ‹“à‚Å‘–‚ç‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+// CAyaVMã‚’ãŸãã•ã‚“ä½œã‚‹ã¨è¤‡æ•°ã®AYAã‚’1ã¤ã®ãƒ—ãƒ­ã‚»ã‚¹/ã‚¹ãƒ¬ãƒƒãƒ‰/ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«å†…ã§èµ°ã‚‰ã›ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
 // 
 
 #ifndef AYAVM_H
@@ -80,12 +80,12 @@ public:
 	void genrand_sysfunc_srand_ll(yaya::int_t n);
 	void genrand_sysfunc_srand_array(const std::uint64_t a[],const int n);
 
-	// å§Œä
+	// ä¸»åˆ¶å¾¡
 	CBasis&					basis();
 
-	// ŠÖ”/ƒVƒXƒeƒ€ŠÖ”/ƒOƒ[ƒoƒ‹•Ï”
-	CFunctionDef&	function_parse(); //ƒp[ƒX—p
-	CFunctionDef&	function_exec(); //Às—p
+	// é–¢æ•°/ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°/ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
+	CFunctionDef&	function_parse(); //ãƒ‘ãƒ¼ã‚¹ç”¨
+	CFunctionDef&	function_exec(); //å®Ÿè¡Œç”¨
 
 	std::vector<CDefine>&	gdefines();
 
@@ -93,16 +93,16 @@ public:
 	CSystemFunction&		sysfunction();
 	CGlobalVariable&		variable();
 
-	// ƒtƒ@ƒCƒ‹‚ÆŠO•”ƒ‰ƒCƒuƒ‰ƒŠ
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã¨å¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
 	CFile&					files();
 	CLib&					libs();
 
-	// ƒƒK[
+	// ãƒ­ã‚¬ãƒ¼
 	inline CLog& logger() {
 		return m_logger;
 	}
 
-	// ƒp[ƒT
+	// ãƒ‘ãƒ¼ã‚µ
 	CParser0&				parser0();
 	CParser1&				parser1();
 };

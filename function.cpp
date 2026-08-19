@@ -1,8 +1,8 @@
 // 
 // AYA version 5
 //
-// ŠÖ”‚ğˆµ‚¤ƒNƒ‰ƒX@CFunction
-// - åˆ—•”
+// é–¢æ•°ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ã€€CFunction
+// - ä¸»å‡¦ç†éƒ¨
 // written by umeici. 2004
 // 
 
@@ -41,8 +41,8 @@ CFunction::CFunction(CAyaVM& vmr, const yaya::string_t& n, const yaya::string_t&
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::deep_copy_statement
- *  ‹@”\ŠT—vF  CStatement”z—ñ‚ğƒfƒB[ƒvƒRƒs[‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::deep_copy_statement
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  CStatementé…åˆ—ã‚’ãƒ‡ã‚£ãƒ¼ãƒ—ã‚³ãƒ”ãƒ¼ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void    CFunction::deep_copy_statement(CFunction &from)
@@ -53,9 +53,9 @@ void    CFunction::deep_copy_statement(CFunction &from)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::CompleteSetting
- *  ‹@”\ŠT—vF  ŠÖ”‚Ì\’z‚ªŠ®—¹‚µ‚½ià«‘‚Ì“Ç‚İ‚İ‚ªŠ®—¹‚µ‚½jÛ‚ÉŒÄ‚Î‚ê‚Ü‚·
- *  @@@@@  Às‚ÌÛ‚É•K—v‚ÈÅŒã‚Ì‰Šú‰»ˆ—‚ğs‚È‚¢‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::CompleteSetting
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°ã®æ§‹ç¯‰ãŒå®Œäº†ã—ãŸï¼ˆâ‰’è¾æ›¸ã®èª­ã¿è¾¼ã¿ãŒå®Œäº†ã—ãŸï¼‰éš›ã«å‘¼ã°ã‚Œã¾ã™
+ *  ã€€ã€€ã€€ã€€ã€€  å®Ÿè¡Œã®éš›ã«å¿…è¦ãªæœ€å¾Œã®åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œãªã„ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CFunction::CompleteSetting(void)
@@ -72,25 +72,25 @@ CFunction::ExecutionResult	CFunction::Execute(const CValue& arg) {
 	return Execute(arg, lvar);
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Execute
- *  ‹@”\ŠT—vF  ŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::Execute
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  ˆø”CValue arg‚Í•K‚¸”z—ñŒ^‚Å‚·Barray‚ª‹ó‚Å‚ ‚ê‚Îˆø”‚Ì–³‚¢ƒR[ƒ‹‚Æ‚È‚è‚Ü‚·
+ *  å¼•æ•°CValue argã¯å¿…ãšé…åˆ—å‹ã§ã™ã€‚arrayãŒç©ºã§ã‚ã‚Œã°å¼•æ•°ã®ç„¡ã„ã‚³ãƒ¼ãƒ«ã¨ãªã‚Šã¾ã™
  * -----------------------------------------------------------------------
  */
 CFunction::ExecutionResult	CFunction::Execute(const CValue &arg, CLocalVariable &lvar)
 {
 	int exitcode = ST_NOP;
 
-	// _argv‚ğì¬
+	// _argvã‚’ä½œæˆ
 	lvar.SetValue(L"_argv", arg);
-	// _argc‚ğì¬
+	// _argcã‚’ä½œæˆ
 	CValue	t_argc((yaya::int_t)arg.array_size());
 	lvar.SetValue(L"_argc", t_argc);
-	//_FUNC_NAME_‚ğì¬
+	//_FUNC_NAME_ã‚’ä½œæˆ
 	lvar.SetValue(L"_FUNC_NAME_", this->name);
 
-	// Às
+	// å®Ÿè¡Œ
 	if (!pvm->call_limit().AddCall(name)) {
 		CBasisFuncPos shiori_OnCallLimit;
 		ptrdiff_t funcpos = shiori_OnCallLimit.Find(*pvm, L"shiori.OnCallLimit");
@@ -151,29 +151,29 @@ void CFunction::Execute_SEHbody(ExecutionResult& retas, CLocalVariable& lvar, in
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ExecuteInBrace
- *  ‹@”\ŠT—vF  {}‚ğÀs‚µAŒ‹‰Ê‚ğ‚Ğ‚Æ‚Â•Ô‚µ‚Ü‚·
- *  ˆø”@@@  type     ‚±‚Ì{}‚Ìí•ÊB‚½‚¾‚µ0`‚Ìê‡‚Íswitch\•¶‚ÌÛ‚ÌŒó•â’ŠoˆÊ’u
- *  @@@@@  exitcode I—¹ƒR[ƒhBST_NOP/ST_BREAK/ST_RETURN/ST_CONTINUE=’Êí/break/return/continue
+ *  é–¢æ•°å  ï¼š  CFunction::ExecuteInBrace
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  {}ã‚’å®Ÿè¡Œã—ã€çµæœã‚’ã²ã¨ã¤è¿”ã—ã¾ã™
+ *  å¼•æ•°ã€€ã€€ã€€  type     ã“ã®{}ã®ç¨®åˆ¥ã€‚ãŸã ã—0ï½ã®å ´åˆã¯switchæ§‹æ–‡ã®éš›ã®å€™è£œæŠ½å‡ºä½ç½®
+ *  ã€€ã€€ã€€ã€€ã€€  exitcode çµ‚äº†ã‚³ãƒ¼ãƒ‰ã€‚ST_NOP/ST_BREAK/ST_RETURN/ST_CONTINUE=é€šå¸¸/break/return/continue
  *
- *  "{}"“à‚ÌŠeƒXƒe[ƒgƒƒ“ƒg‚ğÀs‚µ‚Ü‚·Bˆø”line‚Åw’è‚³‚ê‚éˆÊ’u‚©‚çÀs‚ğŠJn‚µA"}"‚É“Ë‚«“–‚½‚é‚Ü‚Å
- *  ‡ŸÀs‚µ‚Ä‚¢‚«‚Ü‚·B
- *  •Ô’l‚ÍÀs‚ğI—¹‚µ‚½"}"‚ÌˆÊ’u‚Å‚·B
+ *  "{}"å†…ã®å„ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’å®Ÿè¡Œã—ã¾ã™ã€‚å¼•æ•°lineã§æŒ‡å®šã•ã‚Œã‚‹ä½ç½®ã‹ã‚‰å®Ÿè¡Œã‚’é–‹å§‹ã—ã€"}"ã«çªãå½“ãŸã‚‹ã¾ã§
+ *  é †æ¬¡å®Ÿè¡Œã—ã¦ã„ãã¾ã™ã€‚
+ *  è¿”å€¤ã¯å®Ÿè¡Œã‚’çµ‚äº†ã—ãŸ"}"ã®ä½ç½®ã§ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalVariable &lvar, yaya::int_t type, int &exitcode, std::vector<CVecValue>* UpperLvCandidatePool,bool inpool, SReturnWithParamExpr* pReturnExpr)
 {
-	// ŠJn‚Ìˆ—
+	// é–‹å§‹æ™‚ã®å‡¦ç†
 	lvar.AddDepth();
 	CDuplEvInfo* pdupl = statement[line-1].dupl_block.get();
-	const bool	 inmutiarea = statement[line-1].ismutiarea;		// pool—p
+	const bool	 inmutiarea = statement[line-1].ismutiarea;		// poolç”¨
 
-	// Às
+	// å®Ÿè¡Œ
 	CSelecter	output(pvm, pdupl, (ptrdiff_t)type);
-	bool		exec_end	 = 0;		// ‚±‚Ì{}‚ÌÀs‚ğI—¹‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO 1‚ÅI—¹
-	bool		ifflg		 = 0;		// if-elseif-else§Œä—pB1‚Å‚»‚ÌƒuƒƒbƒN‚ğˆ—‚µ‚½‚±‚Æ‚ğ¦‚·
-	bool		notpoolblock = 0;		// pool—p
-	const bool	ispoolbegin	 = !inpool;	// pool—p
+	bool		exec_end	 = 0;		// ã“ã®{}ã®å®Ÿè¡Œã‚’çµ‚äº†ã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚° 1ã§çµ‚äº†
+	bool		ifflg		 = 0;		// if-elseif-elseåˆ¶å¾¡ç”¨ã€‚1ã§ãã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’å‡¦ç†ã—ãŸã“ã¨ã‚’ç¤ºã™
+	bool		notpoolblock = 0;		// poolç”¨
+	const bool	ispoolbegin	 = !inpool;	// poolç”¨
 	bool		meltblock	 = 0;
 	if(pdupl){
 		if ( pdupl->GetType() & CHOICETYPE_POOL_FLAG ) {
@@ -209,16 +209,16 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			output.Append(info.Output());
 			break;
 		}
-		case ST_CLOSE:					// "}"@’@ŠÖ”I’[‚Ì"}"‚Í‚±‚±‚ğ’Ê‚ç‚È‚¢
+		case ST_CLOSE:					// "}"ã€€æ³¨ã€€é–¢æ•°çµ‚ç«¯ã®"}"ã¯ã“ã“ã‚’é€šã‚‰ãªã„
 			exec_end = 1;
 			break;
 		case ST_COMBINE:				// "--"
 			output.AddArea();
 			break;
-		case ST_FORMULA_OUT_FORMULA:	// o—Íi”®B”z—ñAˆø”‚Â‚«ŠÖ”‚àŠÜ‚Ü‚ê‚éj
+		case ST_FORMULA_OUT_FORMULA:	// å‡ºåŠ›ï¼ˆæ•°å¼ã€‚é…åˆ—ã€å¼•æ•°ã¤ãé–¢æ•°ã‚‚å«ã¾ã‚Œã‚‹ï¼‰
 			output.Append(GetFormulaAnswer(lvar, st));
 			break;
-		case ST_FORMULA_SUBST:			// ‘ã“ü
+		case ST_FORMULA_SUBST:			// ä»£å…¥
 			GetFormulaAnswer(lvar, st);
 			break;
 		case ST_IF:						// if
@@ -266,7 +266,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			break;
 		case ST_VOID:				// void
 			{
-				//Às‚¾‚¯‚µ‚ÄÌ‚Ä‚é
+				//å®Ÿè¡Œã ã‘ã—ã¦æ¨ã¦ã‚‹
 		        GetFormulaAnswer(lvar, st);
 			}
 			break;
@@ -301,7 +301,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 						//_argv[0] = dicname _argv[1] = linenum
 						CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 						arg.array().emplace_back(CValueSub(dicfilename));
-						arg.array().emplace_back(CValueSub(st.linecount));
+						arg.array().emplace_back(CValueSub(static_cast<yaya::int_t>(st.linecount)));
 
 						pvm->function_exec().func[funcpos].Execute(arg);
 					}
@@ -315,13 +315,13 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			}
 		case ST_FOR:					// for
 			{
-				GetFormulaAnswer(lvar, st); //for‘æˆêƒpƒ‰ƒ[ƒ^
+				GetFormulaAnswer(lvar, st); //forç¬¬ä¸€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 
 				size_t loop_max = pvm->call_limit().GetMaxLoop();
 				size_t loop_cur = 0;
 
 				while ( (loop_max == 0) || (loop_max > loop_cur++) ) {
-					if (!GetFormulaAnswer(lvar, statement[i + 1]).GetTruth()) //for‘æ“ñƒpƒ‰ƒ[ƒ^
+					if (!GetFormulaAnswer(lvar, statement[i + 1]).GetTruth()) //forç¬¬äºŒãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 						break;
 					CValue t_value = ExecuteInBrace(i + 4, lvar, BRACE_LOOP, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 					output.Append(t_value);
@@ -337,7 +337,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 					else if (exitcode == ST_CONTINUE)
 						exitcode = ST_NOP;
 
-					GetFormulaAnswer(lvar, statement[i + 2]); //for‘æOƒpƒ‰ƒ[ƒ^
+					GetFormulaAnswer(lvar, statement[i + 2]); //forç¬¬ä¸‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 				}
 
 				if (loop_max && loop_max <= loop_cur ) {
@@ -348,7 +348,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 						//_argv[0] = dicname _argv[1] = linenum
 						CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 						arg.array().emplace_back(CValueSub(dicfilename));
-						arg.array().emplace_back(CValueSub(st.linecount));
+						arg.array().emplace_back(CValueSub(static_cast<yaya::int_t>(st.linecount)));
 
 						pvm->function_exec().func[funcpos].Execute(arg);
 					}
@@ -382,14 +382,14 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 		case ST_RETURN:					// return
 			exitcode = ST_RETURN;
 			break;
-		case ST_RETURN_PARAM:			// ˆø”‚Â‚«return
+		case ST_RETURN_PARAM:			// å¼•æ•°ã¤ãreturn
 			if (st.cell_size() > 0 && pReturnExpr) {
 				pReturnExpr->value = GetFormulaAnswer(lvar, st);
 				pReturnExpr->used  = true;
 			}
 			exitcode = ST_RETURN_PARAM;
 			break;
-		default:						// –¢’m‚ÌƒXƒe[ƒgƒƒ“ƒg
+		default:						// æœªçŸ¥ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
 			pvm->logger().Error(E_E, 82, dicfilename, st.linecount);
 			break;
 		};
@@ -401,14 +401,14 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 	}
 	#undef POOL_TO_NEXT
 
-	// return®‚É‚æ‚éŒó•â‚Ìã‘‚«
+	// returnå¼ã«ã‚ˆã‚‹å€™è£œã®ä¸Šæ›¸ã
 	if (exitcode == ST_RETURN_PARAM && pReturnExpr && pReturnExpr->used) {
 		output.clear();
 		if (pReturnExpr->value.GetType() != F_TAG_NOP)
 			output.Append(pReturnExpr->value);
 	}
 
-	// Œó•â‚©‚ço—Í‚ğ‘I‚Ño‚·@“ü‚êq‚Ì[‚³‚ª0‚È‚çd•¡‰ñ”ğ‚ª“­‚­
+	// å€™è£œã‹ã‚‰å‡ºåŠ›ã‚’é¸ã³å‡ºã™ã€€å…¥ã‚Œå­ã®æ·±ã•ãŒ0ãªã‚‰é‡è¤‡å›é¿ãŒåƒã
 	if (inpool&&!ispoolbegin) {
 		std::vector<CValue>& thepool = UpperLvCandidatePool->rbegin()->array;
 		std::vector<CValue>& thispool = output.values[0].array;
@@ -433,17 +433,17 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			pool_of_uplv.emplace_back(result);
 		output.clear();
 	}
-	// I—¹‚Ìˆ—
+	// çµ‚äº†æ™‚ã®å‡¦ç†
 	lvar.DelDepth();
 
 	return CFunction::ExecutionInBraceResult( output,i );
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Foreach
- *  ‹@”\ŠT—vF  foreachˆ—‚ğs‚¢‚Ü‚·
- *  •Ô’l@@F  0/1=ƒ‹[ƒv’Eo/ƒ‹[ƒvÀs
+ *  é–¢æ•°å  ï¼š  CFunction::Foreach
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  foreachå‡¦ç†ã‚’è¡Œã„ã¾ã™
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ãƒ«ãƒ¼ãƒ—è„±å‡º/ãƒ«ãƒ¼ãƒ—å®Ÿè¡Œ
  *
- *  ÀÛ‚É‘—‚é‚Ì‚Í"}"‚Ì1‚Âè‘O‚Ìs‚ÌˆÊ’u‚Å‚·
+ *  å®Ÿéš›ã«é€ã‚‹ã®ã¯"}"ã®1ã¤æ‰‹å‰ã®è¡Œã®ä½ç½®ã§ã™
  * -----------------------------------------------------------------------
  */
 void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int &exitcode, std::vector<CVecValue>* UpperLvCandidatePool, bool inpool, SReturnWithParamExpr* pReturnExpr)
@@ -451,12 +451,12 @@ void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int 
 	CStatement &st0 = statement[line];
 	CStatement &st1 = statement[line + 1];
 
-	// ‘ã“ü’l‚ğ‹‚ß‚é
-	// ’ˆÓFforeach’†‚Ì•›ì—p‚ğ‰ñ”ğ‚·‚é‚½‚ß•K‚¸QÆ‚É‚Í‚µ‚È‚¢‚±‚Æ
+	// ä»£å…¥å€¤ã‚’æ±‚ã‚ã‚‹
+	// æ³¨æ„ï¼šforeachä¸­ã®å‰¯ä½œç”¨ã‚’å›é¿ã™ã‚‹ãŸã‚å¿…ãšå‚ç…§ã«ã¯ã—ãªã„ã“ã¨
 	const CValue value = GetFormulaAnswer(lvar, st0);
 
-	// ‘ã“ü’l‚Ì—v‘f”‚ğ‹‚ß‚é
-	// ŠÈˆÕ”z—ñ‚©‚Â•Ï”‚©‚ç‚Ìæ“¾‚Ìê‡A‚»‚Ì•Ï”‚Éİ’è‚³‚ê‚Ä‚¢‚éƒfƒŠƒ~ƒ^‚ğæ“¾‚·‚é
+	// ä»£å…¥å€¤ã®è¦ç´ æ•°ã‚’æ±‚ã‚ã‚‹
+	// ç°¡æ˜“é…åˆ—ã‹ã¤å¤‰æ•°ã‹ã‚‰ã®å–å¾—ã®å ´åˆã€ãã®å¤‰æ•°ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹ãƒ‡ãƒªãƒŸã‚¿ã‚’å–å¾—ã™ã‚‹
 	bool isPseudoarray = false;
 
 	ptrdiff_t sz;
@@ -499,7 +499,7 @@ void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int 
 	int type;
 	
 	for(int foreachcount = 0; foreachcount < sz; ++foreachcount ) {
-		// ‘ã“ü‚·‚é—v‘f’l‚ğæ“¾
+		// ä»£å…¥ã™ã‚‹è¦ç´ å€¤ã‚’å–å¾—
 		if (isPseudoarray) {
 			t_value = s_array[foreachcount];
 		}
@@ -507,7 +507,7 @@ void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int 
 			t_value = value.array()[foreachcount];
 		}
 
-		// ‘ã“ü
+		// ä»£å…¥
 		type = st1.cell()[0].value_GetType();
 		if ( type == F_TAG_VARIABLE ) {
 			pvm->variable().SetValue(st1.cell()[0].index, t_value);
@@ -537,15 +537,15 @@ void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int 
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::GetFormulaAnswer
- *  ‹@”\ŠT—vF  ”®‚ğ‰‰Z‚µ‚ÄŒ‹‰Ê‚ğ•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::GetFormulaAnswer
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ•°å¼ã‚’æ¼”ç®—ã—ã¦çµæœã‚’è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 const CValue& CFunction::GetFormulaAnswer(CLocalVariable &lvar, CStatement &st)
 {
 	size_t	o_index = 0;
 
-	if ( st.serial_size() ) { //‚‘¬‰»—p
+	if ( st.serial_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for (std::vector<CSerial>::iterator it = st.serial().begin(); it != st.serial().end(); it++) {
 			o_index = it->tindex;
 			CCell	&o_cell = st.cell()[o_index];
@@ -593,9 +593,9 @@ const CValue& CFunction::GetFormulaAnswer(CLocalVariable &lvar, CStatement &st)
 				break;
 			case F_TAG_PLUS:
 				{
-					// ‰‰Z‡˜‚ğ•K‚¸ç‚é‚½‚ßAˆê’U¶•Ó‚ÌŒ‹‰Ê‚ğæ‚Á‚Ä‚©‚ç‰E•Ó‚Æ‰‰Z‚·‚é
-					// ‚±‚ê‚ğ‘Ó‚é‚Æ‰E•Ó‚©‚çæ‚ÉŒvZ‚·‚é
-					// ˆÈ~“¯‚¶
+					// æ¼”ç®—é †åºã‚’å¿…ãšå®ˆã‚‹ãŸã‚ã€ä¸€æ—¦å·¦è¾ºã®çµæœã‚’å–ã£ã¦ã‹ã‚‰å³è¾ºã¨æ¼”ç®—ã™ã‚‹
+					// ã“ã‚Œã‚’æ€ ã‚‹ã¨å³è¾ºã‹ã‚‰å…ˆã«è¨ˆç®—ã™ã‚‹
+					// ä»¥é™åŒã˜
 
 					const CValue& lv = GetValueRefForCalc(*s_cell, st, lvar);
 					o_cell.ansv() = lv + GetValueRefForCalc(*d_cell, st, lvar);
@@ -723,30 +723,30 @@ const CValue& CFunction::GetFormulaAnswer(CLocalVariable &lvar, CStatement &st)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::GetValueRefForCalc
- *  ‹@”\ŠT—vF  —^‚¦‚ç‚ê‚½€‚É‘Î‰‚·‚é’l‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::GetValueRefForCalc
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ä¸ãˆã‚‰ã‚ŒãŸé …ã«å¯¾å¿œã™ã‚‹å€¤ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 const CValue& CFunction::GetValueRefForCalc(CCell &cell, CStatement &st, CLocalVariable &lvar)
 {
-	// ‘¦’l‚ÍvAŠÖ”/•Ï”/‰‰Zq€‚È‚çansv‚©‚çæ“¾@ŠÖ”/•Ï”‚Ìê‡‚»‚Ì’l‚âÀsŒ‹‰Ê‚ªæ“¾‚³‚ê‚é
+	// å³å€¤ã¯vã€é–¢æ•°/å¤‰æ•°/æ¼”ç®—å­é …ãªã‚‰ansvã‹ã‚‰å–å¾—ã€€é–¢æ•°/å¤‰æ•°ã®å ´åˆãã®å€¤ã‚„å®Ÿè¡ŒçµæœãŒå–å¾—ã•ã‚Œã‚‹
 
-	// %[n]ˆ—
+	// %[n]å‡¦ç†
 	if (cell.value_GetType() == F_TAG_SYSFUNCPARAM) {
 		if ( cell.index == CSystemFunction::HistoryIndex() ) {
 			ExecHistoryP2(cell, st);
 		}
 	}
 
-	// ‰‰Z‚ªŠ®—¹‚µ‚Ä‚¢‚éi‚Í‚¸‚Ìj€‚È‚ç‚»‚ê‚ğ•Ô‚·
+	// æ¼”ç®—ãŒå®Œäº†ã—ã¦ã„ã‚‹ï¼ˆã¯ãšã®ï¼‰é …ãªã‚‰ãã‚Œã‚’è¿”ã™
 	if (cell.value_GetType() < F_TAG_ORIGIN_VALUE)
 		return cell.ansv();
 
-	// ‘¦’l‚È‚ç‚»‚ê‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·
+	// å³å€¤ãªã‚‰ãã‚Œã‚’ãã®ã¾ã¾è¿”ã™
 	if (cell.value_GetType() <= F_TAG_STRING)
 		return cell.value();
 
-	// ŠÖ”‚È‚çÀs‚µ‚ÄŒ‹‰Ê‚ğA•Ï”‚È‚ç‚»‚Ì“à—e‚ğ•Ô‚·
+	// é–¢æ•°ãªã‚‰å®Ÿè¡Œã—ã¦çµæœã‚’ã€å¤‰æ•°ãªã‚‰ãã®å†…å®¹ã‚’è¿”ã™
 	switch(cell.value_GetType()) {
 	case F_TAG_STRING_EMBED:
 		SolveEmbedCell(cell, st, lvar);
@@ -785,8 +785,8 @@ const CValue& CFunction::GetValueRefForCalc(CCell &cell, CStatement &st, CLocalV
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ReindexUserFunctions
- *  ‹@”\ŠT—vF  F_TAG_USERFUNC‚Ìindex‚ğÄİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::ReindexUserFunctions
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  F_TAG_USERFUNCã®indexã‚’å†è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 int CFunction::ReindexUserFunctions(void)
@@ -817,26 +817,26 @@ int CFunction::ReindexUserFunctions(void)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::SolveEmbedCell
- *  ‹@”\ŠT—vF  %–„‚ß‚İ•t•¶š—ñ€‚Ì’l‚ğ‹‚ß‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::SolveEmbedCell
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  %åŸ‹ã‚è¾¼ã¿ä»˜æ–‡å­—åˆ—é …ã®å€¤ã‚’æ±‚ã‚ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar)
 {
-	// •ªŠ„‚·‚éˆÊ’u‚ğ‹‚ß‚é
-	int	solve_src;	// í•Ê 0/1/2/3=ƒ[ƒJƒ‹•Ï”/•Ï”/ŠÖ”/ƒVƒXƒeƒ€ŠÖ”
-	size_t	max_len = 0;	// Å’·ˆê’vŒŸõ—p
+	// åˆ†å‰²ã™ã‚‹ä½ç½®ã‚’æ±‚ã‚ã‚‹
+	int	solve_src;	// ç¨®åˆ¥ 0/1/2/3=ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°/å¤‰æ•°/é–¢æ•°/ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°
+	size_t	max_len = 0;	// æœ€é•·ä¸€è‡´æ¤œç´¢ç”¨
 
 	if (cell.value_const().s_value[0] == L'_') {
-		// ƒ[ƒJƒ‹•Ï”
+		// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
 		solve_src = 0;
 		max_len   = lvar.GetMacthedLongestNameLength(cell.value_const().s_value);
 	}
 	else {
-		// •Ï”
+		// å¤‰æ•°
 		solve_src = 1;
 		max_len   = pvm->variable().GetMacthedLongestNameLength(cell.value_const().s_value);
-		// ŠÖ”
+		// é–¢æ•°
 		size_t	t_len = 0;
 		for(std::vector<CFunction>::iterator it = pvm->function_exec().func.begin(); it != pvm->function_exec().func.end(); it++)
 			if (!it->name.compare(0,it->namelen,cell.value_const().s_value,0,it->namelen))
@@ -846,7 +846,7 @@ void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar
 			solve_src = 2;
 			max_len   = t_len;
 		}
-		// ƒVƒXƒeƒ€ŠÖ”
+		// ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°
 		if ( max_len < (size_t)CSystemFunction::GetMaxNameLength() ) {
 			t_len = CSystemFunction::FindIndexLongestMatch(cell.value_const().s_value,max_len);
 			if (t_len > max_len) {
@@ -855,14 +855,14 @@ void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar
 			}
 		}
 	}
-	// ‘¶İ‚µ‚È‚¯‚ê‚Î‘S‘Ì‚ª•¶š—ñ‚Æ‚¢‚¤‚±‚Æ‚É‚È‚é
+	// å­˜åœ¨ã—ãªã‘ã‚Œã°å…¨ä½“ãŒæ–‡å­—åˆ—ã¨ã„ã†ã“ã¨ã«ãªã‚‹
 	if (!max_len) {
 		cell.ansv()     = L"%" + cell.value_const().s_value;
 		cell.emb_ansv() = L"%" + cell.value_const().s_value;
 		return;
 	}
 
-	// ŠÖ”/ƒVƒXƒeƒ€ŠÖ”‚Ìê‡‚Íˆø”•”•ª‚ğ’T‚·
+	// é–¢æ•°/ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã®å ´åˆã¯å¼•æ•°éƒ¨åˆ†ã‚’æ¢ã™
 	size_t	len = cell.value_const().s_value.size();
 	if (solve_src >= 2) {
 		size_t	depth = 1;
@@ -876,7 +876,7 @@ void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar
 			max_len = i + 1;
 	}
 
-	// ”z—ñ•”•ª‚ğ’T‚·
+	// é…åˆ—éƒ¨åˆ†ã‚’æ¢ã™
 	size_t	depth = 1;
 	size_t i = 0;
 	for(i = max_len + 1; i < len; i++) {
@@ -887,14 +887,14 @@ void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar
 	if (!depth)
 		max_len = i;
 
-	// –„‚ß‚Ü‚ê‚½—v‘f‚Æ‚»‚êˆÈ~‚Ì•¶š—ñ‚É•ªŠ„‚·‚é
+	// åŸ‹ã‚è¾¼ã¾ã‚ŒãŸè¦ç´ ã¨ãã‚Œä»¥é™ã®æ–‡å­—åˆ—ã«åˆ†å‰²ã™ã‚‹
 	//yaya::string_t	s_value(cell.value_const().s_value.substr(0, max_len));
 	//yaya::string_t	d_value(cell.value_const().s_value.substr(max_len, len - max_len));
 	yaya::string_t::const_iterator it_split = cell.value_const().s_value.begin() + max_len;
 	yaya::string_t s_value(cell.value_const().s_value.begin(),it_split);
 	yaya::string_t d_value(it_split,cell.value_const().s_value.end());
 
-	// –„‚ß‚Ü‚ê‚½—v‘f‚ğ”®‚É•ÏŠ·‚·‚é@¸”s‚È‚ç‘S‘Ì‚ª•¶š—ñ
+	// åŸ‹ã‚è¾¼ã¾ã‚ŒãŸè¦ç´ ã‚’æ•°å¼ã«å¤‰æ›ã™ã‚‹ã€€å¤±æ•—ãªã‚‰å…¨ä½“ãŒæ–‡å­—åˆ—
 	CStatement	t_state(ST_FORMULA, st.linecount);
 	if (pvm->parser0().ParseEmbedString(s_value, t_state, dicfilename, st.linecount)) {
 		cell.ansv()       = L"%" + cell.value_const().s_value;
@@ -902,22 +902,22 @@ void	CFunction::SolveEmbedCell(CCell &cell, CStatement &st, CLocalVariable &lvar
 		return;
 	}
 
-	// –„‚ß‚İ—v‘f‚Ì’l‚ğæ“¾‚µ‚Ä‰“š•¶š—ñ‚ğì¬
+	// åŸ‹ã‚è¾¼ã¿è¦ç´ ã®å€¤ã‚’å–å¾—ã—ã¦å¿œç­”æ–‡å­—åˆ—ã‚’ä½œæˆ
 	yaya::string_t	result = GetFormulaAnswer(lvar, t_state).GetValueString();
 	cell.emb_ansv()  = result;
 	cell.ansv()      = result + d_value;
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Comma
- *  ‹@”\ŠT—vF  ,‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::Comma
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ,æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::Comma(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
 {
-	// Œ‹‡‚µ‚Ä”z—ñ’l‚ğì¬
+	// çµåˆã—ã¦é…åˆ—å€¤ã‚’ä½œæˆ
 	CValueArray	t_array;
 
 	for(std::vector<size_t>::iterator it = sid.begin(); it != sid.end(); it++) {
@@ -936,10 +936,10 @@ char	CFunction::Comma(CValue &answer, std::vector<size_t> &sid, CStatement &st, 
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::CommaAdd
- *  ‹@”\ŠT—vF  ,=‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::CommaAdd
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ,=æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::CommaAdd(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
@@ -952,7 +952,7 @@ char	CFunction::CommaAdd(CValue &answer, std::vector<size_t> &sid, CStatement &s
 	CValueArray &t_array = answer.array();
 
 	std::vector<size_t>::iterator it = sid.begin();
-	it++; //Å‰¶•Ó‚Í‘ã“üæ‚È‚Ì‚Å”ò‚Î‚·
+	it++; //æœ€åˆï¼å·¦è¾ºã¯ä»£å…¥å…ˆãªã®ã§é£›ã°ã™
 
 	for( ; it != sid.end(); it++) {
 		const CValue &addv = GetValueRefForCalc(st.cell()[*it], st, lvar);
@@ -969,10 +969,10 @@ char	CFunction::CommaAdd(CValue &answer, std::vector<size_t> &sid, CStatement &s
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Subst
- *  ‹@”\ŠT—vF  ‘ã“ü‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::Subst
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ä»£å…¥æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
@@ -982,7 +982,7 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 
 	int sid_0_cell_type = sid_0_cell->value_GetType();
 
-	//Šù‘¶•Ï”‚Ö‚Ì‘ã“ü‚Ìê‡‚¾‚¯‚Í“Áêˆµ‚¢‚·‚é
+	//æ—¢å­˜å¤‰æ•°ã¸ã®ä»£å…¥ã®å ´åˆã ã‘ã¯ç‰¹æ®Šæ‰±ã„ã™ã‚‹
 	if ( sid_0_cell_type == F_TAG_VARIABLE || sid_0_cell_type == F_TAG_LOCALVARIABLE ) {
 		CVariable* pSubstTo;
 
@@ -1027,7 +1027,7 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 				substTo %= GetValueRefForCalc(*sid_1_cell, st, lvar);
 				break;
 
-				//ƒJƒ“ƒ}“Áêˆ—
+				//ã‚«ãƒ³ãƒç‰¹æ®Šå‡¦ç†
 			case F_TAG_COMMAEQUAL:
 				if (CommaAdd(substTo, sid, st, lvar)) {
 					return 1;
@@ -1037,11 +1037,11 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 				return 1;
 			};
 
-			// **HACK** const‚É‚µ‚Äarray‚Ìê‡answer‚Æ‹­§‹¤—L
-			// Œã‚Å‘ã“ü‰‰Z‚ª‚à‚µ‚ ‚Á‚½‚É”z—ñ‚Ì‚Ì‘ã“üƒRƒXƒg‚ğÈ—ª‚Å‚«‚é
+			// **HACK** constã«ã—ã¦arrayã®å ´åˆanswerã¨å¼·åˆ¶å…±æœ‰
+			// å¾Œã§ä»£å…¥æ¼”ç®—ãŒã‚‚ã—ã‚ã£ãŸæ™‚ã«é…åˆ—ã®æ™‚ã®ä»£å…¥ã‚³ã‚¹ãƒˆã‚’çœç•¥ã§ãã‚‹
 			answer = const_cast<const CValue&>(substTo);
 
-			// ƒOƒ[ƒoƒ‹•Ï”‚Ìê‡AíœÏ‚İ‚Ìê‡‚ª‚ ‚é‚Ì‚Å‚±‚±‚ÅÄEnable
+			// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã®å ´åˆã€å‰Šé™¤æ¸ˆã¿ã®å ´åˆãŒã‚ã‚‹ã®ã§ã“ã“ã§å†Enable
 			if ( sid_0_cell_type == F_TAG_VARIABLE ) {
 				pvm->variable().EnableValue(sid_0_cell->index);
 			}
@@ -1052,7 +1052,7 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 		}
 	}
 
-	// ‘ã“üŒ³‚Ì’l‚ğæ“¾@‰‰Zq‚Â‚«‚È‚ç‰‰Z‚às‚¤
+	// ä»£å…¥å…ƒã®å€¤ã‚’å–å¾—ã€€æ¼”ç®—å­ã¤ããªã‚‰æ¼”ç®—ã‚‚è¡Œã†
 	switch(type) {
 	case F_TAG_EQUAL:
 	case F_TAG_EQUAL_D:
@@ -1061,9 +1061,9 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 	case F_TAG_PLUSEQUAL:
 	case F_TAG_PLUSEQUAL_D:
 		{
-			// ‰‰Z‡˜‚ğ•K‚¸ç‚é‚½‚ßAˆê’U¶•Ó‚ÌŒ‹‰Ê‚ğæ‚Á‚Ä‚©‚ç‰E•Ó‚Æ‰‰Z‚·‚é
-			// ‚±‚ê‚ğ‘Ó‚é‚Æ‰E•Ó‚©‚çæ‚ÉŒvZ‚·‚é
-			// ˆÈ~“¯‚¶
+			// æ¼”ç®—é †åºã‚’å¿…ãšå®ˆã‚‹ãŸã‚ã€ä¸€æ—¦å·¦è¾ºã®çµæœã‚’å–ã£ã¦ã‹ã‚‰å³è¾ºã¨æ¼”ç®—ã™ã‚‹
+			// ã“ã‚Œã‚’æ€ ã‚‹ã¨å³è¾ºã‹ã‚‰å…ˆã«è¨ˆç®—ã™ã‚‹
+			// ä»¥é™åŒã˜
 			const CValue &lv = GetValueRefForCalc(*sid_0_cell, st, lvar);
 			answer = lv + GetValueRefForCalc(*sid_1_cell, st, lvar);
 			break;
@@ -1104,8 +1104,8 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 		return 1;
 	};
 
-	// ‘ã“ü‚ğÀs
- 	// ”z—ñ—v‘f‚Ö‚Ì‘ã“ü‚Í‘€ì‚ª•¡G‚È‚Ì‚ÅA‚³‚ç‚É‘¼‚ÌŠÖ”‚Öˆ—‚ğ“n‚·
+	// ä»£å…¥ã‚’å®Ÿè¡Œ
+ 	// é…åˆ—è¦ç´ ã¸ã®ä»£å…¥ã¯æ“ä½œãŒè¤‡é›‘ãªã®ã§ã€ã•ã‚‰ã«ä»–ã®é–¢æ•°ã¸å‡¦ç†ã‚’æ¸¡ã™
 	switch(sid_0_cell->value_GetType()) {
 	case F_TAG_VARIABLE:
 		pvm->variable().SetValue(sid_0_cell->index, answer);
@@ -1125,28 +1125,28 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::SubstToArray
- *  ‹@”\ŠT—vF  ”z—ñ—v‘f‚Ö‚Ì‘ã“ü‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::SubstToArray
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é…åˆ—è¦ç´ ã¸ã®ä»£å…¥ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::SubstToArray(CCell &vcell, CCell &ocell, CValue &answer, CStatement &st, CLocalVariable &lvar)
 {
-	// ˜”‚ğæ“¾
+	// åºæ•°ã‚’å–å¾—
 	CValue	t_order;
 	EncodeArrayOrder(vcell, ocell.order(), lvar, t_order);
 
 	if (t_order.GetType() == F_TAG_UNKNOWN)
 		return 1;
 
-	// ’l‚ğæ“¾
+	// å€¤ã‚’å–å¾—
 	CValue	value = GetValueRefForCalc(vcell, st, lvar);
 
-	// XV
+	// æ›´æ–°
 	value.SetArrayValue(t_order, answer);
 
-	// ‘ã“ü
+	// ä»£å…¥
 	switch(vcell.value_GetType()) {
 	case F_TAG_VARIABLE:
 		pvm->variable().SetValue(vcell.index, value);
@@ -1160,10 +1160,10 @@ char	CFunction::SubstToArray(CCell &vcell, CCell &ocell, CValue &answer, CStatem
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Array
- *  ‹@”\ŠT—vF  ”z—ñ[]‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::Array
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é…åˆ—[]æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::Array(CCell &anscell, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
@@ -1171,7 +1171,7 @@ char	CFunction::Array(CCell &anscell, std::vector<size_t> &sid, CStatement &st, 
 	CCell	*v_cell = &(st.cell()[sid[0]]);
 	CCell	*n_cell = &(st.cell()[sid[1]]);
 
-	// ˜”‚ğæ“¾
+	// åºæ•°ã‚’å–å¾—
 	anscell.order() = GetValueRefForCalc(*n_cell, st, lvar);
 
 	CValue	t_order;
@@ -1182,15 +1182,15 @@ char	CFunction::Array(CCell &anscell, std::vector<size_t> &sid, CStatement &st, 
 		return 1;
 	}
 
-	// ’l‚ğæ“¾
+	// å€¤ã‚’å–å¾—
 	anscell.ansv() = GetValueRefForCalc(*v_cell, st, lvar)[t_order];
 
 	return 0;
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::_in_
- *  ‹@”\ŠT—vF  _in_‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::_in_
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  _in_æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 bool CFunction::_in_(const CValue &src, const CValue &dst)
@@ -1202,8 +1202,8 @@ bool CFunction::_in_(const CValue &src, const CValue &dst)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::not_in_
- *  ‹@”\ŠT—vF  !_in_‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::not_in_
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  !_in_æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 bool CFunction::not_in_(const CValue &src, const CValue &dst)
@@ -1212,20 +1212,20 @@ bool CFunction::not_in_(const CValue &src, const CValue &dst)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ExecFunctionWithArgs
- *  ‹@”\ŠT—vF  ˆø”•t‚«‚ÌŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::ExecFunctionWithArgs
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å¼•æ•°ä»˜ãã®é–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
 {
-	// ŠÖ”‚ÌŠi”[ˆÊ’u‚ğæ“¾
+	// é–¢æ•°ã®æ ¼ç´ä½ç½®ã‚’å–å¾—
 	std::vector<size_t>::iterator it = sid.begin();
 	size_t index = st.cell()[*it].index;
 	it++;
 
-	// ˆø”ì¬
+	// å¼•æ•°ä½œæˆ
 	CValue	arg(F_TAG_ARRAY, 0/*dmy*/);	
 	std::vector<size_t>::size_type sidsize = sid.size();
 
@@ -1233,7 +1233,7 @@ char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, C
 		const CValue &addv = GetValueRefForCalc(st.cell()[*it], st, lvar);
 		
 		if (addv.GetType() == F_TAG_ARRAY) {
-			if ( sidsize <= 2 ) { //”z—ñ1‚Â‚Ì‚İ‚ª—^‚¦‚ç‚ê‚Ä‚¢‚é->Å“K‰»‚Ì‚½‚ßƒXƒ}[ƒgƒ|ƒCƒ“ƒ^‘ã“ü‚Ì‚İ‚ÅÏ‚Ü‚¹‚é
+			if ( sidsize <= 2 ) { //é…åˆ—1ã¤ã®ã¿ãŒä¸ãˆã‚‰ã‚Œã¦ã„ã‚‹->æœ€é©åŒ–ã®ãŸã‚ã‚¹ãƒãƒ¼ãƒˆãƒã‚¤ãƒ³ã‚¿ä»£å…¥ã®ã¿ã§æ¸ˆã¾ã›ã‚‹
 				arg.array_shared() = addv.array_shared();
 			}
 			else {
@@ -1245,11 +1245,11 @@ char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, C
 		}
 	}
 
-	// Às
+	// å®Ÿè¡Œ
 	CLocalVariable	t_lvar(*pvm);
 	answer = pvm->function_exec().func[index].Execute(arg, t_lvar);
 
-	// ƒtƒB[ƒhƒoƒbƒN
+	// ãƒ•ã‚£ãƒ¼ãƒ‰ãƒãƒƒã‚¯
 	const CValue *v_argv = &(t_lvar.GetArgvPtr()->value_const());
 	int	i = 0;
 	int	errcount = 0;
@@ -1281,21 +1281,21 @@ char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, C
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ExecSystemFunctionWithArgs
- *  ‹@”\ŠT—vF  ˆø”•t‚«‚ÌƒVƒXƒeƒ€ŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::ExecSystemFunctionWithArgs
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å¼•æ•°ä»˜ãã®ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::ExecSystemFunctionWithArgs(CCell& cell, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
 {
-	// ŠÖ”‚ÌŠi”[ˆÊ’u‚ğæ“¾
+	// é–¢æ•°ã®æ ¼ç´ä½ç½®ã‚’å–å¾—
 	std::vector<size_t>::iterator it = sid.begin();
 	size_t	func_index = *it;
 	size_t	index = st.cell()[func_index].index;
 	it++;
 
-	// ˆø”ì¬
+	// å¼•æ•°ä½œæˆ
 	CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 	std::vector<CCell *> pcellarg;
 	std::vector<CValue> valuearg;
@@ -1305,7 +1305,7 @@ char	CFunction::ExecSystemFunctionWithArgs(CCell& cell, std::vector<size_t> &sid
 		const CValue &addv = GetValueRefForCalc(st.cell()[*it], st, lvar);
 		
 		if (addv.GetType() == F_TAG_ARRAY) {
-			if ( sidsize <= 2 ) { //”z—ñ1‚Â‚Ì‚İ‚ª—^‚¦‚ç‚ê‚Ä‚¢‚é->Å“K‰»‚Ì‚½‚ßƒXƒ}[ƒgƒ|ƒCƒ“ƒ^‘ã“ü‚Ì‚İ‚ÅÏ‚Ü‚¹‚é
+			if ( sidsize <= 2 ) { //é…åˆ—1ã¤ã®ã¿ãŒä¸ãˆã‚‰ã‚Œã¦ã„ã‚‹->æœ€é©åŒ–ã®ãŸã‚ã‚¹ãƒãƒ¼ãƒˆãƒã‚¤ãƒ³ã‚¿ä»£å…¥ã®ã¿ã§æ¸ˆã¾ã›ã‚‹
 				arg.array_shared() = addv.array_shared();
 			}
 			else {
@@ -1320,7 +1320,7 @@ char	CFunction::ExecSystemFunctionWithArgs(CCell& cell, std::vector<size_t> &sid
 		pcellarg.emplace_back(&(st.cell()[*it]));
 	}
 
-	// Às@%[n]ˆ—ŠÖ”‚Ì‚İ“Á—áˆµ‚¢
+	// å®Ÿè¡Œã€€%[n]å‡¦ç†é–¢æ•°ã®ã¿ç‰¹ä¾‹æ‰±ã„
 	if (index == CSystemFunction::HistoryIndex())
 		ExecHistoryP1(func_index - 2, cell, arg, st);
 	else
@@ -1330,10 +1330,10 @@ char	CFunction::ExecSystemFunctionWithArgs(CCell& cell, std::vector<size_t> &sid
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ExecHistoryP1
- *  ‹@”\ŠT—vF  %[n]i’uŠ·Ï‚Ì’l‚ÌÄ—˜—pj‚ğˆ—‚µ‚Ü‚·i‘Oˆ—j
+ *  é–¢æ•°å  ï¼š  CFunction::ExecHistoryP1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  %[n]ï¼ˆç½®æ›æ¸ˆã®å€¤ã®å†åˆ©ç”¨ï¼‰ã‚’å‡¦ç†ã—ã¾ã™ï¼ˆå‰å‡¦ç†ï¼‰
  *
- *  ˆ—‚Í“ñ’iŠK‚Ås‚í‚ê‚Ü‚·B‘Oˆ—‚Å‚Í–{ˆ—‚Ì‚½‚ß‚Ì’l‚ğ‰‰Zq‚Ì€‚ÖƒZƒbƒg‚µ‚Ü‚·B
+ *  å‡¦ç†ã¯äºŒæ®µéšã§è¡Œã‚ã‚Œã¾ã™ã€‚å‰å‡¦ç†ã§ã¯æœ¬å‡¦ç†ã®ãŸã‚ã®å€¤ã‚’æ¼”ç®—å­ã®é …ã¸ã‚»ãƒƒãƒˆã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 void	CFunction::ExecHistoryP1(size_t start_index, CCell& cell, const CValue &arg, CStatement &st)
@@ -1350,10 +1350,10 @@ void	CFunction::ExecHistoryP1(size_t start_index, CCell& cell, const CValue &arg
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::ExecHistoryP2
- *  ‹@”\ŠT—vF  %[n]i’uŠ·Ï‚Ì’l‚ÌÄ—˜—pj‚ğˆ—‚µ‚Ü‚·i–{ˆ—j
+ *  é–¢æ•°å  ï¼š  CFunction::ExecHistoryP2
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  %[n]ï¼ˆç½®æ›æ¸ˆã®å€¤ã®å†åˆ©ç”¨ï¼‰ã‚’å‡¦ç†ã—ã¾ã™ï¼ˆæœ¬å‡¦ç†ï¼‰
  *
- *  ˆ—‚Í“ñ’iŠK‚Ås‚í‚ê‚Ü‚·B–{ˆ—‚Å‚Í‘Oˆ—‚Å–„‚ß‚ñ‚¾’l‚ğQÆ‚µ‚Ä’l‚ğæ“¾‚µ‚Ü‚·B
+ *  å‡¦ç†ã¯äºŒæ®µéšã§è¡Œã‚ã‚Œã¾ã™ã€‚æœ¬å‡¦ç†ã§ã¯å‰å‡¦ç†ã§åŸ‹ã‚è¾¼ã‚“ã å€¤ã‚’å‚ç…§ã—ã¦å€¤ã‚’å–å¾—ã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 void	CFunction::ExecHistoryP2(CCell& cell, CStatement &st)
@@ -1379,21 +1379,21 @@ void	CFunction::ExecHistoryP2(CCell& cell, CStatement &st)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::Feedback
- *  ‹@”\ŠT—vF  &‰‰Zq‚ğˆ—‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::Feedback
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  &æ¼”ç®—å­ã‚’å‡¦ç†ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=¬Œ÷/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æˆåŠŸ/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CFunction::Feedback(CCell &anscell, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
 {
 	CCell	*v_cell = &(st.cell()[sid[1]]);
 
-	// ’l‚Í‰E•Ó‚ğ‚»‚Ì‚Ü‚ÜƒRƒs[
+	// å€¤ã¯å³è¾ºã‚’ãã®ã¾ã¾ã‚³ãƒ”ãƒ¼
 	anscell.ansv() = GetValueRefForCalc(*v_cell, st, lvar);
 
-	// ‰E•Ó‚ª”z—ñ˜”‚ğw’è‚·‚é‰‰Zq‚¾‚Á‚½ê‡‚Í‚»‚±‚©‚ç˜”‚ğƒRƒs[
-	// ”z—ñ‚Å‚È‚©‚Á‚½ê‡‚Í˜”‚ğŠi”[‚·‚é•Ï”‚ÌŒ^‚ğNOP‚É‚µ‚Äƒtƒ‰ƒO‚Æ‚·‚é
+	// å³è¾ºãŒé…åˆ—åºæ•°ã‚’æŒ‡å®šã™ã‚‹æ¼”ç®—å­ã ã£ãŸå ´åˆã¯ãã“ã‹ã‚‰åºæ•°ã‚’ã‚³ãƒ”ãƒ¼
+	// é…åˆ—ã§ãªã‹ã£ãŸå ´åˆã¯åºæ•°ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°ã®å‹ã‚’NOPã«ã—ã¦ãƒ•ãƒ©ã‚°ã¨ã™ã‚‹
 	if (v_cell->value_GetType() == F_TAG_ARRAYORDER)
 		anscell.order_shared() = v_cell->order_shared();
 	else
@@ -1403,21 +1403,21 @@ char	CFunction::Feedback(CCell &anscell, std::vector<size_t> &sid, CStatement &s
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::EncodeArrayOrder
- *  ‹@”\ŠT—vF  ”z—ñ‚Ì˜”‚ğì¬‚µ‚Ä•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::EncodeArrayOrder
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é…åˆ—ã®åºæ•°ã‚’ä½œæˆã—ã¦è¿”ã—ã¾ã™
  *
- *  CValue operator [] ‚Íˆø”‚Æ‚µ‚Ä—v‘f”2ˆÈã‚Ì”z—ñŒ^‚ÌCValue‚ğ—v‹‚µ‚Ü‚·B
- *  i‘æˆêˆø”‚ª˜”A‘æ“ñˆø”‚ªƒfƒŠƒ~ƒ^j
- *  ‚±‚ÌŠÖ”‚Í‚»‚ê‚ğì¬‚µ‚Ü‚·B
+ *  CValue operator [] ã¯å¼•æ•°ã¨ã—ã¦è¦ç´ æ•°2ä»¥ä¸Šã®é…åˆ—å‹ã®CValueã‚’è¦æ±‚ã—ã¾ã™ã€‚
+ *  ï¼ˆç¬¬ä¸€å¼•æ•°ãŒåºæ•°ã€ç¬¬äºŒå¼•æ•°ãŒãƒ‡ãƒªãƒŸã‚¿ï¼‰
+ *  ã“ã®é–¢æ•°ã¯ãã‚Œã‚’ä½œæˆã—ã¾ã™ã€‚
  *
- *  ƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚ÍŒ^‚Ì‚È‚¢iF_TAG_UNKNOWNj’l‚ğ•Ô‚µ‚Ü‚·BiŒÄ‚Ño‚µ‘¤‚Í‚±‚ê‚ğŒ©‚ÄƒGƒ‰[ˆ—‚µ‚Ü‚·j
+ *  ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯å‹ã®ãªã„ï¼ˆF_TAG_UNKNOWNï¼‰å€¤ã‚’è¿”ã—ã¾ã™ã€‚ï¼ˆå‘¼ã³å‡ºã—å´ã¯ã“ã‚Œã‚’è¦‹ã¦ã‚¨ãƒ©ãƒ¼å‡¦ç†ã—ã¾ã™ï¼‰
  * -----------------------------------------------------------------------
  */
 void CFunction::EncodeArrayOrder(CCell &vcell, const CValue &order, CLocalVariable &lvar, CValue &result)
 {
 	result.SetType(F_TAG_ARRAY);
 
-	// ˜”
+	// åºæ•°
 	switch(order.GetType()) {
 	case F_TAG_ARRAY:
 		result = order;
@@ -1427,7 +1427,7 @@ void CFunction::EncodeArrayOrder(CCell &vcell, const CValue &order, CLocalVariab
 		break;
 	};
 
-	// ƒfƒŠƒ~ƒ^
+	// ãƒ‡ãƒªãƒŸã‚¿
 	if (result.array_size() < 2) {
 		CValueSub	adddlm(VAR_DELIMITER);
 		if (vcell.value_GetType() == F_TAG_VARIABLE)
@@ -1439,10 +1439,10 @@ void CFunction::EncodeArrayOrder(CCell &vcell, const CValue &order, CLocalVariab
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunction::FeedLineToTail
- *  ‹@”\ŠT—vF  Œ»İ‚Ì{}‚ÌI’["}"‚Ü‚ÅÀssƒJƒEƒ“ƒ^‚ğ‘—‚è‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunction::FeedLineToTail
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ç¾åœ¨ã®{}ã®çµ‚ç«¯"}"ã¾ã§å®Ÿè¡Œè¡Œã‚«ã‚¦ãƒ³ã‚¿ã‚’é€ã‚Šã¾ã™
  *
- *  ÀÛ‚É‘—‚é‚Ì‚Í"}"‚Ì1‚Âè‘O‚Ìs‚ÌˆÊ’u‚Å‚·
+ *  å®Ÿéš›ã«é€ã‚‹ã®ã¯"}"ã®1ã¤æ‰‹å‰ã®è¡Œã®ä½ç½®ã§ã™
  * -----------------------------------------------------------------------
  */
 void	CFunction::FeedLineToTail(size_t&line)
@@ -1461,8 +1461,8 @@ void	CFunction::FeedLineToTail(size_t&line)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunctionDef::GetFunctionIndexFromName
- *  ‹@”\ŠT—vF  ŠÖ”–¼‚É‘Î‰‚·‚é”z—ñ‚Ì˜”‚ğæ“¾‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunctionDef::GetFunctionIndexFromName
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°åã«å¯¾å¿œã™ã‚‹é…åˆ—ã®åºæ•°ã‚’å–å¾—ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 ptrdiff_t CFunctionDef::GetFunctionIndexFromName(const yaya::string_t& name)
@@ -1479,8 +1479,8 @@ ptrdiff_t CFunctionDef::GetFunctionIndexFromName(const yaya::string_t& name)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunctionDef::AddFunctionIndex
- *  ‹@”\ŠT—vF  ŠÖ”–¼‚É‘Î‰‚·‚é”z—ñ‚Ì˜”‚ğ’Ç‰Á‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunctionDef::AddFunctionIndex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°åã«å¯¾å¿œã™ã‚‹é…åˆ—ã®åºæ•°ã‚’è¿½åŠ ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void CFunctionDef::AddFunctionIndex(const yaya::string_t& name,size_t index)
@@ -1489,8 +1489,8 @@ void CFunctionDef::AddFunctionIndex(const yaya::string_t& name,size_t index)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunctionDef::ClearFunctionIndex
- *  ‹@”\ŠT—vF  ”z—ñ‚Ì˜”ƒLƒƒƒbƒVƒ…—pƒnƒbƒVƒ…‚ğíœ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunctionDef::ClearFunctionIndex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é…åˆ—ã®åºæ•°ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç”¨ãƒãƒƒã‚·ãƒ¥ã‚’å‰Šé™¤ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void CFunctionDef::ClearFunctionIndex(void)
@@ -1499,8 +1499,8 @@ void CFunctionDef::ClearFunctionIndex(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CFunctionDef::RebuildFunctionMap
- *  ‹@”\ŠT—vF  ”z—ñ‚Ì˜”ƒLƒƒƒbƒVƒ…—pƒnƒbƒVƒ…‚ğ\’z‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CFunctionDef::RebuildFunctionMap
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é…åˆ—ã®åºæ•°ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç”¨ãƒãƒƒã‚·ãƒ¥ã‚’æ§‹ç¯‰ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void CFunctionDef::RebuildFunctionMap(void)

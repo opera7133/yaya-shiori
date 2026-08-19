@@ -1,9 +1,9 @@
 // 
 // AYA version 5
 //
-// •¶šƒR[ƒh•ÏŠ·ƒNƒ‰ƒX@Ccct
+// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ã‚¯ãƒ©ã‚¹ã€€Ccct
 //
-// •ÏŠ·•”•ª‚ÌƒR[ƒh‚ÍˆÈ‰º‚ÌƒTƒCƒg‚ÅŒöŠJ‚³‚ê‚Ä‚¢‚é‚à‚Ì‚ğ—˜—p‚µ‚Ä‚¨‚è‚Ü‚·B
+// å¤‰æ›éƒ¨åˆ†ã®ã‚³ãƒ¼ãƒ‰ã¯ä»¥ä¸‹ã®ã‚µã‚¤ãƒˆã§å…¬é–‹ã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ã‚’åˆ©ç”¨ã—ã¦ãŠã‚Šã¾ã™ã€‚
 // class CUnicodeF
 // kamoland
 // http://kamoland.com/comp/unicode.html
@@ -93,8 +93,8 @@ namespace {
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::CheckCharset
- *  ‹@”\ŠT—vF  Charset ID‚Ìƒ`ƒFƒbƒN
+ *  é–¢æ•°å  ï¼š  Ccct::CheckCharset
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  Charset IDã®ãƒã‚§ãƒƒã‚¯
  * -----------------------------------------------------------------------
  */
 bool     Ccct::CheckInvalidCharset(int charset)
@@ -114,8 +114,8 @@ bool     Ccct::CheckInvalidCharset(int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::CharsetTextToID
- *  ‹@”\ŠT—vF  Charset •¶š—ñ->Charset ID
+ *  é–¢æ•°å  ï¼š  Ccct::CharsetTextToID
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  Charset æ–‡å­—åˆ—->Charset ID
  * -----------------------------------------------------------------------
  */
 int      Ccct::CharsetTextToID(const wchar_t *ctxt)
@@ -167,8 +167,8 @@ int      Ccct::CharsetTextToID(const char *ctxt)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::CharsetIDToText(A/W)
- *  ‹@”\ŠT—vF  Charset •¶š—ñ->Charset ID
+ *  é–¢æ•°å  ï¼š  Ccct::CharsetIDToText(A/W)
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  Charset æ–‡å­—åˆ—->Charset ID
  * -----------------------------------------------------------------------
  */
 const wchar_t *Ccct::CharsetIDToTextW(const int charset)
@@ -229,15 +229,15 @@ const char *Ccct::CharsetIDToTextA(const int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  UTF-8•ÏŠ·—pæséŒ¾
+ *  UTF-8å¤‰æ›ç”¨å…ˆè¡Œå®£è¨€
  * -----------------------------------------------------------------------
  */
 size_t Ccct_ConvUTF8ToUnicode(yaya::string_t &buf,const char* pStrIn);
 size_t Ccct_ConvUnicodeToUTF8(std::string &buf,const yaya::char_t *pStrw);
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::Ucs2ToMbcs
- *  ‹@”\ŠT—vF  UTF-16BE -> MBCS ‚Ö•¶š—ñ‚ÌƒR[ƒh•ÏŠ·
+ *  é–¢æ•°å  ï¼š  Ccct::Ucs2ToMbcs
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  UTF-16BE -> MBCS ã¸æ–‡å­—åˆ—ã®ã‚³ãƒ¼ãƒ‰å¤‰æ›
  * -----------------------------------------------------------------------
  */
 static char* string_to_malloc(const std::string &str)
@@ -279,8 +279,8 @@ char	*Ccct::Ucs2ToMbcs(const yaya::string_t &wstr, int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::Ucs2ToPlainASCII
- *  ‹@”\ŠT—vF  UTF-16BE‚©‚çASCII std::string ‚Ö•¶š—ñ‚ÌƒR[ƒh•ÏŠ·
+ *  é–¢æ•°å  ï¼š  Ccct::Ucs2ToPlainASCII
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  UTF-16BEã‹ã‚‰ASCII std::string ã¸æ–‡å­—åˆ—ã®ã‚³ãƒ¼ãƒ‰å¤‰æ›
  * -----------------------------------------------------------------------
  */
 std::string Ccct::Ucs2ToPlainASCII(const yaya::string_t &wstr)
@@ -297,8 +297,8 @@ std::string Ccct::Ucs2ToPlainASCII(const yaya::string_t &wstr)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::MbcsToUcs2
- *  ‹@”\ŠT—vF  MBCS -> UTF-16BE ‚Ö•¶š—ñ‚ÌƒR[ƒh•ÏŠ·
+ *  é–¢æ•°å  ï¼š  Ccct::MbcsToUcs2
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  MBCS -> UTF-16BE ã¸æ–‡å­—åˆ—ã®ã‚³ãƒ¼ãƒ‰å¤‰æ›
  * -----------------------------------------------------------------------
  */
 static yaya::char_t* wstring_to_malloc(const yaya::string_t &str)
@@ -360,8 +360,8 @@ bool Ccct::MbcsToUcs2Buf(yaya::string_t &out, const std::string &mstr, int chars
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::sys_setlocale
- *  ‹@”\ŠT—vF  OSƒfƒtƒHƒ‹ƒg‚ÌŒ¾ŒêID‚ÅƒƒP[ƒ‹İ’è‚·‚é
+ *  é–¢æ•°å  ï¼š  Ccct::sys_setlocale
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è¨€èªIDã§ãƒ­ã‚±ãƒ¼ãƒ«è¨­å®šã™ã‚‹
  * -----------------------------------------------------------------------
  */
 char *Ccct::sys_setlocale(int category)
@@ -370,8 +370,8 @@ char *Ccct::sys_setlocale(int category)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::ccct_getcodepage
- *  ‹@”\ŠT—vF  Œ¾ŒêID->Windows CP
+ *  é–¢æ•°å  ï¼š  Ccct::ccct_getcodepage
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  è¨€èªID->Windows CP
  * -----------------------------------------------------------------------
  */
 unsigned int Ccct::ccct_getcodepage(int charset)
@@ -404,8 +404,8 @@ unsigned int Ccct::ccct_getcodepage(int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::ccct_setlocale
- *  ‹@”\ŠT—vF  Œ¾ŒêID‚ÅƒƒP[ƒ‹İ’è‚·‚é
+ *  é–¢æ•°å  ï¼š  Ccct::ccct_setlocale
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  è¨€èªIDã§ãƒ­ã‚±ãƒ¼ãƒ«è¨­å®šã™ã‚‹
  * -----------------------------------------------------------------------
  */
 char *Ccct::ccct_setlocale(int category, int charset)
@@ -455,7 +455,7 @@ char *Ccct::ccct_setlocale(int category, int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  setlocaleƒoƒŠƒA
+ *  setlocaleãƒãƒªã‚¢
  * -----------------------------------------------------------------------
  */
 
@@ -477,8 +477,8 @@ public:
 };
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::utf16be_to_mbcs
- *  ‹@”\ŠT—vF  UTF-16BE -> MBCS ‚Ö•¶š—ñ‚ÌƒR[ƒh•ÏŠ·
+ *  é–¢æ•°å  ï¼š  Ccct::utf16be_to_mbcs
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  UTF-16BE -> MBCS ã¸æ–‡å­—åˆ—ã®ã‚³ãƒ¼ãƒ‰å¤‰æ›
  * -----------------------------------------------------------------------
  */
 char *Ccct::utf16be_to_mbcs(const yaya::char_t *pUcsStr, int charset)
@@ -518,19 +518,19 @@ char *Ccct::utf16be_to_mbcs(const yaya::char_t *pUcsStr, int charset)
 	if (charset != CHARSET_BINARY) {
 	    if (pUcsStr[0] == static_cast<yaya::char_t>(0xfeff) ||
 				pUcsStr[0] == static_cast<yaya::char_t>(0xfffe)) {
-			pUcsStr++; // æ“ª‚ÉBOM(byte Order Mark)‚ª‚ ‚ê‚ÎCƒXƒLƒbƒv‚·‚é
+			pUcsStr++; // å…ˆé ­ã«BOM(byte Order Mark)ãŒã‚ã‚Œã°ï¼Œã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
 	        nLen--;
 		}
 	}
 
-	//•¶š’·~ƒ}ƒ‹ƒ`ƒoƒCƒgÅ‘å’·{ƒ[ƒI’[
+	//æ–‡å­—é•·Ã—ãƒãƒ«ãƒãƒã‚¤ãƒˆæœ€å¤§é•·ï¼‹ã‚¼ãƒ­çµ‚ç«¯
     pAnsiStr = (char *)malloc((nLen*MB_CUR_MAX)+1);
     if (!pAnsiStr) {
 		return NULL;
 	}
 
-    // 1•¶š‚¸‚Â•ÏŠ·‚·‚éB
-    // ‚Ü‚Æ‚ß‚Ä•ÏŠ·‚·‚é‚ÆA•ÏŠ·•s”\•¶š‚Ö‚Ì‘Î‰‚ª¢“ï‚È‚Ì‚Å
+    // 1æ–‡å­—ãšã¤å¤‰æ›ã™ã‚‹ã€‚
+    // ã¾ã¨ã‚ã¦å¤‰æ›ã™ã‚‹ã¨ã€å¤‰æ›ä¸èƒ½æ–‡å­—ã¸ã®å¯¾å¿œãŒå›°é›£ãªã®ã§
     size_t i, nMbpos = 0;
 	int nRet;
 
@@ -557,8 +557,8 @@ char *Ccct::utf16be_to_mbcs(const yaya::char_t *pUcsStr, int charset)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  Ccct::mbcs_to_utf16be
- *  ‹@”\ŠT—vF  MBCS -> UTF-16 ‚Ö•¶š—ñ‚ÌƒR[ƒh•ÏŠ·
+ *  é–¢æ•°å  ï¼š  Ccct::mbcs_to_utf16be
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  MBCS -> UTF-16 ã¸æ–‡å­—åˆ—ã®ã‚³ãƒ¼ãƒ‰å¤‰æ›
  * -----------------------------------------------------------------------
  */
 yaya::char_t *Ccct::mbcs_to_utf16be(const char *pAnsiStr, int charset)
@@ -599,8 +599,8 @@ yaya::char_t *Ccct::mbcs_to_utf16be(const char *pAnsiStr, int charset)
 		return NULL;
 	}
 
-    // 1•¶š‚¸‚Â•ÏŠ·‚·‚éB
-    // ‚Ü‚Æ‚ß‚Ä•ÏŠ·‚·‚é‚ÆA•ÏŠ·•s”\•¶š‚Ö‚Ì‘Î‰‚ª¢“ï‚È‚Ì‚Å
+    // 1æ–‡å­—ãšã¤å¤‰æ›ã™ã‚‹ã€‚
+    // ã¾ã¨ã‚ã¦å¤‰æ›ã™ã‚‹ã¨ã€å¤‰æ›ä¸èƒ½æ–‡å­—ã¸ã®å¯¾å¿œãŒå›°é›£ãªã®ã§
     size_t i, nMbpos = 0;
 	int nRet;
 
@@ -629,7 +629,7 @@ yaya::char_t *Ccct::mbcs_to_utf16be(const char *pAnsiStr, int charset)
 }
 
 /*--------------------------------------------
-	UTF-9‚ğUTF-16‚É
+	UTF-9ã‚’UTF-16ã«
 --------------------------------------------*/
 size_t Ccct_ConvUTF8ToUnicode(yaya::string_t &buf,const char* pStrIn)
 {
@@ -644,38 +644,38 @@ size_t Ccct_ConvUTF8ToUnicode(yaya::string_t &buf,const char* pStrIn)
 		if( (c & 0x80) == 0 ){ //1Byte - 0???????
 			buf.append(1,(WORD)c);
 		}
-		/*else if( (c & 0xc0) == 0x80 ){ //1Byte - 10?????? -> •K‚¸2ƒoƒCƒg–ÚˆÈ~‚Ì‚½‚ßA’P‘Ì‚Åo‚½‚ç•s³ 
+		/*else if( (c & 0xc0) == 0x80 ){ //1Byte - 10?????? -> å¿…ãš2ãƒã‚¤ãƒˆç›®ä»¥é™ã®ãŸã‚ã€å˜ä½“ã§å‡ºãŸã‚‰ä¸æ­£ 
 			m_Str.Add() = (WORD)c;
 		}*/
 		else if( (c & 0xe0) == 0xc0 ){ //2Byte - 110????? 
-			tmp  = static_cast<DWORD>(c & 0x1f) << 6; //‰º5bit - 10-6
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //‰º6bit - 5-0
+			tmp  = static_cast<DWORD>(c & 0x1f) << 6; //ä¸‹5bit - 10-6
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //ä¸‹6bit - 5-0
 			buf.append(1,static_cast<WORD>(tmp));
 		}
 		else if( (c & 0xf0) == 0xe0 ){ //3Byte - 1110????
-			tmp  = static_cast<DWORD>(c & 0x0f) << 12; //‰º4bit - 15-12
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 6;  //‰º6bit - 11-6
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //‰º6bit - 5-0
-			if ( tmp != 0xfeff && tmp != 0xfffe ) { //BOM‚Å‚È‚¢
+			tmp  = static_cast<DWORD>(c & 0x0f) << 12; //ä¸‹4bit - 15-12
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 6;  //ä¸‹6bit - 11-6
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //ä¸‹6bit - 5-0
+			if ( tmp != 0xfeff && tmp != 0xfffe ) { //BOMã§ãªã„
 				buf.append(1,static_cast<WORD>(tmp));
 			}
 		}
 		else if( (c & 0xf8) == 0xf0 ){ //4Byte - 11110??? UTF-16 Surrogate
-			tmp  = static_cast<DWORD>(c & 0x07) << 18; //‰º3bit -> 20-18
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 12; //‰º6bit - 17-12
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 6; //‰º6bit - 11-6
-			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //‰º6bit - 5-0
+			tmp  = static_cast<DWORD>(c & 0x07) << 18; //ä¸‹3bit -> 20-18
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 12; //ä¸‹6bit - 17-12
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f) << 6; //ä¸‹6bit - 11-6
+			tmp |= static_cast<DWORD>(*(pStr++) & 0x3f); //ä¸‹6bit - 5-0
 			tmp -= 0x10000;
-			buf.append(1,(WORD)(0xD800U | ((tmp >> 10) & 0x3FF))); //ãˆÊƒTƒƒQ[ƒg
-			buf.append(1,(WORD)(0xDC00U | (tmp & 0x3FF))); //‰ºˆÊƒTƒƒQ[ƒg
+			buf.append(1,(WORD)(0xD800U | ((tmp >> 10) & 0x3FF))); //ä¸Šä½ã‚µãƒ­ã‚²ãƒ¼ãƒˆ
+			buf.append(1,(WORD)(0xDC00U | (tmp & 0x3FF))); //ä¸‹ä½ã‚µãƒ­ã‚²ãƒ¼ãƒˆ
 		}
 		else if( (c & 0xfc) == 0xf8 ){ //5Byte - 111110?? -- UCS-4
-			pStr += 4; //–³‹
+			pStr += 4; //ç„¡è¦–
 		}
 		else if( (c & 0xfe) == 0xfc ){ //6Byte - 1111110? -- UCS-4
-			pStr += 5; //–³‹
+			pStr += 5; //ç„¡è¦–
 		}
-		/*else { // - 11111110 , 11111111 (0xfe,0xff) - ‚»‚ñ‚È•¶š‚ ‚é‚©‚¢I
+		/*else { // - 11111110 , 11111111 (0xfe,0xff) - ãã‚“ãªæ–‡å­—ã‚ã‚‹ã‹ã„ï¼
 			m_Str.Add() = (WORD)c;
 		}*/
 	}
@@ -684,7 +684,7 @@ size_t Ccct_ConvUTF8ToUnicode(yaya::string_t &buf,const char* pStrIn)
 }
 
 /*--------------------------------------------
-	UTF-16‚ğUTF-8‚É
+	UTF-16ã‚’UTF-8ã«
 --------------------------------------------*/
 size_t Ccct_ConvUnicodeToUTF8(std::string &buf,const yaya::char_t *pStrw)
 {
@@ -693,7 +693,7 @@ size_t Ccct_ConvUnicodeToUTF8(std::string &buf,const yaya::char_t *pStrw)
 	size_t length = wcslen(pStrw);
 	size_t i = 0;
 
-	buf.reserve(length*4+1); //4”{‚Ü‚Å (UTF-8 5-6byte—Ìˆæ‚ÍUCS-2‚©‚ç‚Ì•ÏŠ·‚Å‚Í‘¶İ‚µ‚È‚¢)
+	buf.reserve(length*4+1); //4å€ã¾ã§ (UTF-8 5-6byteé ˜åŸŸã¯UCS-2ã‹ã‚‰ã®å¤‰æ›ã§ã¯å­˜åœ¨ã—ãªã„)
 
 	while(i < length){
 		w = pStrw[i++];
@@ -706,7 +706,7 @@ size_t Ccct_ConvUnicodeToUTF8(std::string &buf,const yaya::char_t *pStrw)
 			buf.append(1,(char)(BYTE)(w & 0x3f) | 0x80); //5-0
 		}
 		else {
-			if ( (w & 0xF800) == 0xD800 ) { //4byte ƒTƒƒQ[ƒgƒy[ƒW D800->DFFF
+			if ( (w & 0xF800) == 0xD800 ) { //4byte ã‚µãƒ­ã‚²ãƒ¼ãƒˆãƒšãƒ¼ã‚¸ D800->DFFF
 				surrogateTemp = ( ( (w & 0x3FF) << 10 ) | (pStrw[i++] & 0x3FF) ) + 0x10000;
 
 				buf.append(1,(char)(BYTE)((surrogateTemp >> 18) & 0x07) | 0xf0); //20-18

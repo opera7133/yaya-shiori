@@ -1,7 +1,7 @@
 //
 // AYA version 5
 //
-// ƒƒMƒ“ƒO—pƒNƒ‰ƒX@CLog
+// ãƒ­ã‚®ãƒ³ã‚°ç”¨ã‚¯ãƒ©ã‚¹ã€€CLog
 // written by umeici. 2004
 // 
 
@@ -35,8 +35,8 @@
 ////////////////////////////////////////
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Start
- *  ‹@”\ŠT—vF  ƒƒMƒ“ƒO‚ğŠJn‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Start
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ­ã‚®ãƒ³ã‚°ã‚’é–‹å§‹ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
@@ -62,7 +62,7 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 	path    = p;
 	charset = cs;
 	
-	if( hw || loghandler) { //hw‚ª‚ ‚é‹Ê‚©‚ç‚ÌŒÄ‚Ño‚µ‚È‚Ì‚Å‹­§ONAƒtƒ@ƒCƒ‹–³Œø
+	if( hw || loghandler) { //hwãŒã‚ã‚‹ï¼ç‰ã‹ã‚‰ã®å‘¼ã³å‡ºã—ãªã®ã§å¼·åˆ¶ONã€ãƒ•ã‚¡ã‚¤ãƒ«ç„¡åŠ¹
 		path.erase();
 	}
 	else if ( ! il ) {
@@ -71,7 +71,7 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 	}
 
 #if defined(WIN32)
-	// ‚à‚µhWnd‚ªNULL‚È‚ç‹N“®’†‚Ìƒ`ƒFƒbƒNƒc[ƒ‹‚ğ’T‚µ‚Äæ“¾‚·‚é
+	// ã‚‚ã—hWndãŒNULLãªã‚‰èµ·å‹•ä¸­ã®ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã‚’æ¢ã—ã¦å–å¾—ã™ã‚‹
 	hWnd    = hw != NULL ? hw : GetCheckerWnd();
 #endif
 
@@ -79,7 +79,7 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 	fix_filepath(path);
 #endif
 
-	// ƒƒMƒ“ƒO—LŒø/–³Œø‚Ì”»’è
+	// ãƒ­ã‚®ãƒ³ã‚°æœ‰åŠ¹/ç„¡åŠ¹ã®åˆ¤å®š
 	if ( path.size() ) {
 		fileen = 1;
 		enable = 1;
@@ -100,12 +100,12 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 
 	timer.restart();
 
-	// •¶š—ñì¬
+	// æ–‡å­—åˆ—ä½œæˆ
 	yaya::string_t	str = yayamsg::GetTextFromTable(E_J,0);
 	str += GetDateString();
 	str += L"\n\n";
 
-	// ƒtƒ@ƒCƒ‹‚Ö‘‚«‚İ
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã¸æ›¸ãè¾¼ã¿
 	if (fileen) {
 		char	*tmpstr = Ccct::Ucs2ToMbcs(str, charset);
 		if (tmpstr != NULL) {
@@ -121,7 +121,7 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 	}
 	open = 1;
 
-	// ƒ`ƒFƒbƒNƒc[ƒ‹‚Ö‘—o@Å‰‚É•¶šƒR[ƒh‚ğİ’è‚µ‚Ä‚©‚ç•¶š—ñ‚ğ‘—o
+	// ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã¸é€å‡ºã€€æœ€åˆã«æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’è¨­å®šã—ã¦ã‹ã‚‰æ–‡å­—åˆ—ã‚’é€å‡º
 	if(charset == CHARSET_SJIS)
 		Call_loghandler(L"", E_SJIS);
 	else if(charset == CHARSET_UTF8)
@@ -133,8 +133,8 @@ void	CLog::Start(const yaya::string_t &p, int cs, HWND hw, char il)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Termination
- *  ‹@”\ŠT—vF  ƒƒMƒ“ƒO‚ğI—¹‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Termination
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ­ã‚®ãƒ³ã‚°ã‚’çµ‚äº†ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Termination(void)
@@ -155,8 +155,8 @@ void	CLog::Termination(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Write
- *  ‹@”\ŠT—vF  ƒƒO‚É•¶š—ñ‚ğ‘‚«‚İ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Write
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ­ã‚°ã«æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã¿ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Write(const yaya::char_t *str, int mode, int id)
@@ -168,7 +168,7 @@ void	CLog::Write(const yaya::char_t *str, int mode, int id)
 	if (!wcslen(str))
 		return;
 
-	// •¶š—ñ’†‚Ì\r‚ÍÁ‚·
+	// æ–‡å­—åˆ—ä¸­ã®\rã¯æ¶ˆã™
 	yaya::string_t	cstr = str;
 	size_t	len = cstr.size();
 	for(size_t i = 0; i < len; ) {
@@ -180,7 +180,7 @@ void	CLog::Write(const yaya::char_t *str, int mode, int id)
 		i++;
 	}
 
-	// ƒtƒ@ƒCƒ‹‚Ö‘‚«‚İ
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã¸æ›¸ãè¾¼ã¿
 	if (fileen) {
 		if (! path.empty()) {
 			char	*tmpstr = Ccct::Ucs2ToMbcs(cstr, charset);
@@ -195,7 +195,7 @@ void	CLog::Write(const yaya::char_t *str, int mode, int id)
 		}
 	}
 
-	// ƒ`ƒFƒbƒNƒc[ƒ‹‚Ö‘—o
+	// ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã¸é€å‡º
 	Call_loghandler(cstr, mode, id);
 }
 
@@ -207,8 +207,8 @@ void	CLog::Write(const yaya::string_t &str, int mode, int id)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Filename
- *  ‹@”\ŠT—vF  Šù’è‚ÌƒtƒH[ƒ}ƒbƒg‚Åƒtƒ@ƒCƒ‹–¼‚ğƒƒO‚É‹L˜^‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Filename
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ—¢å®šã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã§ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ãƒ­ã‚°ã«è¨˜éŒ²ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Filename(const yaya::string_t &filename)
@@ -220,8 +220,8 @@ void	CLog::Filename(const yaya::string_t &filename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Message
- *  ‹@”\ŠT—vF  id‚Åw’è‚³‚ê‚½Šù’è‚ÌƒƒbƒZ[ƒW‚ğƒƒO‚É‘‚«‚İ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Message
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  idã§æŒ‡å®šã•ã‚ŒãŸæ—¢å®šã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ãƒ­ã‚°ã«æ›¸ãè¾¼ã¿ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Message(int id, int mode)
@@ -230,22 +230,22 @@ void	CLog::Message(int id, int mode)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Error
- *  ‹@”\ŠT—vF  ƒƒO‚Émode‚Æid‚Åw’è‚³‚ê‚½ƒGƒ‰[•¶š—ñ‚ğ‘‚«‚İ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::Error
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ­ã‚°ã«modeã¨idã§æŒ‡å®šã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã¿ã¾ã™
  *
- *  ˆø”@@F@ref         •t‰Áî•ñ
- *  @@@@@  dicfilename ƒGƒ‰[‚ğ‹N‚±‚µ‚½‰ÓŠ‚ğŠÜ‚Ş«‘ƒtƒ@ƒCƒ‹‚Ì–¼‘O
- *  @@@@@  linecount   ƒGƒ‰[‚ğ‹N‚±‚µ‚½s”Ô†
+ *  å¼•æ•°ã€€ã€€ï¼šã€€ref         ä»˜åŠ æƒ…å ±
+ *  ã€€ã€€ã€€ã€€ã€€  dicfilename ã‚¨ãƒ©ãƒ¼ã‚’èµ·ã“ã—ãŸç®‡æ‰€ã‚’å«ã‚€è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
+ *  ã€€ã€€ã€€ã€€ã€€  linecount   ã‚¨ãƒ©ãƒ¼ã‚’èµ·ã“ã—ãŸè¡Œç•ªå·
  *
- *  @@@@@  ref‚Ædicfilename‚ÍNULLAlinecount‚Í-1‚Æ‚·‚é‚±‚Æ‚ÅA‚±‚ê‚ç‚ğ
- *  @@@@@  ”ñ•\¦‚É‚Å‚«‚Ü‚·
+ *  ã€€ã€€ã€€ã€€ã€€  refã¨dicfilenameã¯NULLã€linecountã¯-1ã¨ã™ã‚‹ã“ã¨ã§ã€ã“ã‚Œã‚‰ã‚’
+ *  ã€€ã€€ã€€ã€€ã€€  éè¡¨ç¤ºã«ã§ãã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::Error(int mode, int id, const yaya::char_t *ref, const yaya::string_t &dicfilename, ptrdiff_t linecount)
 {
 	if (locking)
 		return;
-	// ƒƒO‚É‘‚«‚İ•¶š—ñ‚ğì¬i«‘ƒtƒ@ƒCƒ‹–¼‚Æs”Ô†j
+	// ãƒ­ã‚°ã«æ›¸ãè¾¼ã¿æ–‡å­—åˆ—ã‚’ä½œæˆï¼ˆè¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«åã¨è¡Œç•ªå·ï¼‰
 	yaya::string_t	logstr;
 
 	if (dicfilename.empty())
@@ -259,17 +259,17 @@ void	CLog::Error(int mode, int id, const yaya::char_t *ref, const yaya::string_t
 			logstr += L") : ";
 		}
 	}
-	// ƒƒO‚É‘‚«‚İ•¶š—ñ‚ğì¬i–{•¶j
+	// ãƒ­ã‚°ã«æ›¸ãè¾¼ã¿æ–‡å­—åˆ—ã‚’ä½œæˆï¼ˆæœ¬æ–‡ï¼‰
 	{
 		logstr += yayamsg::GetTextFromTable(mode,id);
 	}
-	// ƒƒO‚É‘‚«‚İ•¶š—ñ‚ğì¬i•t‰Áî•ñj
+	// ãƒ­ã‚°ã«æ›¸ãè¾¼ã¿æ–‡å­—åˆ—ã‚’ä½œæˆï¼ˆä»˜åŠ æƒ…å ±ï¼‰
 	if (ref != NULL) {
 		logstr += L" : ";
 		logstr += ref;
 	}
 
-	// ”O‚Ìˆ×‰üsƒR[ƒh‚ğÁ‚µ‚Ä‚¨‚­
+	// å¿µã®ç‚ºæ”¹è¡Œã‚³ãƒ¼ãƒ‰ã‚’æ¶ˆã—ã¦ãŠã
 	for(yaya::string_t::iterator it = logstr.begin(); it != logstr.end(); it++){
 		if ( *it == '\r' || *it == '\n' ) {
 			*it = ' ';
@@ -278,7 +278,7 @@ void	CLog::Error(int mode, int id, const yaya::char_t *ref, const yaya::string_t
 
 	AddErrorLogHistory(logstr);
 
-	// ‘‚«‚İ
+	// æ›¸ãè¾¼ã¿
 	if (!enable)
 		return;
 
@@ -322,9 +322,9 @@ void	CLog::Error(int mode, int id)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::Io
- *  ‹@”\ŠT—vF  “üo—Í•¶š—ñ‚ÆÀsŠÔ‚ğƒƒO‚É‹L˜^‚µ‚Ü‚·
- *  ˆø”@@F  io 0/1=ŠJn/I—¹
+ *  é–¢æ•°å  ï¼š  CLog::Io
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å…¥å‡ºåŠ›æ–‡å­—åˆ—ã¨å®Ÿè¡Œæ™‚é–“ã‚’ãƒ­ã‚°ã«è¨˜éŒ²ã—ã¾ã™
+ *  å¼•æ•°ã€€ã€€ï¼š  io 0/1=é–‹å§‹æ™‚/çµ‚äº†æ™‚
  * -----------------------------------------------------------------------
  */
 void	CLog::Io(char io, const yaya::char_t *str)
@@ -333,7 +333,7 @@ void	CLog::Io(char io, const yaya::char_t *str)
 		return;
 
 	if(!io) {
-		//ignoreiolog‹@”\B
+		//ignoreiologæ©Ÿèƒ½ã€‚
 		if ( iolog_filter_keyword.size() > 0 || iolog_filter_keyword_regex.size() > 0 ) {
 			yaya::string_t cstr=str;
 
@@ -381,7 +381,7 @@ void	CLog::Io(char io, const yaya::char_t *str)
         timer.restart();
 	}
 	else {
-		//ƒƒO—}§
+		//ãƒ­ã‚°æŠ‘åˆ¶
 		if(skip_next_log_output){
 			skip_next_log_output=0;
 			return;
@@ -402,9 +402,9 @@ void	CLog::Io(char io, const yaya::string_t &str)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::IoLib
- *  ‹@”\ŠT—vF  ŠO•”ƒ‰ƒCƒuƒ‰ƒŠ“üo—Í•¶š—ñ‚ÆÀsŠÔ‚ğƒƒO‚É‹L˜^‚µ‚Ü‚·
- *  ˆø”@@F  io 0/1=ŠJn/I—¹
+ *  é–¢æ•°å  ï¼š  CLog::IoLib
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªå…¥å‡ºåŠ›æ–‡å­—åˆ—ã¨å®Ÿè¡Œæ™‚é–“ã‚’ãƒ­ã‚°ã«è¨˜éŒ²ã—ã¾ã™
+ *  å¼•æ•°ã€€ã€€ï¼š  io 0/1=é–‹å§‹æ™‚/çµ‚äº†æ™‚
  * -----------------------------------------------------------------------
  */
 void	CLog::IoLib(char io, const yaya::string_t &str, const yaya::string_t &name)
@@ -450,8 +450,8 @@ void	CLog::Set_loghandler(void (*loghandler_v)(const yaya::char_t *str, int mode
 		enable = 1;
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::SendLogToWnd
- *  ‹@”\ŠT—vF  ƒ`ƒFƒbƒNƒc[ƒ‹‚É§ŒäƒƒbƒZ[ƒW‚¨‚æ‚ÑƒƒO•¶š—ñ‚ğWM_COPYDATA‚Å‘—M‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::SendLogToWnd
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã«åˆ¶å¾¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŠã‚ˆã³ãƒ­ã‚°æ–‡å­—åˆ—ã‚’WM_COPYDATAã§é€ä¿¡ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -471,8 +471,8 @@ void	CLog::SendLogToWnd(const yaya::char_t *str, int mode)
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::GetCheckerWnd
- *  ‹@”\ŠT—vF  ƒ`ƒFƒbƒNƒc[ƒ‹‚ÌhWnd‚ğæ“¾‚µ‚Ü‚·‚É
+ *  é–¢æ•°å  ï¼š  CLog::GetCheckerWnd
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã®hWndã‚’å–å¾—ã—ã¾ã™ã«
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -483,8 +483,8 @@ HWND	CLog::GetCheckerWnd(void)
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::AddIologFilterKeyword / KeywordRegex
- *  ‹@”\ŠT—vF  IOƒƒO‚Ì–³‹‚·‚é•¶š—ñƒŠƒXƒg‚ğ’Ç‰Á‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::AddIologFilterKeyword / KeywordRegex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  IOãƒ­ã‚°ã®ç„¡è¦–ã™ã‚‹æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’è¿½åŠ ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::AddIologFilterKeyword(const yaya::string_t &ignorestr){
@@ -505,8 +505,8 @@ void	CLog::AddIologFilterKeywordRegex(const yaya::string_t &ignorestr){
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::DeleteIologFilterKeyword / KeywordRegex
- *  ‹@”\ŠT—vF  IOƒƒO‚Ì–³‹‚·‚é•¶š—ñƒŠƒXƒg‚ğíœ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::DeleteIologFilterKeyword / KeywordRegex
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  IOãƒ­ã‚°ã®ç„¡è¦–ã™ã‚‹æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’å‰Šé™¤ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::DeleteIologFilterKeyword(const yaya::string_t &ignorestr){
@@ -526,8 +526,8 @@ void	CLog::DeleteIologFilterKeywordRegex(const yaya::string_t &ignorestr){
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::ClearIologFilterKeyword
- *  ‹@”\ŠT—vF  IOƒƒO‚Ì–³‹‚·‚é•¶š—ñƒŠƒXƒg‚ğƒNƒŠƒA‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::ClearIologFilterKeyword
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  IOãƒ­ã‚°ã®ç„¡è¦–ã™ã‚‹æ–‡å­—åˆ—ãƒªã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CLog::ClearIologFilterKeyword(){
@@ -536,8 +536,8 @@ void	CLog::ClearIologFilterKeyword(){
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::SetIologFilterMode
- *  ‹@”\ŠT—vF  IOƒƒO‚ÌƒtƒBƒ‹ƒ^ƒ‚[ƒh(ƒzƒƒCƒgƒŠƒXƒg=1/ƒuƒ‰ƒbƒNƒŠƒXƒg=0)
+ *  é–¢æ•°å  ï¼š  CLog::SetIologFilterMode
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  IOãƒ­ã‚°ã®ãƒ•ã‚£ãƒ«ã‚¿ãƒ¢ãƒ¼ãƒ‰(ãƒ›ãƒ¯ã‚¤ãƒˆãƒªã‚¹ãƒˆ=1/ãƒ–ãƒ©ãƒƒã‚¯ãƒªã‚¹ãƒˆ=0)
  * -----------------------------------------------------------------------
  */
 void CLog::SetIologFilterMode(char mode)
@@ -546,8 +546,8 @@ void CLog::SetIologFilterMode(char mode)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::AddErrorLogHistory
- *  ‹@”\ŠT—vF  “à•”ƒGƒ‰[ƒƒO—š—ğ‚É’Ç‰Á‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::AddErrorLogHistory
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å†…éƒ¨ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°å±¥æ­´ã«è¿½åŠ ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void    CLog::AddErrorLogHistory(const yaya::string_t &err) {
@@ -558,8 +558,8 @@ void    CLog::AddErrorLogHistory(const yaya::string_t &err) {
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::GetErrorLogHistory
- *  ‹@”\ŠT—vF  “à•”ƒGƒ‰[ƒƒO—š—ğ‚ğ•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::GetErrorLogHistory
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å†…éƒ¨ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°å±¥æ­´ã‚’è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 std::deque<yaya::string_t> & CLog::GetErrorLogHistory(void) {
@@ -567,8 +567,8 @@ std::deque<yaya::string_t> & CLog::GetErrorLogHistory(void) {
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLog::AppendErrorLogHistoryToBegin
- *  ‹@”\ŠT—vF  “à•”ƒGƒ‰[ƒƒO—š—ğ‚ğ’¼Úİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLog::AppendErrorLogHistoryToBegin
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å†…éƒ¨ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°å±¥æ­´ã‚’ç›´æ¥è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void CLog::AppendErrorLogHistoryToBegin(std::deque<yaya::string_t> &log) {

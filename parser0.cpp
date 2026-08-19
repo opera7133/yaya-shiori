@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// \•¶‰ğÍ/’†ŠÔƒR[ƒh‚Ì¶¬‚ğs‚¤ƒNƒ‰ƒX@CParser0
+// æ§‹æ–‡è§£æ/ä¸­é–“ã‚³ãƒ¼ãƒ‰ã®ç”Ÿæˆã‚’è¡Œã†ã‚¯ãƒ©ã‚¹ã€€CParser0
 // written by umeici. 2004
 // 
 
@@ -49,21 +49,21 @@
 ////////////////////////////////////////
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::Parse
- *  ‹@”\ŠT—vF  w’è‚³‚ê‚½«‘ƒtƒ@ƒCƒ‹ŒQ‚ğ“Ç‚İæ‚èAÀs‰Â”\‚ÈŠÖ”ŒQ‚ğì¬‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::Parse
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æŒ‡å®šã•ã‚ŒãŸè¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ç¾¤ã‚’èª­ã¿å–ã‚Šã€å®Ÿè¡Œå¯èƒ½ãªé–¢æ•°ç¾¤ã‚’ä½œæˆã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=³í/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æ­£å¸¸/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CParser0::Parse(int charset, const std::vector<CDic1>& dics)
 {
-	// “Ç‚İæ‚èA\•¶‰ğÍA’†ŠÔƒR[ƒh‚Ì¶¬
+	// èª­ã¿å–ã‚Šã€æ§‹æ–‡è§£æã€ä¸­é–“ã‚³ãƒ¼ãƒ‰ã®ç”Ÿæˆ
 	vm.logger().Message(3);
 	std::vector<CDefine> &gdefines =vm.gdefines();
 
 	size_t errcount = 0;
 	
-	// ‚·‚×‚Äˆê’U“Ç‚İ‚ñ‚Å‚©‚çc
+	// ã™ã¹ã¦ä¸€æ—¦èª­ã¿è¾¼ã‚“ã§ã‹ã‚‰â€¦
 	for(std::vector<CDic1>::const_iterator it = dics.begin(); it != dics.end(); it++) {
 		vm.logger().Write(L"// ");
 		vm.logger().Filename(it->path);
@@ -82,7 +82,7 @@ char	CParser0::Parse(int charset, const std::vector<CDic1>& dics)
 		}
 	}
 
-	// ƒ`ƒFƒbƒNƒR[ƒh‚ğdŠ|‚¯‚é (ŠÖ”‚ª‚È‚¢ƒGƒ‰[‘Îô)
+	// ãƒã‚§ãƒƒã‚¯ã‚³ãƒ¼ãƒ‰ã‚’ä»•æ›ã‘ã‚‹ (é–¢æ•°ãŒãªã„ã‚¨ãƒ©ãƒ¼å¯¾ç­–)
 	vm.logger().Message(8);
 	vm.logger().Message(9);
 
@@ -104,27 +104,27 @@ bool	CParser0::ParseAfterLoad(const yaya::string_t &dicfilename)
 	aret += SetCellType(dicfilename);
 	aret += MakeCompleteFormula(dicfilename);
 
-	// ’†ŠÔƒR[ƒh¶¬‚ÌŒãˆ—‚ÆŒŸ¸
+	// ä¸­é–“ã‚³ãƒ¼ãƒ‰ç”Ÿæˆã®å¾Œå‡¦ç†ã¨æ¤œæŸ»
 	aret += vm.parser1().CheckExecutionCode(dicfilename);
 
 	return aret != 0;
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ParseEmbedString
- *  ‹@”\ŠT—vF  •¶š—ñ‚ğ‰‰Z‰Â”\‚È”®‚É•ÏŠ·‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ParseEmbedString
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ–‡å­—åˆ—ã‚’æ¼”ç®—å¯èƒ½ãªæ•°å¼ã«å¤‰æ›ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=³í/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=æ­£å¸¸/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CParser0::ParseEmbedString(yaya::string_t& str, CStatement& st, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
-	// •¶š—ñ‚ğ”®‚É¬Œ`
+	// æ–‡å­—åˆ—ã‚’æ•°å¼ã«æˆå½¢
 	if (!StructFormula(str, st.cell(), dicfilename, linecount))
 		return 1;
 
-	// ”®‚Ì€‚Ìí—Ş‚ğ”»’è
-	if ( st.cell_size() ) { //‚‘¬‰»—p
+	// æ•°å¼ã®é …ã®ç¨®é¡ã‚’åˆ¤å®š
+	if ( st.cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for(std::vector<CCell>::iterator it = st.cell().begin(); it != st.cell().end(); it++) {
 			if (it->value_GetType() != F_TAG_NOP)
 				continue;
@@ -134,32 +134,32 @@ char	CParser0::ParseEmbedString(yaya::string_t& str, CStatement& st, const yaya:
 		}
 	}
 
-	// ()A[]‚Ì³“–«”»’è
+	// ()ã€[]ã®æ­£å½“æ€§åˆ¤å®š
 	if (CheckDepth1(st, dicfilename))
 		return 1;
 
-	// –„‚ß‚İ—v‘f‚Ì•ª‰ğ
+	// åŸ‹ã‚è¾¼ã¿è¦ç´ ã®åˆ†è§£
 	if (ParseEmbeddedFactor1(st, dicfilename))
 		return 1;
 
-	// ƒVƒ“ƒOƒ‹ƒNƒH[ƒg•¶š—ñ‚ğ’Êí•¶š—ñ‚Ö’uŠ·
+	// ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆæ–‡å­—åˆ—ã‚’é€šå¸¸æ–‡å­—åˆ—ã¸ç½®æ›
 	ConvertPlainString1(st, dicfilename);
 
-	// ‰‰Z‡˜Œˆ’è
+	// æ¼”ç®—é †åºæ±ºå®š
 	if (CheckDepthAndSerialize1(st, dicfilename))
 		return 1;
 
-	// Œãˆ—‚ÆŒŸ¸
+	// å¾Œå‡¦ç†ã¨æ¤œæŸ»
 	if (vm.parser1().CheckExecutionCode1(st, dicfilename))
 		return 1;
 
 	return 0;
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::DynamicLoadDictionary
- *  ‹@”\ŠT—vF  DICLOAD‚ÌÀ‘•–{‘Ì
+ *  é–¢æ•°å  ï¼š  CParser0::DynamicLoadDictionary
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  DICLOADã®å®Ÿè£…æœ¬ä½“
  *
- *  •Ô’l@@F  0=³í 1=•¶–@ƒGƒ‰[ 5=ƒtƒ@ƒCƒ‹‚È‚µ 95=d•¡
+ *  è¿”å€¤ã€€ã€€ï¼š  0=æ­£å¸¸ 1=æ–‡æ³•ã‚¨ãƒ©ãƒ¼ 5=ãƒ•ã‚¡ã‚¤ãƒ«ãªã— 95=é‡è¤‡
  * -----------------------------------------------------------------------
  */
 int CParser0::DynamicLoadDictionary(const yaya::string_t& dicfilename, int charset)
@@ -197,10 +197,10 @@ int CParser0::DynamicLoadDictionary(const yaya::string_t& dicfilename, int chars
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::DynamicAppendRuntimeDictionary
- *  ‹@”\ŠT—vF  APPEND_RUNTIME_DIC‚ÌÀ‘•–{‘Ì
+ *  é–¢æ•°å  ï¼š  CParser0::DynamicAppendRuntimeDictionary
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  APPEND_RUNTIME_DICã®å®Ÿè£…æœ¬ä½“
  *
- *  •Ô’l@@F  0=³í 1=•¶–@ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0=æ­£å¸¸ 1=æ–‡æ³•ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 int CParser0::DynamicAppendRuntimeDictionary(const yaya::string_t& codes)
@@ -212,10 +212,10 @@ int CParser0::DynamicAppendRuntimeDictionary(const yaya::string_t& codes)
 		std::vector<yaya::string_t>	factors;
 		size_t depth = 0;
 		ptrdiff_t targetfunction = -1;
-		// {A}A;‚Å•ªŠ„
+		// {ã€}ã€;ã§åˆ†å‰²
 		yaya::string_t line(codes);
 		SeparateFactor(factors, line);
-		// •ªŠ„‚³‚ê‚½•¶š—ñ‚ğ‰ğÍ‚µ‚ÄŠÖ”‚ğì¬‚µA“à•”‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğ’~Ï‚µ‚Ä‚¢‚­
+		// åˆ†å‰²ã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’è§£æã—ã¦é–¢æ•°ã‚’ä½œæˆã—ã€å†…éƒ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’è“„ç©ã—ã¦ã„ã
 		if(DefineFunctions(factors, L"_RUNTIME_DIC_", 0, depth, targetfunction)) {
 			isnoterror = 0;
 		}
@@ -241,10 +241,10 @@ int CParser0::DynamicAppendRuntimeDictionary(const yaya::string_t& codes)
 
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::DynamicUnloadDictionary
- *  ‹@”\ŠT—vF  “Á’è‚Ìƒtƒ@ƒCƒ‹–¼‚ÉŠÖŒW‚·‚éŠÖ”‚Ædefine‚ğíœ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::DynamicUnloadDictionary
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ç‰¹å®šã®ãƒ•ã‚¡ã‚¤ãƒ«åã«é–¢ä¿‚ã™ã‚‹é–¢æ•°ã¨defineã‚’å‰Šé™¤ã—ã¾ã™
  *
- *  •Ô’l@@F  0=³í 71=ŠÖ”s•û•s–¾ 96=ƒtƒ@ƒCƒ‹‚È‚µ
+ *  è¿”å€¤ã€€ã€€ï¼š  0=æ­£å¸¸ 71=é–¢æ•°è¡Œæ–¹ä¸æ˜ 96=ãƒ•ã‚¡ã‚¤ãƒ«ãªã—
  * -----------------------------------------------------------------------
  */
 int	CParser0::DynamicUnloadDictionary(yaya::string_t dicfilename)
@@ -303,10 +303,10 @@ int	CParser0::DynamicUnloadDictionary(yaya::string_t dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::DynamicUndefFunc
- *  ‹@”\ŠT—vF  “Á’è‚ÌŠÖ”‚ğíœ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::DynamicUndefFunc
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ç‰¹å®šã®é–¢æ•°ã‚’å‰Šé™¤ã—ã¾ã™
  *
- *  •Ô’l@@F  0=³í 1=‘ÎÛŠÖ”‚È‚µ 71=ŠÖ”s•û•s–¾
+ *  è¿”å€¤ã€€ã€€ï¼š  0=æ­£å¸¸ 1=å¯¾è±¡é–¢æ•°ãªã— 71=é–¢æ•°è¡Œæ–¹ä¸æ˜
  * -----------------------------------------------------------------------
  */
 int	CParser0::DynamicUndefFunc(const yaya::string_t& funcname)
@@ -355,10 +355,10 @@ int	CParser0::DynamicUndefFunc(const yaya::string_t& funcname)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::IsDicFileAlreadyExist
- *  ‹@”\ŠT—vF  ‚·‚Å‚É“–ŠY«‘‚ª“Ç‚İ‚Ü‚ê‚Ä‚¢‚é‚©‚Ì”»’è
+ *  é–¢æ•°å  ï¼š  CParser0::IsDicFileAlreadyExist
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã™ã§ã«å½“è©²è¾æ›¸ãŒèª­ã¿è¾¼ã¾ã‚Œã¦ã„ã‚‹ã‹ã®åˆ¤å®š
  *
- *  •Ô’l@@F  0/1=‚È‚¢/‚ ‚Á‚½
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ãªã„/ã‚ã£ãŸ
  * -----------------------------------------------------------------------
  */
 char CParser0::IsDicFileAlreadyExist(yaya::string_t dicfilename)
@@ -387,10 +387,10 @@ char CParser0::IsDicFileAlreadyExist(yaya::string_t dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::LoadDictionary1
- *  ‹@”\ŠT—vF  ˆê‚Â‚Ì«‘ƒtƒ@ƒCƒ‹‚ğ“Ç‚İæ‚èA‘åG”c‚É\•¶‚ğ‰ğß‚µ‚Ä’~Ï‚µ‚Ä‚¢‚«‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::LoadDictionary1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ä¸€ã¤ã®è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿å–ã‚Šã€å¤§é›‘æŠŠã«æ§‹æ–‡ã‚’è§£é‡ˆã—ã¦è“„ç©ã—ã¦ã„ãã¾ã™
  *
- *  •Ô’l@@F  2/1/0=ƒtƒ@ƒCƒ‹‚ª‚È‚¢ƒGƒ‰[/ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  2/1/0=ãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„ã‚¨ãƒ©ãƒ¼/ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefine>& gdefines, int charset)
@@ -399,14 +399,14 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 #if defined(POSIX)
 	fix_filepath(file);
 #endif
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	FILE	*fp = yaya::w_fopen(file.c_str(), L"r");
 	if (fp == NULL) {
 		vm.logger().Error(E_E, 5, file);
 		return 2;
 	}
 
-	// “Ç‚İæ‚è
+	// èª­ã¿å–ã‚Š
 	CComment	comment;
 	char	ciphered = IsCipheredDic(file);
 	size_t depth = 0;
@@ -414,7 +414,7 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 	std::vector<CDefine>	defines;
 	char	errcount = 0;
 
-	int	 isInHereDocument = 0; //2 = ƒ_ƒuƒ‹ƒNƒI[ƒg 1 = ƒVƒ“ƒOƒ‹ƒNƒI[ƒg
+	int	 isInHereDocument = 0; //2 = ãƒ€ãƒ–ãƒ«ã‚¯ã‚ªãƒ¼ãƒˆ 1 = ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚ªãƒ¼ãƒˆ
 	bool isHereDocumentFirstLine = true;
 
 	yaya::string_t	readline;
@@ -429,39 +429,39 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 	buf.reserve(1000);
 
 	for (size_t i = 1; ; i++) {
-		// 1s“Ç‚İ‚İ@ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ìê‡‚Í•œ†‚às‚È‚¤
+		// 1è¡Œèª­ã¿è¾¼ã¿ã€€æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´åˆã¯å¾©å·ã‚‚è¡Œãªã†
 		ret = yaya::ws_fgets(buf, readline, fp, charset, ciphered, i);
 		if (ret == yaya::WS_EOF)
 			break;
 
-		// I’[‚Ì‰üs‚ğÁ‚·
+		// çµ‚ç«¯ã®æ”¹è¡Œã‚’æ¶ˆã™
 		CutCrLf(readline);
 		if ( ! isInHereDocument ) {
-			// •s—v‚È‹ó”’iƒCƒ“ƒfƒ“ƒg“™j‚ğÁ‚·
+			// ä¸è¦ãªç©ºç™½ï¼ˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆç­‰ï¼‰ã‚’æ¶ˆã™
 			CutSpace(readline);
-			// ƒRƒƒ“ƒgˆ—
+			// ã‚³ãƒ¡ãƒ³ãƒˆå‡¦ç†
 			comment.Process_Top(readline);
 			comment.Process(readline);
-			// ‹ósi‚à‚µ‚­‚Í‘S‘Ì‚ªƒRƒƒ“ƒgs‚¾‚Á‚½j‚È‚çŸ‚Ö
+			// ç©ºè¡Œï¼ˆã‚‚ã—ãã¯å…¨ä½“ãŒã‚³ãƒ¡ãƒ³ãƒˆè¡Œã ã£ãŸï¼‰ãªã‚‰æ¬¡ã¸
 			if (readline.size() == 0)
 				continue;
 		}
 		else {
-			// •s—v‚È‹ó”’iƒCƒ“ƒfƒ“ƒg“™j‚ğÁ‚·
+			// ä¸è¦ãªç©ºç™½ï¼ˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆç­‰ï¼‰ã‚’æ¶ˆã™
 			CutStartSpace(readline);
 		}
 
 		/*--------------------------------------------------------
-			ƒqƒAƒhƒLƒ…ƒƒ“ƒg‚ÌƒGƒXƒP[ƒv
-			\xFFFF\x0001 -> ‰üs
+			ãƒ’ã‚¢ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã®ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—
+			\xFFFF\x0001 -> æ”¹è¡Œ
 			\xFFFF\x0002 -> "
 			\xFFFF\x0003 -> '
-			\xFFFF‚ÍUnicode‚Æ‚µ‚Ä•s“KØAŒ»‚ê‚é‚±‚Æ‚Í‚È‚¢c‚½‚Ô‚ñ
+			\xFFFFã¯Unicodeã¨ã—ã¦ä¸é©åˆ‡ã€ç¾ã‚Œã‚‹ã“ã¨ã¯ãªã„â€¦ãŸã¶ã‚“
 		--------------------------------------------------------*/
 		
-		// “Ç‚İæ‚èÏƒoƒbƒtƒ@‚ÖŒ‹‡
+		// èª­ã¿å–ã‚Šæ¸ˆãƒãƒƒãƒ•ã‚¡ã¸çµåˆ
 		if ( isInHereDocument ) {
-			//ƒqƒAƒhƒLƒ…ƒƒ“ƒg‰ğœ•”
+			//ãƒ’ã‚¢ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆè§£é™¤éƒ¨
 			if ( isInHereDocument == 1 ) {
 				if (readline.compare(0,3,L"'>>") == 0) {
 					readline.erase(1,3);
@@ -489,7 +489,7 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 				}
 			}
 
-			//‰ğœ‚³‚ê‚Ä‚¢‚È‚¢iƒqƒAƒhƒLƒ…ƒƒ“ƒg“àƒeƒLƒXƒg‚ğ‚»‚Ì‚Ü‚ñ‚ÜŒ‹‡j
+			//è§£é™¤ã•ã‚Œã¦ã„ãªã„ï¼ˆãƒ’ã‚¢ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆå†…ï¼ãƒ†ã‚­ã‚¹ãƒˆã‚’ãã®ã¾ã‚“ã¾çµåˆï¼‰
 			if ( isInHereDocument ) {
 				if ( isHereDocumentFirstLine ) {
 					isHereDocumentFirstLine = false;
@@ -543,12 +543,12 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 		}
 		else {
 			linebuffer.append(readline);
-			// I’[‚ª"/"‚È‚çŒ‹‡‚È‚Ì‚Å"/"‚ğÁ‚µ‚ÄŸ‚ğ“Ç‚Ş
+			// çµ‚ç«¯ãŒ"/"ãªã‚‰çµåˆãªã®ã§"/"ã‚’æ¶ˆã—ã¦æ¬¡ã‚’èª­ã‚€
 			if (readline[readline.size() - 1] == L'/') {
 				linebuffer.erase(linebuffer.end() - 1);
 				continue;
 			}
-			//ƒqƒAƒhƒLƒ…ƒƒ“ƒgŠJn”»’è
+			//ãƒ’ã‚¢ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆé–‹å§‹åˆ¤å®š
 			else if ( readline.size() >= 3 ) {
 				if ( readline.compare(readline.size()-3,3,L"<<'") == 0 ) {
 					isInHereDocument = 1;
@@ -567,32 +567,32 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 			}
 		}
 
-		// ƒvƒŠƒvƒƒZƒbƒT‚Ìê‡‚Íæ“¾
+		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã®å ´åˆã¯å–å¾—
 		int	pp = GetPreProcess(linebuffer, defines, gdefines, file, i);
-		// ƒvƒŠƒvƒƒZƒbƒT‚Å‚ ‚Á‚½‚ç‚±‚Ìs‚Ìˆ—‚ÍI‚í‚èAŸ‚Ö
-		// ˆÙí‚ÈƒvƒŠƒvƒƒZƒXs‚ÍƒGƒ‰[
+		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã§ã‚ã£ãŸã‚‰ã“ã®è¡Œã®å‡¦ç†ã¯çµ‚ã‚ã‚Šã€æ¬¡ã¸
+		// ç•°å¸¸ãªãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹è¡Œã¯ã‚¨ãƒ©ãƒ¼
 		if (pp == 1)
 			continue;
 		else if (pp == 2) {
 			errcount = 1;
 			continue;
 		}
-		// ƒvƒŠƒvƒƒZƒbƒT#defineA#globaldefineˆ—
+		// ãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µ#defineã€#globaldefineå‡¦ç†
 		ExecDefinePreProcess(linebuffer, defines);	// #define
 		ExecDefinePreProcess(linebuffer, gdefines);	// #globaldefine
 		ExecInternalPreProcess(linebuffer,file,i);
-		// ƒRƒƒ“ƒgˆ—(2)
+		// ã‚³ãƒ¡ãƒ³ãƒˆå‡¦ç†(2)
 		comment.Process_Tail(linebuffer);
-		// {A}A;‚Å•ªŠ„
+		// {ã€}ã€;ã§åˆ†å‰²
 		factors.clear();
 		SeparateFactor(factors, linebuffer);
-		// •ªŠ„‚³‚ê‚½•¶š—ñ‚ğ‰ğÍ‚µ‚ÄŠÖ”‚ğì¬‚µA“à•”‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğ’~Ï‚µ‚Ä‚¢‚­
+		// åˆ†å‰²ã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’è§£æã—ã¦é–¢æ•°ã‚’ä½œæˆã—ã€å†…éƒ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’è“„ç©ã—ã¦ã„ã
 		if (DefineFunctions(factors, file, i, depth, targetfunction)) {
 			errcount = 1;
 		}
 	}
 
-	// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	::fclose(fp);
 
 	if ( depth != 0 ) {
@@ -604,27 +604,27 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::GetPreProcess
- *  ‹@”\ŠT—vF  “ü—Í‚ª#define/#globaldefineƒvƒŠƒvƒƒZƒbƒT‚Å‚ ‚Á‚½ê‡Aî•ñ‚ğæ“¾‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::GetPreProcess
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å…¥åŠ›ãŒ#define/#globaldefineãƒ—ãƒªãƒ—ãƒ­ã‚»ãƒƒã‚µã§ã‚ã£ãŸå ´åˆã€æƒ…å ±ã‚’å–å¾—ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1/2=ƒvƒŠƒvƒƒZƒX‚Å‚Í‚È‚¢/ƒvƒŠƒvƒƒZƒX/ƒGƒ‰[
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1/2=ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹ã§ã¯ãªã„/ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹/ã‚¨ãƒ©ãƒ¼
  * -----------------------------------------------------------------------
  */
 char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines, std::vector<CDefine>& gdefines, const yaya::string_t& dicfilename,
 		ptrdiff_t linecount)
 {
 #if !defined(POSIX) && !defined(__MINGW32__)
-	static const yaya::string_t space_delim(L" \t@");
+	static const yaya::string_t space_delim(L" \tã€€");
 #else
 	static const yaya::string_t space_delim(L" \t\u3000");
 #endif
 
-	// æ“ª1ƒoƒCƒg‚ª"#"‚Å‚ ‚é‚©‚ğŠm”F
-	// i‚±‚ÌŠÖ”‚É—ˆ‚é‚Ü‚Å‚É‹ó•¶š—ñ‚ÍœŠO‚³‚ê‚Ä‚¢‚é‚Ì‚ÅA‚¢‚«‚È‚è[0]‚ğQÆ‚µ‚Ä‚à–â‘è‚È‚¢j
+	// å…ˆé ­1ãƒã‚¤ãƒˆãŒ"#"ã§ã‚ã‚‹ã‹ã‚’ç¢ºèª
+	// ï¼ˆã“ã®é–¢æ•°ã«æ¥ã‚‹ã¾ã§ã«ç©ºæ–‡å­—åˆ—ã¯é™¤å¤–ã•ã‚Œã¦ã„ã‚‹ã®ã§ã€ã„ããªã‚Š[0]ã‚’å‚ç…§ã—ã¦ã‚‚å•é¡Œãªã„ï¼‰
 	if (str[0] != L'#')
 		return 0;
 
-	// ƒfƒŠƒ~ƒ^‚Å‚ ‚é‹ó”’‚à‚µ‚­‚Íƒ^ƒu‚ğ’T‚·
+	// ãƒ‡ãƒªãƒŸã‚¿ã§ã‚ã‚‹ç©ºç™½ã‚‚ã—ãã¯ã‚¿ãƒ–ã‚’æ¢ã™
 	ptrdiff_t sep_pos = str.find_first_of(space_delim);
 	if (sep_pos == -1) {
 		vm.logger().Error(E_E, 74, dicfilename, linecount);
@@ -633,7 +633,7 @@ char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines,
 	ptrdiff_t sep_pos_end = sep_pos + 1;
 	while (IsSpace(str[sep_pos_end])) { ++sep_pos_end; }
 
-	// ‚±‚Á‚¿‚Í–¼‘O‚Æ’l‚Ì‹æØ‚è
+	// ã“ã£ã¡ã¯åå‰ã¨å€¤ã®åŒºåˆ‡ã‚Š
 	ptrdiff_t rep_pos = str.find_first_of(space_delim,sep_pos_end);
 	if (rep_pos == -1) {
 		vm.logger().Error(E_E, 75, dicfilename, linecount);
@@ -642,8 +642,8 @@ char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines,
 	ptrdiff_t rep_pos_end = rep_pos + 1;
 	while (IsSpace(str[rep_pos_end])) { ++rep_pos_end; }
 
-	// ƒvƒŠƒvƒƒZƒX–¼ÌA•ÏŠ·‘O•¶š—ñA•ÏŠ·Œã•¶š—ñ‚ğæ“¾
-	// æ“¾‚Å‚«‚È‚¯‚ê‚ÎƒGƒ‰[
+	// ãƒ—ãƒªãƒ—ãƒ­ã‚»ã‚¹åç§°ã€å¤‰æ›å‰æ–‡å­—åˆ—ã€å¤‰æ›å¾Œæ–‡å­—åˆ—ã‚’å–å¾—
+	// å–å¾—ã§ããªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼
 	yaya::string_t	pname, bef, aft;
 
 	pname.assign(str, 0, sep_pos);
@@ -655,15 +655,15 @@ char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines,
 	aft.assign(str, rep_pos_end, str.size() - rep_pos_end);
 	CutSpace(aft);
 
-	//aft‚ÍƒJƒ‰‚Å‚à‚æ‚¢
+	//aftã¯ã‚«ãƒ©ã§ã‚‚ã‚ˆã„
 	if (!pname.size() || !bef.size()) {
 		vm.logger().Error(E_E, 75, dicfilename, linecount);
 		return 2;
 	}
 
-	str.erase(); //s‘S‘Ì‚ª‘Oˆ—‘ÎÛ‚¾‚Á‚½‚Ì‚ÅÁ‚·
+	str.erase(); //è¡Œå…¨ä½“ãŒå‰å‡¦ç†å¯¾è±¡ã ã£ãŸã®ã§æ¶ˆã™
 
-	// í•Ê‚Ì”»’è‚Æî•ñ‚Ì•Û
+	// ç¨®åˆ¥ã®åˆ¤å®šã¨æƒ…å ±ã®ä¿æŒ
 	if (pname == L"#define") {
 		defines.emplace_back(CDefine(vm, bef, aft, dicfilename));
 	}
@@ -679,8 +679,8 @@ char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines,
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ExecDefinePreProcess
- *  ‹@”\ŠT—vF  #define/#globaldefineˆ—B•¶š—ñ‚ğ’uŠ·‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ExecDefinePreProcess
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  #define/#globaldefineå‡¦ç†ã€‚æ–‡å­—åˆ—ã‚’ç½®æ›ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CParser0::ExecDefinePreProcess(yaya::string_t &str, const std::vector<CDefine>& defines)
@@ -693,8 +693,8 @@ void	CParser0::ExecDefinePreProcess(yaya::string_t &str, const std::vector<CDefi
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ExecInternalPreProcess
- *  ‹@”\ŠT—vF  ‘g‚İ‚İ’è‹`•¶š—ñ‚ğ’uŠ·‚µ‚Ü‚·B
+ *  é–¢æ•°å  ï¼š  CParser0::ExecInternalPreProcess
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  çµ„ã¿è¾¼ã¿å®šç¾©æ–‡å­—åˆ—ã‚’ç½®æ›ã—ã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 void	CParser0::ExecInternalPreProcess(yaya::string_t &str,const yaya::string_t &file, ptrdiff_t line)
@@ -718,10 +718,10 @@ void	CParser0::ExecInternalPreProcess(yaya::string_t &str,const yaya::string_t &
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::IsCipheredDic
- *  ‹@”\ŠT—vF  ƒtƒ@ƒCƒ‹‚ªˆÃ†‰»ƒtƒ@ƒCƒ‹‚©‚ğƒtƒ@ƒCƒ‹Šg’£q‚ğŒ©‚Ä”»’f‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::IsCipheredDic
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ•ã‚¡ã‚¤ãƒ«ãŒæš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚’ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­ã‚’è¦‹ã¦åˆ¤æ–­ã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=Šg’£q‚Í.ayc‚Å‚ ‚é/.ayc‚Å‚Í‚È‚¢
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=æ‹¡å¼µå­ã¯.aycã§ã‚ã‚‹/.aycã§ã¯ãªã„
  * -----------------------------------------------------------------------
  */
 char	CParser0::IsCipheredDic(const yaya::string_t& filename)
@@ -737,8 +737,8 @@ char	CParser0::IsCipheredDic(const yaya::string_t& filename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::SeparateFactor
- *  ‹@”\ŠT—vF  —^‚¦‚ç‚ê‚½•¶š—ñ‚ğ"{"A"}"A";"‚ÌˆÊ’u‚Å•ªŠ„‚µ‚Ü‚·B";"‚ÍˆÈ~•s—v‚È‚Ì‚ÅÁ‚µ‚İ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::SeparateFactor
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ä¸ãˆã‚‰ã‚ŒãŸæ–‡å­—åˆ—ã‚’"{"ã€"}"ã€";"ã®ä½ç½®ã§åˆ†å‰²ã—ã¾ã™ã€‚";"ã¯ä»¥é™ä¸è¦ãªã®ã§æ¶ˆã—è¾¼ã¿ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CParser0::SeparateFactor(std::vector<yaya::string_t> &s, yaya::string_t &line)
@@ -750,31 +750,31 @@ void	CParser0::SeparateFactor(std::vector<yaya::string_t> &s, yaya::string_t &li
 	char	executeflg    = 0;
 
 	for( ; ; ) {
-		// { } ; ”­Œ©
+		// { } ; ç™ºè¦‹
 		yaya::string_t::size_type newseparatepoint = line.find_first_of(L"{};",separatepoint);
-		// ‰½‚àŒ©‚Â‚©‚ç‚È‚¯‚ê‚ÎI‚í‚è
+		// ä½•ã‚‚è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°çµ‚ã‚ã‚Š
 		if (newseparatepoint == yaya::string_t::npos)
 			break;
 
-		// ”­Œ©ˆÊ’u‚ªƒ_ƒuƒ‹ƒNƒH[ƒg“à‚È‚ç–³‹‚µ‚Äæ‚Öi‚Ş
+		// ç™ºè¦‹ä½ç½®ãŒãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆå†…ãªã‚‰ç„¡è¦–ã—ã¦å…ˆã¸é€²ã‚€
 		nextdq = IsInDQ(line, separatepoint, newseparatepoint);
 		if ( nextdq < IsInDQ_npos) {
 			separatepoint = nextdq;
 			continue;
 		}
-		//ƒNƒI[ƒg‚ª•Â‚¶‚Ä‚È‚¢‚±‚êˆÈã‚Í‚İ‚Â‚©‚ç‚È‚¢
+		//ã‚¯ã‚ªãƒ¼ãƒˆãŒé–‰ã˜ã¦ãªã„ï¼ã“ã‚Œä»¥ä¸Šã¯ã¿ã¤ã‹ã‚‰ãªã„
 		if ( nextdq == IsInDQ_runaway ) {
 			break;
 		}
 
-		// ”­Œ©ˆÊ’u‚Ìè‘O‚Ì•¶š—ñ‚ğæ“¾
+		// ç™ºè¦‹ä½ç½®ã®æ‰‹å‰ã®æ–‡å­—åˆ—ã‚’å–å¾—
 		if (newseparatepoint > apoint) {
 			yaya::string_t	tmpstr;
 			tmpstr.assign(line, apoint, newseparatepoint - apoint);
 			CutSpace(tmpstr);
 			s.emplace_back(tmpstr);
 		}
-		// ”­Œ©‚µ‚½‚Ì‚ª"{"‚à‚µ‚­‚Í"}"‚È‚ç‚±‚ê‚àæ“¾
+		// ç™ºè¦‹ã—ãŸã®ãŒ"{"ã‚‚ã—ãã¯"}"ãªã‚‰ã“ã‚Œã‚‚å–å¾—
 		yaya::char_t c = line[newseparatepoint];
 		if (c == L'{') {
 			s.emplace_back(L"{");
@@ -782,7 +782,7 @@ void	CParser0::SeparateFactor(std::vector<yaya::string_t> &s, yaya::string_t &li
 		else if (c == L'}') {
 			s.emplace_back(L"}");
 		}
-		// ŒŸõŠJnˆÊ’u‚ğXV
+		// æ¤œç´¢é–‹å§‹ä½ç½®ã‚’æ›´æ–°
 		apoint = separatepoint = newseparatepoint + 1;
 		if (separatepoint >= len) {
 			executeflg = 1;
@@ -790,7 +790,7 @@ void	CParser0::SeparateFactor(std::vector<yaya::string_t> &s, yaya::string_t &li
 		}
 	}
 
-	// ‚Ü‚¾•¶š—ñ‚ªc‚Á‚Ä‚¢‚é‚È‚ç‚»‚ê‚à’Ç‰Á
+	// ã¾ã æ–‡å­—åˆ—ãŒæ®‹ã£ã¦ã„ã‚‹ãªã‚‰ãã‚Œã‚‚è¿½åŠ 
 	if (executeflg == 0) {
 		yaya::string_t	tmpstr;
 		tmpstr.assign(line, apoint, len - apoint);
@@ -798,15 +798,15 @@ void	CParser0::SeparateFactor(std::vector<yaya::string_t> &s, yaya::string_t &li
 		s.emplace_back(tmpstr);
 	}
 
-	// Œ³‚Ì•¶š—ñ‚ÍƒNƒŠƒA‚·‚é
+	// å…ƒã®æ–‡å­—åˆ—ã¯ã‚¯ãƒªã‚¢ã™ã‚‹
 	line.erase();
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::DefineFunctions
- *  ‹@”\ŠT—vF  •¶š—ñŒQ‚ğ‰ğÍ‚µ‚ÄŠÖ”‚ÌŒ´Œ^‚ğ’è‹`‚·‚é
+ *  é–¢æ•°å  ï¼š  CParser0::DefineFunctions
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ–‡å­—åˆ—ç¾¤ã‚’è§£æã—ã¦é–¢æ•°ã®åŸå‹ã‚’å®šç¾©ã™ã‚‹
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::string_t& dicfilename, ptrdiff_t linecount, size_t& depth, ptrdiff_t& targetfunction)
@@ -814,30 +814,30 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 	char	retcode = 0;
 
 	for(std::vector<yaya::string_t>::iterator it = s.begin(); it != s.end(); it++) {
-		// ‹ós‚ÍƒXƒLƒbƒv
+		// ç©ºè¡Œã¯ã‚¹ã‚­ãƒƒãƒ—
 		if (!(it->size()))
 			continue;
 
-		// {}“ü‚êq‚Ì[‚³‚ğŒ©‚ÄŠÖ”–¼‚ğŒŸõ‚·‚é
-		// [‚³‚ª0‚È‚ç{}‚ÌŠO‚È‚Ì‚ÅŠÖ”–¼‚ğæ“¾‚·‚×‚«ˆÊ’u‚Å‚ ‚é
+		// {}å…¥ã‚Œå­ã®æ·±ã•ã‚’è¦‹ã¦é–¢æ•°åã‚’æ¤œç´¢ã™ã‚‹
+		// æ·±ã•ãŒ0ãªã‚‰{}ã®å¤–ãªã®ã§é–¢æ•°åã‚’å–å¾—ã™ã¹ãä½ç½®ã§ã‚ã‚‹
 		if (!depth) {
-			// ŠÖ”‚Ìì¬
+			// é–¢æ•°ã®ä½œæˆ
 			if (targetfunction == -1) {
-				// ŠÖ”–¼‚Æd•¡‰ñ”ğƒIƒvƒVƒ‡ƒ“‚ğæ“¾
+				// é–¢æ•°åã¨é‡è¤‡å›é¿ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å–å¾—
 				yaya::string_t	d0, d1;
 				if (!Split(*it, d0, d1, L":"))
 					d0 = *it;
 
-				// NOTE: TC571ˆÈ‘O‚Í`TOAUTOEX`‚ª«‘‚É‘¶İ‚·‚éˆê•û‚ÅA
-				// ‚»‚êˆÈ~‚ÍƒVƒXƒeƒ€ŠÖ”‚É‚È‚Á‚Ä‚¢‚éB
-				// —¼•û‚Ì«‘‚ğƒGƒ‰[–³‚­“Ç‚İ‚Ş‚½‚ßA
-				// «‘“à‚É‘¶İ‚·‚é•û‚ğ`Conflict.TOAUTOEX`‚Æ‚µ‚Ä
-				// “Ç‚İ‚Ş‚æ‚¤‚É‚·‚é
+				// NOTE: TC571ä»¥å‰ã¯`TOAUTOEX`ãŒè¾æ›¸ã«å­˜åœ¨ã™ã‚‹ä¸€æ–¹ã§ã€
+				// ãã‚Œä»¥é™ã¯ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã«ãªã£ã¦ã„ã‚‹ã€‚
+				// ä¸¡æ–¹ã®è¾æ›¸ã‚’ã‚¨ãƒ©ãƒ¼ç„¡ãèª­ã¿è¾¼ã‚€ãŸã‚ã€
+				// è¾æ›¸å†…ã«å­˜åœ¨ã™ã‚‹æ–¹ã‚’`Conflict.TOAUTOEX`ã¨ã—ã¦
+				// èª­ã¿è¾¼ã‚€ã‚ˆã†ã«ã™ã‚‹
 				if (IsLegalFunctionName(d0) == 5) {
 					d0 = yaya::string_t(L"Conflict.") + d0;
 				}
 
-				// ŠÖ”–¼‚Ì³“–«ŒŸ¸
+				// é–¢æ•°åã®æ­£å½“æ€§æ¤œæŸ»
 				if (IsLegalFunctionName(d0)) {
 					if (!it->compare(L"{"))
 						vm.logger().Error(E_E, 1, L"{", dicfilename, linecount);
@@ -847,12 +847,12 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 						vm.logger().Error(E_E, 3, d0, dicfilename, linecount);
 					return 1;
 				}
-				// d•¡‰ñ”ğƒIƒvƒVƒ‡ƒ“‚Ì”»’è
+				// é‡è¤‡å›é¿ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®åˆ¤å®š
 				choicetype_t	chtype = CHOICETYPE_RANDOM;
 				if (d1.size()) {
 					chtype = CSelecter::StringToChoiceType(d1, vm, dicfilename, linecount);
 				}
-				// ì¬
+				// ä½œæˆ
 				targetfunction = MakeFunction(d0, chtype, dicfilename, linecount);
 				if (targetfunction == -1) {
 					vm.logger().Error(E_E, 13, *it, dicfilename, linecount);
@@ -860,13 +860,13 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 				}
 				continue;
 			}
-			// ŠÖ”–¼‚ÌŸ‚ÌƒXƒe[ƒgƒƒ“ƒg@‚±‚ê‚Í"{"‚Å‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+			// é–¢æ•°åã®æ¬¡ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã€€ã“ã‚Œã¯"{"ã§ãªã‘ã‚Œã°ãªã‚‰ãªã„
 			else {
 				if (it->compare(L"{")) {
 					vm.logger().Error(E_E, 4, dicfilename, linecount);
 					return 1;
 				}
-				// “ü‚êq‚Ì[‚³‚ğ‰ÁZ
+				// å…¥ã‚Œå­ã®æ·±ã•ã‚’åŠ ç®—
 				depth++;
 			}
 		}
@@ -875,10 +875,10 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 				*(it+1)=L"";
 				*it+=L"{";
 			}
-			// ŠÖ”“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚Ì’è‹`@{}“ü‚êq‚ÌŒvZ‚à‚±‚±‚Ås‚¤
+			// é–¢æ•°å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®å®šç¾©ã€€{}å…¥ã‚Œå­ã®è¨ˆç®—ã‚‚ã“ã“ã§è¡Œã†
 			if (!StoreInternalStatement(targetfunction, *it, depth, dicfilename, linecount))
 				retcode = 1;
-			// “ü‚êq[‚³‚ª0‚É‚È‚Á‚½‚ç‚±‚ÌŠÖ”’è‹`‚©‚ç’Eo‚·‚é
+			// å…¥ã‚Œå­æ·±ã•ãŒ0ã«ãªã£ãŸã‚‰ã“ã®é–¢æ•°å®šç¾©ã‹ã‚‰è„±å‡ºã™ã‚‹
 			if (!depth)
 				targetfunction = -1;
 		}
@@ -888,11 +888,11 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::MakeFunction
- *  ‹@”\ŠT—vF  –¼‘O‚ğw’è‚µ‚ÄŠÖ”‚ğì¬‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::MakeFunction
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  åå‰ã‚’æŒ‡å®šã—ã¦é–¢æ•°ã‚’ä½œæˆã—ã¾ã™
  *
- *  •Ô’l@@F  ì¬‚³‚ê‚½ˆÊ’u‚ğ•Ô‚µ‚Ü‚·
- *  @@@@@  w’è‚³‚ê‚½–¼‘O‚ÌŠÖ”‚ªŠù‚Éì¬Ï‚Ìê‡‚ÍƒGƒ‰[‚ÅA-1‚ğ•Ô‚µ‚Ü‚·
+ *  è¿”å€¤ã€€ã€€ï¼š  ä½œæˆã•ã‚ŒãŸä½ç½®ã‚’è¿”ã—ã¾ã™
+ *  ã€€ã€€ã€€ã€€ã€€  æŒ‡å®šã•ã‚ŒãŸåå‰ã®é–¢æ•°ãŒæ—¢ã«ä½œæˆæ¸ˆã®å ´åˆã¯ã‚¨ãƒ©ãƒ¼ã§ã€-1ã‚’è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 ptrdiff_t	CParser0::MakeFunction(const yaya::string_t& name, choicetype_t chtype, const yaya::string_t& dicfilename, ptrdiff_t linecount)
@@ -921,22 +921,22 @@ ptrdiff_t	CParser0::MakeFunction(const yaya::string_t& name, choicetype_t chtype
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::StoreInternalStatement
- *  ‹@”\ŠT—vF  ŠÖ”“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğí—Ş‚ğ”»’è‚µ‚Ä’~Ï‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::StoreInternalStatement
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’ç¨®é¡ã‚’åˆ¤å®šã—ã¦è“„ç©ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, size_t& depth, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
-	// ƒpƒ‰ƒ[ƒ^‚Ì‚È‚¢ƒXƒe[ƒgƒƒ“ƒg
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ãªã„ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆ
 	CFunction& targetfunction = vm.function_parse().func[targetfunc];
 
 	if(!str.size())
 		return 1;
 	// {
 	if(str[str.length()-1] == L'{') {
-		// block‚Æd•¡‰ñ”ğƒIƒvƒVƒ‡ƒ“‚ğæ“¾
+		// blockã¨é‡è¤‡å›é¿ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å–å¾—
 		choicetype_t	chtype = CSelecter::GetDefaultBlockChoicetype(m_defaultBlockChoicetypeStack.back());
 		yaya::string_t	d0, d1;
 		if (Split(str, d0, d1, L":")){
@@ -956,7 +956,7 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 		targetfunction.statement.emplace_back(CStatement(ST_CLOSE, linecount));
 		return 1;
 	}
-	// others@else‚Ö‘‚«Š·‚¦‚Ä‚µ‚Ü‚¤
+	// othersã€€elseã¸æ›¸ãæ›ãˆã¦ã—ã¾ã†
 	else if (str == L"others") {
 		targetfunction.statement.emplace_back(CStatement(ST_ELSE, linecount));
 		return 1;
@@ -983,7 +983,7 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 		return 1;
 	}
 
-	// ƒpƒ‰ƒ[ƒ^‚Ì‚ ‚éƒXƒe[ƒgƒƒ“ƒgi§Œä•¶j
+	// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆï¼ˆåˆ¶å¾¡æ–‡ï¼‰
 	yaya::string_t	st, par;
 	if (!Split(str, st, par, L" "))
 		st = str;
@@ -1035,7 +1035,7 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 		str = par;
 		return MakeStatement(ST_FOREACH, targetfunc, str, dicfilename, linecount);
 	}
-	// case@“Áê‚È–¼‘O‚Ìƒ[ƒJƒ‹•Ï”‚Ö‚Ì‘ã“ü‚É‘‚«Š·‚¦‚Ä‚µ‚Ü‚¤
+	// caseã€€ç‰¹æ®Šãªåå‰ã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã¸ã®ä»£å…¥ã«æ›¸ãæ›ãˆã¦ã—ã¾ã†
 	else if (st == L"case") {
 		str = PREFIX_CASE_VAR + vm.function_parse().func[targetfunc].name;
 		str += yaya::ws_itoa(linecount);
@@ -1059,15 +1059,15 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 		return MakeStatement(ST_VOID, targetfunc, str, dicfilename, linecount);
 	}
 
-	// ‚±‚ê‚Ü‚Å‚Ì‚·‚×‚Ä‚Éƒ}ƒbƒ`‚µ‚È‚¢•¶š—ñ‚Í”®‚Æ”F¯‚³‚ê‚é
+	// ã“ã‚Œã¾ã§ã®ã™ã¹ã¦ã«ãƒãƒƒãƒã—ãªã„æ–‡å­—åˆ—ã¯æ•°å¼ã¨èªè­˜ã•ã‚Œã‚‹
 	return MakeStatement(ST_FORMULA, targetfunc, str, dicfilename, linecount);
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::MakeStatement
- *  ‹@”\ŠT—vF  ŠÖ”“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚ğì¬A’~Ï‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::MakeStatement
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚’ä½œæˆã€è“„ç©ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::MakeStatement(int type, size_t targetfunc, yaya::string_t& str, const yaya::string_t& dicfilename, ptrdiff_t linecount)
@@ -1092,23 +1092,23 @@ char	CParser0::MakeStatement(int type, size_t targetfunc, yaya::string_t& str, c
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::StructFormula
- *  ‹@”\ŠT—vF  •¶š—ñ‚ğ”®‚Ì€‚Æ‰‰Zq‚É•ª‰ğ‚µAŠî–{“I‚È®Œ`‚ğs‚¢‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::StructFormula
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ–‡å­—åˆ—ã‚’æ•°å¼ã®é …ã¨æ¼”ç®—å­ã«åˆ†è§£ã—ã€åŸºæœ¬çš„ãªæ•´å½¢ã‚’è¡Œã„ã¾ã™
  *
- *  •Ô’l@@F  0/1=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  *
- *  “n‚³‚ê‚½•¶š—ñ‚Í‚±‚ÌŠÖ”‚Å”j‰ó‚³‚ê‚Ü‚·
+ *  æ¸¡ã•ã‚ŒãŸæ–‡å­—åˆ—ã¯ã“ã®é–¢æ•°ã§ç ´å£Šã•ã‚Œã¾ã™
  * -----------------------------------------------------------------------
  */
 char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
-	// ‰‰Zq‚Æ€‚É•ª‰ğ@€‚Ìí•Ê‚Í‚±‚Ì“_‚Å‚Í’²‚×‚Ä‚¢‚È‚¢
+	// æ¼”ç®—å­ã¨é …ã«åˆ†è§£ã€€é …ã®ç¨®åˆ¥ã¯ã“ã®æ™‚ç‚¹ã§ã¯èª¿ã¹ã¦ã„ãªã„
 	StructFormulaCell(str, cells);
 
-	// ®Œ`‚Æ‘®ƒGƒ‰[‚ÌŒŸo
+	// æ•´å½¢ã¨æ›¸å¼ã‚¨ãƒ©ãƒ¼ã®æ¤œå‡º
 	char	bracket = 0;
 	for(std::vector<CCell>::iterator it = cells.begin(); it != cells.end(); ) {
-		// ’¼‘O‚ª")""]"‚Ìê‡AŸ‚Í‰‰Zq‚ª—ˆ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+		// ç›´å‰ãŒ")""]"ã®å ´åˆã€æ¬¡ã¯æ¼”ç®—å­ãŒæ¥ãªã‘ã‚Œã°ãªã‚‰ãªã„
 		if (bracket) {
 			bracket = 0;
 			if (it->value_GetType() == F_TAG_NOP) {
@@ -1116,7 +1116,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				return 0;
 			}
 		}
-		// ³•„†i+‚Ì’¼‘O‚Ì€‚ª–³‚¢‚©‚ ‚é‚¢‚Í")""]"ˆÈŠO‚Ì‰‰Zq@‚±‚Ì€‚ÍÁ‚µ‚Ä‚æ‚¢j
+		// æ­£ç¬¦å·ï¼ˆ+ã®ç›´å‰ã®é …ãŒç„¡ã„ã‹ã‚ã‚‹ã„ã¯")""]"ä»¥å¤–ã®æ¼”ç®—å­ã€€ã“ã®é …ã¯æ¶ˆã—ã¦ã‚ˆã„ï¼‰
 		if (it->value_GetType() == F_TAG_PLUS) {
 			if (it == cells.begin()) {
 				it = cells.erase(it);
@@ -1129,7 +1129,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				continue;
 			}
 		}
-		// •‰•„†i-‚Ì’¼‘O‚Ì€‚ª–³‚¢‚©‚ ‚é‚¢‚Í")"ˆÈŠO‚Ì‰‰Zq@"-1*"‚É®Œ`‚·‚éj
+		// è² ç¬¦å·ï¼ˆ-ã®ç›´å‰ã®é …ãŒç„¡ã„ã‹ã‚ã‚‹ã„ã¯")"ä»¥å¤–ã®æ¼”ç®—å­ã€€"-1*"ã«æ•´å½¢ã™ã‚‹ï¼‰
 		if (it->value_GetType() == F_TAG_MINUS) {
 			if (it == cells.begin()) {
 				it->value_SetType(F_TAG_NOP);
@@ -1153,7 +1153,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				continue;
 			}
 		}
-		// ƒCƒ“ƒNƒŠƒƒ“ƒgi"+=1"‚É®Œ`‚·‚éj
+		// ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆï¼ˆ"+=1"ã«æ•´å½¢ã™ã‚‹ï¼‰
 		if (it->value_GetType() == F_TAG_INCREMENT) {
 			it->value_SetType(F_TAG_PLUSEQUAL);
 			it++;
@@ -1163,7 +1163,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 			it++;
 			continue;
 		}
-		// ƒfƒNƒŠƒƒ“ƒgi"-=1"‚É®Œ`‚·‚éj
+		// ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆï¼ˆ"-=1"ã«æ•´å½¢ã™ã‚‹ï¼‰
 		if (it->value_GetType() == F_TAG_DECREMENT) {
 			it->value_SetType(F_TAG_MINUSEQUAL);
 			it++;
@@ -1173,7 +1173,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 			it++;
 			continue;
 		}
-		// !A&‰‰Zqiè‘O‚Éƒ_ƒ~[€0‚ğ’Ç‰Áj
+		// !ã€&æ¼”ç®—å­ï¼ˆæ‰‹å‰ã«ãƒ€ãƒŸãƒ¼é …0ã‚’è¿½åŠ ï¼‰
 		if (it->value_GetType() == F_TAG_FEEDBACK) {
 			if (it == cells.begin()) {
 				vm.logger().Error(E_E, 87, dicfilename, linecount);
@@ -1192,7 +1192,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 			it += 2;
 			continue;
 		}
-		// ŠÈˆÕ”z—ñ˜”ƒAƒNƒZƒX‰‰Zqi"["’¼‘O‚É•t—^j
+		// ç°¡æ˜“é…åˆ—åºæ•°ã‚¢ã‚¯ã‚»ã‚¹æ¼”ç®—å­ï¼ˆ"["ç›´å‰ã«ä»˜ä¸ï¼‰
 		if (it->value_GetType() == F_TAG_HOOKBRACKETIN) {
 			if (it == cells.begin()) {
 				vm.logger().Error(E_E, 6, dicfilename, linecount);
@@ -1203,7 +1203,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 			it += 2;
 			continue;
 		}
-		// ŠÖ”—v‘fw’è‰‰Zqi"("’¼‘O‚ª‰‰Zq‚Å‚È‚¯‚ê‚Î•t—^j
+		// é–¢æ•°è¦ç´ æŒ‡å®šæ¼”ç®—å­ï¼ˆ"("ç›´å‰ãŒæ¼”ç®—å­ã§ãªã‘ã‚Œã°ä»˜ä¸ï¼‰
 		if (it->value_GetType() == F_TAG_BRACKETIN) {
 			if (it != cells.begin()) {
 				std::vector<CCell>::iterator	itm = it;
@@ -1216,8 +1216,8 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				}
 			}
 		}
-		// ‹ó‚ÌƒJƒbƒRi"()"@Á‚·@ŠÖ”—v‘fw’è‰‰Zq‚ª‚ ‚Á‚½ê‡‚Í‚»‚ê‚àÁ‚·j
-		// ŠÖ”ˆø”2ŒÂˆÈã‚Å‹ó‚Ìˆø”i",)"‚Ìê‡A""‚ğ•âŠ®j
+		// ç©ºã®ã‚«ãƒƒã‚³ï¼ˆ"()"ã€€æ¶ˆã™ã€€é–¢æ•°è¦ç´ æŒ‡å®šæ¼”ç®—å­ãŒã‚ã£ãŸå ´åˆã¯ãã‚Œã‚‚æ¶ˆã™ï¼‰
+		// é–¢æ•°å¼•æ•°2å€‹ä»¥ä¸Šã§ç©ºã®å¼•æ•°ï¼ˆ",)"ã®å ´åˆã€""ã‚’è£œå®Œï¼‰
 		if (it->value_GetType() == F_TAG_BRACKETOUT) {
 			bracket = 1;
 			if (it != cells.begin()) {
@@ -1230,8 +1230,8 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 						itm = it;
 						itm--;
 						if (itm->value_GetType() == F_TAG_FUNCPARAM) {
-							// ’¼‘O‚Ì¯•Êq‚Éuˆø”‚È‚µŠÖ”ŒÄ‚Ño‚µ‹L–@‚¾‚Á‚½vƒtƒ‰ƒO‚ğ—§‚Ä‚é
-							// SetCellType1‚ÅŠÖ”‚Å‚È‚¢‚Æ”»–¾‚µ‚½ê‡‚ÉE0071‚ğo—Í‚·‚é‚½‚ß
+							// ç›´å‰ã®è­˜åˆ¥å­ã«ã€Œå¼•æ•°ãªã—é–¢æ•°å‘¼ã³å‡ºã—è¨˜æ³•ã ã£ãŸã€ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
+							// SetCellType1ã§é–¢æ•°ã§ãªã„ã¨åˆ¤æ˜ã—ãŸå ´åˆã«E0071ã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚
 							if (itm != cells.begin()) {
 								std::vector<CCell>::iterator id_it = itm;
 								--id_it;
@@ -1252,7 +1252,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				}
 			}
 		}
-		// ‹ó‚ÌçêƒJƒbƒRi"[]"@ƒGƒ‰[j
+		// ç©ºã®é‰¤ã‚«ãƒƒã‚³ï¼ˆ"[]"ã€€ã‚¨ãƒ©ãƒ¼ï¼‰
 		if (it->value_GetType() == F_TAG_HOOKBRACKETOUT) {
 			bracket = 1;
 			if (it != cells.begin()) {
@@ -1264,7 +1264,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				}
 			}
 		}
-		// ŠÖ”ˆø”2ŒÂˆÈã‚Å‹ó‚Ìˆø”i"(,"‚¨‚æ‚Ñ",,"‚Ìê‡A""‚ğ•âŠ®j
+		// é–¢æ•°å¼•æ•°2å€‹ä»¥ä¸Šã§ç©ºã®å¼•æ•°ï¼ˆ"(,"ãŠã‚ˆã³",,"ã®å ´åˆã€""ã‚’è£œå®Œï¼‰
 		if (it->value_GetType() == F_TAG_COMMA) {
 			if (it != cells.begin()) {
 				std::vector<CCell>::iterator	itm = it;
@@ -1278,7 +1278,7 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 				}
 			}
 		}
-		// Ÿ‚Ì€‚Ö
+		// æ¬¡ã®é …ã¸
 		it++;
 	}
 
@@ -1286,22 +1286,22 @@ char	CParser0::StructFormula(yaya::string_t& str, std::vector<CCell>& cells, con
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::StructWhen
- *  ‹@”\ŠT—vF  •¶š—ñ‚ğ”®‚Ì€‚Æ‰‰Zq‚É•ª‰ğ‚µAŠî–{“I‚È®Œ`‚ğs‚¢‚Ü‚·iwhen\•¶—pj
+ *  é–¢æ•°å  ï¼š  CParser0::StructWhen
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ–‡å­—åˆ—ã‚’æ•°å¼ã®é …ã¨æ¼”ç®—å­ã«åˆ†è§£ã—ã€åŸºæœ¬çš„ãªæ•´å½¢ã‚’è¡Œã„ã¾ã™ï¼ˆwhenæ§‹æ–‡ç”¨ï¼‰
  *
- *  •Ô’l@@F  0/1=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  *
- *  “n‚³‚ê‚½•¶š—ñ‚Í‚±‚ÌŠÖ”‚Å”j‰ó‚³‚ê‚Ü‚·
+ *  æ¸¡ã•ã‚ŒãŸæ–‡å­—åˆ—ã¯ã“ã®é–¢æ•°ã§ç ´å£Šã•ã‚Œã¾ã™
  * -----------------------------------------------------------------------
  */
 char	CParser0::StructWhen(yaya::string_t& str, std::vector<CCell>& cells, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
-	// ‰‰Zq‚Æ€‚É•ª‰ğ@€‚Ìí•Ê‚Í‚±‚Ì“_‚Å‚Í’²‚×‚Ä‚¢‚È‚¢
+	// æ¼”ç®—å­ã¨é …ã«åˆ†è§£ã€€é …ã®ç¨®åˆ¥ã¯ã“ã®æ™‚ç‚¹ã§ã¯èª¿ã¹ã¦ã„ãªã„
 	StructFormulaCell(str, cells);
 
-	// ®Œ`‚Æ‘®ƒGƒ‰[‚ÌŒŸo
+	// æ•´å½¢ã¨æ›¸å¼ã‚¨ãƒ©ãƒ¼ã®æ¤œå‡º
 	for(std::vector<CCell>::iterator it = cells.begin(); it != cells.end(); ) {
-		// ³•„†i+‚Ì’¼‘O‚Ì€‚ª–³‚¢‚©‚ ‚é‚¢‚Í")"ˆÈŠO‚Ì‰‰Zq@‚±‚Ì€‚ÍÁ‚µ‚Ä‚æ‚¢j
+		// æ­£ç¬¦å·ï¼ˆ+ã®ç›´å‰ã®é …ãŒç„¡ã„ã‹ã‚ã‚‹ã„ã¯")"ä»¥å¤–ã®æ¼”ç®—å­ã€€ã“ã®é …ã¯æ¶ˆã—ã¦ã‚ˆã„ï¼‰
 		if (it->value_GetType() == F_TAG_PLUS) {
 			if (it == cells.begin()) {
 				it = cells.erase(it);
@@ -1314,7 +1314,7 @@ char	CParser0::StructWhen(yaya::string_t& str, std::vector<CCell>& cells, const 
 				continue;
 			}
 		}
-		// •‰•„†i-‚Ì’¼‘O‚Ì€‚ª–³‚¢@Ÿ‚Ì€‚É’Pƒ‚É-‚ğ•t‰Á‚·‚éj
+		// è² ç¬¦å·ï¼ˆ-ã®ç›´å‰ã®é …ãŒç„¡ã„ã€€æ¬¡ã®é …ã«å˜ç´”ã«-ã‚’ä»˜åŠ ã™ã‚‹ï¼‰
 		if (it->value_GetType() == F_TAG_MINUS) {
 			if (it == cells.begin()) {
 				it = cells.erase(it);
@@ -1329,7 +1329,7 @@ char	CParser0::StructWhen(yaya::string_t& str, std::vector<CCell>& cells, const 
 				continue;
 			}
 		}
-		// ƒfƒNƒŠƒƒ“ƒg ³“–‚ÈŒ`ó‚©‚ğŒŸ¸‚ÌãA- ‚ÆŸ€‚Ö‚Ì-•t—^‚Æ‚µ‚Äˆ—‚·‚é
+		// ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ æ­£å½“ãªå½¢çŠ¶ã‹ã‚’æ¤œæŸ»ã®ä¸Šã€- ã¨æ¬¡é …ã¸ã®-ä»˜ä¸ã¨ã—ã¦å‡¦ç†ã™ã‚‹
 		if (it->value_GetType() == F_TAG_DECREMENT) {
 			if (it == cells.begin()) {
 				vm.logger().Error(E_E, 65, dicfilename, linecount);
@@ -1344,10 +1344,10 @@ char	CParser0::StructWhen(yaya::string_t& str, std::vector<CCell>& cells, const 
 			it->value().s_value.insert(0, L"-");
 			continue;
 		}
-		// Ÿ‚Ì€‚Ö
+		// æ¬¡ã®é …ã¸
 		it++;
 	}
-	// ","‚ğ"||"‚ÖA"-"‚ğ"&&"‚Ö•ÏŠ·‚·‚é@–³Œø‚È‰‰Zq‚Å‚ÍƒGƒ‰[
+	// ","ã‚’"||"ã¸ã€"-"ã‚’"&&"ã¸å¤‰æ›ã™ã‚‹ã€€ç„¡åŠ¹ãªæ¼”ç®—å­ã§ã¯ã‚¨ãƒ©ãƒ¼
 	for(std::vector<CCell>::iterator it = cells.begin(); it != cells.end(); it++) {
 		if (it->value_GetType() == F_TAG_COMMA)
 			it->value_SetType(F_TAG_OR);
@@ -1363,12 +1363,12 @@ char	CParser0::StructWhen(yaya::string_t& str, std::vector<CCell>& cells, const 
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::StructFormulaCell
- *  ‹@”\ŠT—vF  •¶š—ñ‚ğ”®‚Ì€‚Æ‰‰Zq‚É•ª‰ğ‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::StructFormulaCell
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ–‡å­—åˆ—ã‚’æ•°å¼ã®é …ã¨æ¼”ç®—å­ã«åˆ†è§£ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  *
- *  “n‚³‚ê‚½•¶š—ñ‚Í‚±‚ÌŠÖ”‚Å”j‰ó‚³‚ê‚Ü‚·
+ *  æ¸¡ã•ã‚ŒãŸæ–‡å­—åˆ—ã¯ã“ã®é–¢æ•°ã§ç ´å£Šã•ã‚Œã¾ã™
  * -----------------------------------------------------------------------
  */
 //#include <iostream>
@@ -1378,7 +1378,7 @@ void	CParser0::StructFormulaCell(yaya::string_t &str, std::vector<CCell> &cells)
 	yaya::string_t bstr;
 
 	for( ; ; ) {
-		// •ªŠ„ˆÊ’u‚ğæ“¾@Å‚àè‘O‚ÅÅ‚à–¼‘O‚ª’·‚­AƒNƒH[ƒg‚³‚ê‚Ä‚¢‚È‚¢‰‰Zq‚ğ’T‚·
+		// åˆ†å‰²ä½ç½®ã‚’å–å¾—ã€€æœ€ã‚‚æ‰‹å‰ã§æœ€ã‚‚åå‰ãŒé•·ãã€ã‚¯ã‚©ãƒ¼ãƒˆã•ã‚Œã¦ã„ãªã„æ¼”ç®—å­ã‚’æ¢ã™
 		ptrdiff_t tagpoint = -1;
 		int	tagtype  = 0;
 		size_t taglen   = 0;
@@ -1417,8 +1417,8 @@ void	CParser0::StructFormulaCell(yaya::string_t &str, std::vector<CCell> &cells)
 			}
 
 			if ( result >= 0 ) {
-				// _in_ ‰‰Zq‚Í¯•Êq–¼‚É–„‚ß‚Ü‚ê‚Ä‚¢‚éê‡‚Í‰‰Zq‚Æ‚µ‚Ä”F¯‚µ‚È‚¢
-				// —á: _total_in_answer ‚Í‰‰Zq _in_ ‚ğŠÜ‚Ş®‚Å‚Í‚È‚­¯•Êq‚Æ‚µ‚Äˆµ‚¤
+				// _in_ æ¼”ç®—å­ã¯è­˜åˆ¥å­åã«åŸ‹ã‚è¾¼ã¾ã‚Œã¦ã„ã‚‹å ´åˆã¯æ¼”ç®—å­ã¨ã—ã¦èªè­˜ã—ãªã„
+				// ä¾‹: _total_in_answer ã¯æ¼”ç®—å­ _in_ ã‚’å«ã‚€å¼ã§ã¯ãªãè­˜åˆ¥å­ã¨ã—ã¦æ‰±ã†
 				if ( result == F_TAG_IFIN && i > 0 ) {
 					yaya::char_t prev = str[i - 1];
 					bool preceded_by_ident = (prev >= L'A' && prev <= L'Z') ||
@@ -1475,7 +1475,7 @@ void	CParser0::StructFormulaCell(yaya::string_t &str, std::vector<CCell> &cells)
 		wcout << "  taglen: " << taglen << endl;
 		wcout << "  bstr: " << bstr << endl;
 */
-		// Œ©‚Â‚©‚ç‚È‚¢ê‡‚ÍÅŒã‚Ì€‚ğ“o˜^‚µ‚Ä”²‚¯‚é
+		// è¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯æœ€å¾Œã®é …ã‚’ç™»éŒ²ã—ã¦æŠœã‘ã‚‹
 		if (tagpoint == -1) {
 			CCell	addcell(F_TAG_NOP);
 			addcell.value().s_value = str;
@@ -1484,9 +1484,9 @@ void	CParser0::StructFormulaCell(yaya::string_t &str, std::vector<CCell> &cells)
 				cells.emplace_back(addcell);
 			break;
 		}
-		// Œ©‚Â‚©‚Á‚½‚Ì‚Å“o˜^‚·‚é
+		// è¦‹ã¤ã‹ã£ãŸã®ã§ç™»éŒ²ã™ã‚‹
 		else {
-			// €‚Ì“o˜^@‹ó•¶š—ñ‚Í“o˜^‚µ‚È‚¢
+			// é …ã®ç™»éŒ²ã€€ç©ºæ–‡å­—åˆ—ã¯ç™»éŒ²ã—ãªã„
 			if (tagpoint > 0) {
 				cell_name.assign(str, 0, tagpoint);
 				CutSpace(cell_name);
@@ -1496,19 +1496,19 @@ void	CParser0::StructFormulaCell(yaya::string_t &str, std::vector<CCell> &cells)
 					cells.emplace_back(addcell);
 				}
 			}
-			// ‰‰Zq‚Ì“o˜^
+			// æ¼”ç®—å­ã®ç™»éŒ²
 			cells.emplace_back(CCell(tagtype + F_TAG_ORIGIN));
-			// Œ³‚Ì•¶š—ñ‚©‚çæ‚èo‚µÏ‚Ì—v‘f‚ğí‚é
+			// å…ƒã®æ–‡å­—åˆ—ã‹ã‚‰å–ã‚Šå‡ºã—æ¸ˆã®è¦ç´ ã‚’å‰Šã‚‹
 			str = bstr;
 		}
 	}
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::AddSimpleIfBrace
- *  ‹@”\ŠT—vF  if/elseif/else/when/others‚Ì’¼Œã‚É'{'‚ª–³‚¢ê‡AŸ‚Ìs‚ğ{}‚ÅˆÍ‚İ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::AddSimpleIfBrace
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  if/elseif/else/when/othersã®ç›´å¾Œã«'{'ãŒç„¡ã„å ´åˆã€æ¬¡ã®è¡Œã‚’{}ã§å›²ã¿ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::AddSimpleIfBrace(const yaya::string_t &dicfilename)
@@ -1523,10 +1523,10 @@ char	CParser0::AddSimpleIfBrace(const yaya::string_t &dicfilename)
 				beftype == ST_ELSE ||
 				beftype == ST_WHEN) {
 				if (it2->type != ST_OPEN) {
-					// { ’Ç‰Á
+					// { è¿½åŠ 
 					it2 = it->statement.insert(it2, CStatement(ST_OPEN, it2->linecount));
 					it2 += 2;
-					// } ’Ç‰Á
+					// } è¿½åŠ 
 					it2 = it->statement.insert(it2, CStatement(ST_CLOSE, it2->linecount));
 				}
 			}
@@ -1538,10 +1538,10 @@ char	CParser0::AddSimpleIfBrace(const yaya::string_t &dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::SetCellType
- *  ‹@”\ŠT—vF  ”®‚Ì€‚Ìí•ÊiƒŠƒeƒ‰ƒ‹AŠÖ”A•Ï”...‚È‚Çj‚ğ’²‚×‚ÄŠi”[‚µ‚Ä‚¢‚«‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::SetCellType
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ•°å¼ã®é …ã®ç¨®åˆ¥ï¼ˆãƒªãƒ†ãƒ©ãƒ«ã€é–¢æ•°ã€å¤‰æ•°...ãªã©ï¼‰ã‚’èª¿ã¹ã¦æ ¼ç´ã—ã¦ã„ãã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::SetCellType(const yaya::string_t &dicfilename)
@@ -1552,19 +1552,19 @@ char	CParser0::SetCellType(const yaya::string_t &dicfilename)
 		if ( it->dicfilename != dicfilename ) { continue; }
 
 		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			// ”®ˆÈŠO‚Í”ò‚Î‚·
+			// æ•°å¼ä»¥å¤–ã¯é£›ã°ã™
 			if (it2->type < ST_FORMULA)
 				continue;
 
-			if ( it2->cell_size() ) { //‚‘¬‰»—p
+			if ( it2->cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 				for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); it3++) {
-					// ‰‰Zq‚Í”ò‚Î‚·
+					// æ¼”ç®—å­ã¯é£›ã°ã™
 					if (it3->value_GetType() != F_TAG_NOP)
 						continue;
 
-					// €í•Êæ“¾
+					// é …ç¨®åˆ¥å–å¾—
 					errorflg += SetCellType1(*it3, 0, it->dicfilename, it2->linecount);
-					// when‚Ìê‡A€‚ÍƒŠƒeƒ‰ƒ‹‚µ‚©‚ ‚è“¾‚È‚¢
+					// whenã®å ´åˆã€é …ã¯ãƒªãƒ†ãƒ©ãƒ«ã—ã‹ã‚ã‚Šå¾—ãªã„
 					if (it2->type == ST_WHEN) {
 						if (it3->value_GetType() != F_TAG_INT && 
 							it3->value_GetType() != F_TAG_DOUBLE && 
@@ -1584,16 +1584,16 @@ char	CParser0::SetCellType(const yaya::string_t &dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::SetCellType1
- *  ‹@”\ŠT—vF  “n‚³‚ê‚½€‚Ìí•ÊiƒŠƒeƒ‰ƒ‹AŠÖ”A•Ï”...‚È‚Çj‚ğİ’è‚µ‚Ü‚·
- *  ˆø”@@F  emb 0/1=’Êí‚Ì”®‚Ì€/•¶š—ñ‚É–„‚ß‚Ü‚ê‚Ä‚¢‚½”®‚Ì€
+ *  é–¢æ•°å  ï¼š  CParser0::SetCellType1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ¸¡ã•ã‚ŒãŸé …ã®ç¨®åˆ¥ï¼ˆãƒªãƒ†ãƒ©ãƒ«ã€é–¢æ•°ã€å¤‰æ•°...ãªã©ï¼‰ã‚’è¨­å®šã—ã¾ã™
+ *  å¼•æ•°ã€€ã€€ï¼š  emb 0/1=é€šå¸¸ã®æ•°å¼ã®é …/æ–‡å­—åˆ—ã«åŸ‹ã‚è¾¼ã¾ã‚Œã¦ã„ãŸæ•°å¼ã®é …
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
-	// ŠÖ”
+	// é–¢æ•°
 	ptrdiff_t i = vm.function_parse().GetFunctionIndexFromName(scell.value_const().s_value);
 	if(i >= 0) {
 		scell.name  = scell.value_const().s_value;
@@ -1616,7 +1616,7 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 		}
 */
 
-	// ƒVƒXƒeƒ€ŠÖ”
+	// ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°
 	ptrdiff_t sysidx = CSystemFunction::FindIndex(scell.value_const().s_value);
 	if ( sysidx >= 0 ) {
 		scell.value_SetType(F_TAG_SYSFUNC);
@@ -1626,27 +1626,27 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 		return 0;
 	}
 
-	// ®”ƒŠƒeƒ‰ƒ‹(DEC)
+	// æ•´æ•°ãƒªãƒ†ãƒ©ãƒ«(DEC)
 	if (IsIntString(scell.value_const().s_value)) {
 		scell.value() = yaya::ws_atoll(scell.value_const().s_value);
 		return 0;
 	}
-	// ®”ƒŠƒeƒ‰ƒ‹(BIN)
+	// æ•´æ•°ãƒªãƒ†ãƒ©ãƒ«(BIN)
 	if (IsIntBinString(scell.value_const().s_value, 1)) {
 		scell.value() = yaya::ws_atoll(scell.value_const().s_value, 2);
 		return 0;
 	}
-	// ®”ƒŠƒeƒ‰ƒ‹(HEX)
+	// æ•´æ•°ãƒªãƒ†ãƒ©ãƒ«(HEX)
 	if (IsIntHexString(scell.value_const().s_value, 1)) {
 		scell.value() = yaya::ws_atoll(scell.value_const().s_value, 16);
 		return 0;
 	}
-	// À”ƒŠƒeƒ‰ƒ‹
+	// å®Ÿæ•°ãƒªãƒ†ãƒ©ãƒ«
 	if (IsDoubleButNotIntString(scell.value_const().s_value)) {
 		scell.value() = yaya::ws_atof(scell.value_const().s_value);
 		return 0;
 	}
-	// •¶š—ñƒŠƒeƒ‰ƒ‹(ƒ_ƒuƒ‹ƒNƒH[ƒg)
+	// æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«(ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆ)
 	i = IsLegalStrLiteral(scell.value_const().s_value);
 	if (!i) {
 		CutDoubleQuote(scell.value().s_value);
@@ -1657,7 +1657,7 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 			scell.value_SetType(F_TAG_STRING);
 		}
 		else {
-			if ( scell.value_const().s_value.size() <= 1 ) { //1•¶šˆÈ‰º‚È‚ç‚»‚à‚»‚à–„‚ß‚İ‚·‚ç‚È‚¢
+			if ( scell.value_const().s_value.size() <= 1 ) { //1æ–‡å­—ä»¥ä¸‹ãªã‚‰ãã‚‚ãã‚‚åŸ‹ã‚è¾¼ã¿ã™ã‚‰ãªã„
 				scell.value_SetType(F_TAG_STRING_PLAIN);
 			}
 			else {
@@ -1682,7 +1682,7 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 		vm.logger().Error(E_E, 8, scell.value_const().s_value, dicfilename, linecount);
 		return 1;
 	}
-	// •¶š—ñƒŠƒeƒ‰ƒ‹(ƒVƒ“ƒOƒ‹ƒNƒH[ƒg)
+	// æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«(ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆ)
 	i = IsLegalPlainStrLiteral(scell.value_const().s_value);
 	if (!i) {
 		CutSingleQuote(scell.value().s_value);
@@ -1701,47 +1701,47 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 		vm.logger().Error(E_E, 93, scell.value_const().s_value, dicfilename, linecount);
 		return 1;
 	}
-	// ˆø”‚È‚µ‚ÌŠÖ”ŒÄ‚Ño‚µ‹L–@iidentifier()j‚¾‚Á‚½‚ªAŠÖ”‚Æ‚µ‚Ä”F¯‚³‚ê‚È‚©‚Á‚½ê‡‚ÍE0071
+	// å¼•æ•°ãªã—ã®é–¢æ•°å‘¼ã³å‡ºã—è¨˜æ³•ï¼ˆidentifier()ï¼‰ã ã£ãŸãŒã€é–¢æ•°ã¨ã—ã¦èªè­˜ã•ã‚Œãªã‹ã£ãŸå ´åˆã¯E0071
 	if (scell.depth == 0) {
 		vm.logger().Error(E_E, 71, dicfilename, linecount);
 		scell.value_Delete();
 		return 1;
 	}
 
-	// ‚±‚±‚Ü‚Åc‚Á‚½‚à‚Ì‚Í•Ï”‚ÌŒó•â
+	// ã“ã“ã¾ã§æ®‹ã£ãŸã‚‚ã®ã¯å¤‰æ•°ã®å€™è£œ
 	CVariable	addvariable;
 	std::string	errstr;
 	switch(IsLegalVariableName(scell.value_const().s_value)) {
 	case 0:
-		// ƒOƒ[ƒoƒ‹•Ï”
+		// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
 		scell.value_SetType(F_TAG_VARIABLE);
 		scell.index  = vm.variable().Make(scell.value_const().s_value, 1);
 		scell.name   = scell.value_const().s_value;
 		scell.value_Delete();
 		return 0;
 	case 16:
-		// ƒ[ƒJƒ‹•Ï”
+		// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°
 		scell.value_SetType(F_TAG_LOCALVARIABLE);
 		scell.name   = scell.value_const().s_value;
 		scell.value_Delete();
 		return 0;
 	case 3:
-		// ƒGƒ‰[@•Ï”–¼‚ÌŒë‚è
+		// ã‚¨ãƒ©ãƒ¼ã€€å¤‰æ•°åã®èª¤ã‚Š
 		vm.logger().Error(E_E, 10, scell.value_const().s_value, dicfilename, linecount);
 		scell.value_Delete();
 		return 1;
 	case 4:
-		// ƒGƒ‰[@g—p‚Å‚«‚È‚¢•¶š‚ğŠÜ‚Ş
+		// ã‚¨ãƒ©ãƒ¼ã€€ä½¿ç”¨ã§ããªã„æ–‡å­—ã‚’å«ã‚€
 		vm.logger().Error(E_E, 11, scell.value_const().s_value, dicfilename, linecount);
 		scell.value_Delete();
 		return 1;
 	case 6:
-		// ƒGƒ‰[@—\–ñŒê‚ÆÕ“Ë
+		// ã‚¨ãƒ©ãƒ¼ã€€äºˆç´„èªã¨è¡çª
 		vm.logger().Error(E_E, 12, scell.value_const().s_value, dicfilename, linecount);
 		scell.value_Delete();
 		return 1;
 	default:
-		// “à•”ƒGƒ‰[
+		// å†…éƒ¨ã‚¨ãƒ©ãƒ¼
 		vm.logger().Error(E_E, 9, scell.value_const().s_value, dicfilename, linecount);
 		scell.value_Delete();
 		return 1;
@@ -1749,10 +1749,10 @@ char	CParser0::SetCellType1(CCell& scell, char emb, const yaya::string_t& dicfil
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::MakeCompleteFormula
- *  ‹@”\ŠT—vF  –„‚ß‚İ—v‘f‚Ì®‚Ö‚Ì“WŠJ‚Æ‰‰Z‡˜‚ÌŒˆ’è‚ğs‚È‚¢‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::MakeCompleteFormula
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  åŸ‹ã‚è¾¼ã¿è¦ç´ ã®å¼ã¸ã®å±•é–‹ã¨æ¼”ç®—é †åºã®æ±ºå®šã‚’è¡Œãªã„ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::MakeCompleteFormula(const yaya::string_t &dicfilename)
@@ -1767,10 +1767,10 @@ char	CParser0::MakeCompleteFormula(const yaya::string_t &dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ParseEmbeddedFactor
- *  ‹@”\ŠT—vF  "%"‚Å–„‚ß‚Ü‚ê‚½—v‘f‚ğ‚Â•¶š—ñ‚ğ•ª‰ğ‚µ‚Ä”®‚ğì‚èAŒ³‚Ì®‚ÆŒ‹‡‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ParseEmbeddedFactor
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  "%"ã§åŸ‹ã‚è¾¼ã¾ã‚ŒãŸè¦ç´ ã‚’æŒã¤æ–‡å­—åˆ—ã‚’åˆ†è§£ã—ã¦æ•°å¼ã‚’ä½œã‚Šã€å…ƒã®å¼ã¨çµåˆã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::ParseEmbeddedFactor(const yaya::string_t& dicfilename)
@@ -1789,10 +1789,10 @@ char	CParser0::ParseEmbeddedFactor(const yaya::string_t& dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ParseEmbeddedFactor1
- *  ‹@”\ŠT—vF  "%"‚Å–„‚ß‚Ü‚ê‚½—v‘f‚ğ‚Â•¶š—ñ‚ğ•ª‰ğ‚µ‚Ä”®‚ğì‚èAŒ³‚Ì®‚ÆŒ‹‡‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ParseEmbeddedFactor1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  "%"ã§åŸ‹ã‚è¾¼ã¾ã‚ŒãŸè¦ç´ ã‚’æŒã¤æ–‡å­—åˆ—ã‚’åˆ†è§£ã—ã¦æ•°å¼ã‚’ä½œã‚Šã€å…ƒã®å¼ã¨çµåˆã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfilename)
@@ -1802,8 +1802,8 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 
 	int	errcount = 0;
 
-	// ‰‰Z‡˜‚ğ•ö‚³‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ßA%‚ğŠÜ‚Ş—v‘f‚ğ()‚ÅˆÍ‚Ş
-	if ( st.cell_size() ) { //‚‘¬‰»—p
+	// æ¼”ç®—é †åºã‚’å´©ã•ãªã„ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã€%ã‚’å«ã‚€è¦ç´ ã‚’()ã§å›²ã‚€
+	if ( st.cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for(std::vector<CCell>::iterator it = st.cell().begin(); it != st.cell().end(); ) {
 			if (it->value_GetType() == F_TAG_STRING) {
 				if (it->value_const().s_value.find(L'%') != yaya::string_t::npos) {
@@ -1821,17 +1821,17 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 					continue;
 				}
 			}
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			it++;
 		}
 	}
 
-	// –„‚ß‚İ—v‘f‚ğ‰ÁZ‘½€®‚É•ª‰ğ‚µ‚ÄŒ³‚Ì®‚ÌŠY“–ˆÊ’u‚Ö‘}“ü
-	if ( st.cell_size() ) { //‚‘¬‰»—p
+	// åŸ‹ã‚è¾¼ã¿è¦ç´ ã‚’åŠ ç®—å¤šé …å¼ã«åˆ†è§£ã—ã¦å…ƒã®å¼ã®è©²å½“ä½ç½®ã¸æŒ¿å…¥
+	if ( st.cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for(std::vector<CCell>::iterator it = st.cell().begin(); it != st.cell().end(); ) {
 			if (it->value_GetType() == F_TAG_STRING) {
 				if (it->value_const().s_value.find(L'%') != yaya::string_t::npos) {
-					// ‰ÁZ‘½€®‚Ö•ÏŠ·
+					// åŠ ç®—å¤šé …å¼ã¸å¤‰æ›
 					int	t_errcount = 0;
 					yaya::string_t	linedata = it->value_const().s_value;
 					int	res = ConvertEmbedStringToFormula(linedata, dicfilename, st.linecount);
@@ -1840,7 +1840,7 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 						it++;
 						continue;
 					}
-					// ”®‚Ì€•ª‰ğ‚Æ®Œ`
+					// æ•°å¼ã®é …åˆ†è§£ã¨æ•´å½¢
 					std::vector<CCell>	addcells;
 					res = 1 - StructFormula(linedata, addcells, dicfilename, st.linecount);
 					t_errcount += res;
@@ -1848,14 +1848,14 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 						it++;
 						continue;
 					}
-					// €‚Ìí•Ê‚ğİ’è
+					// é …ã®ç¨®åˆ¥ã‚’è¨­å®š
 					for(std::vector<CCell>::iterator it2 = addcells.begin(); it2 != addcells.end(); it2++) {
 						if (it2->value_GetType() != F_TAG_NOP)
 							continue;
 
 						t_errcount += SetCellType1(*it2, 1, dicfilename, st.linecount);
 					}
-					// Œ³‚Ì®‚ÌŠY“–ˆÊ’u‚Ö‘}“ü
+					// å…ƒã®å¼ã®è©²å½“ä½ç½®ã¸æŒ¿å…¥
 					if (!t_errcount) {
 						it = st.cell().erase(it);
 						size_t c_num = addcells.size();
@@ -1867,7 +1867,7 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 					errcount += t_errcount;
 				}
 			}
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			it++;
 		}
 	}
@@ -1876,8 +1876,8 @@ char	CParser0::ParseEmbeddedFactor1(CStatement& st, const yaya::string_t& dicfil
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ConvertPlainString
- *  ‹@”\ŠT—vF  ƒVƒ“ƒOƒ‹ƒNƒH[ƒg•¶š—ñ‚ğ’Êí•¶š—ñ‚Ö’uŠ·‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ConvertPlainString
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆæ–‡å­—åˆ—ã‚’é€šå¸¸æ–‡å­—åˆ—ã¸ç½®æ›ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CParser0::ConvertPlainString(const yaya::string_t& dicfilename)
@@ -1892,8 +1892,8 @@ void	CParser0::ConvertPlainString(const yaya::string_t& dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ConvertPlainString1
- *  ‹@”\ŠT—vF  ƒVƒ“ƒOƒ‹ƒNƒH[ƒg•¶š—ñ‚ğ’Êí•¶š—ñ‚Ö’uŠ·‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ConvertPlainString1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ã‚·ãƒ³ã‚°ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆæ–‡å­—åˆ—ã‚’é€šå¸¸æ–‡å­—åˆ—ã¸ç½®æ›ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CParser0::ConvertPlainString1(CStatement& st, const yaya::string_t& /*dicfilename*/)
@@ -1901,7 +1901,7 @@ void	CParser0::ConvertPlainString1(CStatement& st, const yaya::string_t& /*dicfi
 	if (st.type < ST_FORMULA)
 		return;
 
-	if ( st.cell_size() ) { //‚‘¬‰»—p
+	if ( st.cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for(std::vector<CCell>::iterator it = st.cell().begin(); it != st.cell().end(); it++)
 			if (it->value_GetType() == F_TAG_STRING_PLAIN)
 				it->value_SetType(F_TAG_STRING);
@@ -1909,10 +1909,10 @@ void	CParser0::ConvertPlainString1(CStatement& st, const yaya::string_t& /*dicfi
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::ConvertEmbedStringToFormula
- *  ‹@”\ŠT—vF  "%"‚Å–„‚ß‚Ü‚ê‚½—v‘f‚ğ‚Â•¶š—ñ‚ğ‰ÁZ‘½€®‚Ö•ÏŠ·‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::ConvertEmbedStringToFormula
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  "%"ã§åŸ‹ã‚è¾¼ã¾ã‚ŒãŸè¦ç´ ã‚’æŒã¤æ–‡å­—åˆ—ã‚’åŠ ç®—å¤šé …å¼ã¸å¤‰æ›ã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 
@@ -1928,16 +1928,16 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 	yaya::string_t	resstr;
 	ptrdiff_t nindex = -1;
 	for(size_t nfirst = 0; ; nfirst++) {
-		// "%"‚Ì”­Œ©
+		// "%"ã®ç™ºè¦‹
 		ptrdiff_t p_pers = str.find(L'%', 0);
 		if (p_pers == -1) {
 			vm.logger().Error(E_E, 55, dicfilename, linecount);
 			return 1;
 		}
-		// ‰ÁZ‰‰Zq‚ğ’Ç‰Á
+		// åŠ ç®—æ¼”ç®—å­ã‚’è¿½åŠ 
 		if (nfirst)
 			resstr += L'+';
-		// æs‚·‚é•¶š—ñ€‚ğ’Ç‰Á
+		// å…ˆè¡Œã™ã‚‹æ–‡å­—åˆ—é …ã‚’è¿½åŠ 
 		if (p_pers > 0) {
 			yaya::string_t	prestr;
 			prestr.assign(str, 0, p_pers);
@@ -1946,14 +1946,14 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			str.erase(0, p_pers);
 			resstr += L'+';
 		}
-		// "%"‚µ‚©c‚ç‚È‚©‚Á‚½‚ç‚»‚ê‚ÅI‚í‚è
+		// "%"ã—ã‹æ®‹ã‚‰ãªã‹ã£ãŸã‚‰ãã‚Œã§çµ‚ã‚ã‚Š
 		if (str.size() == 1) {
 			resstr += L"\"%\"";
 			break;
 		}
-		// "%"‚ÌŸ‚ª"("‚È‚ç’·‚³w’è•t‚«‚Ì–„‚ß‚İ‚È‚Ì‚Å‚»‚ê‚ğ”²‚«o‚·
+		// "%"ã®æ¬¡ãŒ"("ãªã‚‰é•·ã•æŒ‡å®šä»˜ãã®åŸ‹ã‚è¾¼ã¿ãªã®ã§ãã‚Œã‚’æŠœãå‡ºã™
 		if (str[1] == L'(') {
-			// ”²‚«o‚µˆÊ’uŒŸõ
+			// æŠœãå‡ºã—ä½ç½®æ¤œç´¢
 			size_t bdepth = 1;
 			size_t len = str.size();
 			size_t spos = 0;
@@ -1968,7 +1968,7 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			if (spos < len) {
 				spos++;
 			}
-			// ƒGƒ‰[ˆ—
+			// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 			if (bdepth != 0) {
 				vm.logger().Error(E_E, 60, dicfilename, linecount);
 				return 1;
@@ -1981,16 +1981,16 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 				vm.logger().Error(E_E, 62, dicfilename, linecount);
 				return 1;
 			}
-			// –„‚ß‚İ—v‘f‚ğæ‚èo‚µ‚Ä’Ç‰Á
+			// åŸ‹ã‚è¾¼ã¿è¦ç´ ã‚’å–ã‚Šå‡ºã—ã¦è¿½åŠ 
 			yaya::string_t	embedstr;
 			embedstr.assign(str, 1, spos - 1);
 			resstr += L"TOSTR";
 			resstr += embedstr;
 			str.erase(0, spos);
 //			nindex++;
-			// Ÿ‚Ì"%"‚ğ’T‚µ‚Ä‚İ‚é
+			// æ¬¡ã®"%"ã‚’æ¢ã—ã¦ã¿ã‚‹
 			p_pers = str.find(L'%', 0);
-			// Œ©‚Â‚©‚ç‚È‚¯‚ê‚Î‚±‚ê‚ªÅŒã‚Ì•¶š—ñ’è”€
+			// è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã“ã‚ŒãŒæœ€å¾Œã®æ–‡å­—åˆ—å®šæ•°é …
 			if (p_pers == -1) {
 				embedstr = str;
 				if (embedstr.size()) {
@@ -2002,14 +2002,14 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			}
 			continue;
 		}
-		// "%"‚ÌŸ‚ª"["‚È‚çŒ‹‰Ê‚ÌÄ—˜—pi%[n]j‚È‚Ì‚Å‚»‚ê‚ğ”²‚«o‚·
+		// "%"ã®æ¬¡ãŒ"["ãªã‚‰çµæœã®å†åˆ©ç”¨ï¼ˆ%[n]ï¼‰ãªã®ã§ãã‚Œã‚’æŠœãå‡ºã™
 		if (str[1] == L'[') {
-			// ‚Ü‚¾æs‚·‚é€‚ª–³‚¢‚È‚çƒGƒ‰[
+			// ã¾ã å…ˆè¡Œã™ã‚‹é …ãŒç„¡ã„ãªã‚‰ã‚¨ãƒ©ãƒ¼
 			if (nindex == -1) {
 				vm.logger().Error(E_E, 81, dicfilename, linecount);
 				return 1;
 			}
-			// ”²‚«o‚µˆÊ’uŒŸõ
+			// æŠœãå‡ºã—ä½ç½®æ¤œç´¢
 			size_t bdepth = 1;
 			size_t len = str.size();
 			size_t spos = 0;
@@ -2024,7 +2024,7 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			if (spos < len) {
 				spos++;
 			}
-			// ƒGƒ‰[ˆ—
+			// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 			if (bdepth != 0) {
 				vm.logger().Error(E_E, 78, dicfilename, linecount);
 				return 1;
@@ -2037,7 +2037,7 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 				vm.logger().Error(E_E, 80, dicfilename, linecount);
 				return 1;
 			}
-			// –„‚ß‚İ—v‘f‚ğæ‚èo‚µA"Œ‹‰Ê‚ÌÄ—˜—pˆ—‚ğs‚¤ŠÖ”"‚Æ‚µ‚Ä’Ç‰Á
+			// åŸ‹ã‚è¾¼ã¿è¦ç´ ã‚’å–ã‚Šå‡ºã—ã€"çµæœã®å†åˆ©ç”¨å‡¦ç†ã‚’è¡Œã†é–¢æ•°"ã¨ã—ã¦è¿½åŠ 
 			resstr += CSystemFunction::HistoryFunctionName();
 			resstr += L'(';
 			
@@ -2048,9 +2048,9 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			resstr += L"))";
 
 			str.erase(0, spos);
-			// Ÿ‚Ì"%"‚ğ’T‚µ‚Ä‚İ‚é
+			// æ¬¡ã®"%"ã‚’æ¢ã—ã¦ã¿ã‚‹
 			p_pers = str.find(L'%', 0);
-			// Œ©‚Â‚©‚ç‚È‚¯‚ê‚Î‚±‚ê‚ªÅŒã‚Ì•¶š—ñ’è”€
+			// è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã“ã‚ŒãŒæœ€å¾Œã®æ–‡å­—åˆ—å®šæ•°é …
 			if (p_pers == -1) {
 				yaya::string_t embedstr;
 				embedstr = str;
@@ -2063,19 +2063,19 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 			}
 			continue;
 		}
-		// ’Êí‚Ì"%"
+		// é€šå¸¸ã®"%"
 		else {
-			// Ÿ‚Ì"%"‚ğ”­Œ©
+			// æ¬¡ã®"%"ã‚’ç™ºè¦‹
 			p_pers = str.find(L'%', 1);
 			nindex++;
-			// Œ©‚Â‚©‚ç‚È‚¯‚ê‚Î‚±‚ê‚ªÅŒã‚Ì€
+			// è¦‹ã¤ã‹ã‚‰ãªã‘ã‚Œã°ã“ã‚ŒãŒæœ€å¾Œã®é …
 			if (p_pers == -1) {
 				yaya::string_t	embedstr = str;
 				AddDoubleQuoteAndEscape(embedstr);
 				resstr += embedstr;
 				break;
 			}
-			// Œ©‚Â‚©‚Á‚½‚Ì‚Å’Ç‰Á
+			// è¦‹ã¤ã‹ã£ãŸã®ã§è¿½åŠ 
 			yaya::string_t	embedstr;
 			embedstr.assign(str, 0, p_pers);
 			AddDoubleQuoteAndEscape(embedstr);
@@ -2084,23 +2084,23 @@ char	CParser0::ConvertEmbedStringToFormula(yaya::string_t& str, const yaya::stri
 		}
 	}
 
-	// •Ô‚é
+	// è¿”ã‚‹
 	str = resstr;
 	return 0;
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::CheckDepthAndSerialize
- *  ‹@”\ŠT—vF  ”®‚ÌƒJƒbƒR‚ª³‚µ‚­•Â‚¶‚Ä‚¢‚é‚©ŒŸ¸A‚¨‚æ‚Ñ®‚Ì‰‰Z‡˜‚ğ‹‚ß‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::CheckDepthAndSerialize
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ•°å¼ã®ã‚«ãƒƒã‚³ãŒæ­£ã—ãé–‰ã˜ã¦ã„ã‚‹ã‹æ¤œæŸ»ã€ãŠã‚ˆã³å¼ã®æ¼”ç®—é †åºã‚’æ±‚ã‚ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::CheckDepthAndSerialize(const yaya::string_t& dicfilename)
 {
 	int	errcount = 0;
 
-	// ”®‚ÌƒJƒbƒRŒŸ¸
+	// æ•°å¼ã®ã‚«ãƒƒã‚³æ¤œæŸ»
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
@@ -2113,10 +2113,10 @@ char	CParser0::CheckDepthAndSerialize(const yaya::string_t& dicfilename)
 		}
 	}
 
-	// when‚Ìif•ÏŠ·‚ÌÅIˆ—@‰¼‚Ì”®‚ğif‚Åˆ—‰Â”\‚È”»’è®‚É®Œ`‚·‚é
+	// whenã®ifå¤‰æ›ã®æœ€çµ‚å‡¦ç†ã€€ä»®ã®æ•°å¼ã‚’ifã§å‡¦ç†å¯èƒ½ãªåˆ¤å®šå¼ã«æ•´å½¢ã™ã‚‹
 	errcount += MakeCompleteConvertionWhenToIf(dicfilename);
 
-	// ‰‰Z‡˜‚ÌŒˆ’è
+	// æ¼”ç®—é †åºã®æ±ºå®š
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
@@ -2133,10 +2133,10 @@ char	CParser0::CheckDepthAndSerialize(const yaya::string_t& dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::MakeCompleteConvertionWhenToIf
- *  ‹@”\ŠT—vF  when‚Ìif•ÏŠ·‚ÌÅIˆ—‚ğs‚¢‚Ü‚·B‰¼‚Ì”®‚ğif‚Åˆ—‰Â”\‚È”»’è®‚É®Œ`‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::MakeCompleteConvertionWhenToIf
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  whenã®ifå¤‰æ›ã®æœ€çµ‚å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚ä»®ã®æ•°å¼ã‚’ifã§å‡¦ç†å¯èƒ½ãªåˆ¤å®šå¼ã«æ•´å½¢ã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::MakeCompleteConvertionWhenToIf(const yaya::string_t& dicfilename)
@@ -2200,18 +2200,18 @@ char	CParser0::MakeCompleteConvertionWhenToIf(const yaya::string_t& dicfilename)
 					errcount++;
 					break;
 				}
-				// if/elseif‚Ö•ÏŠ·
+				// if/elseifã¸å¤‰æ›
 				if (!whencnt[depthm1])
 					it2->type = ST_IF;
 				else
 					it2->type = ST_ELSEIF;
 				(whencnt[depthm1])++;
-				// ‰¼‚Ì”®‚ğ”»’è®‚É‘‚«Š·‚¦‚é
+				// ä»®ã®æ•°å¼ã‚’åˆ¤å®šå¼ã«æ›¸ãæ›ãˆã‚‹
 				bool i = 0;
 
-				if ( it2->cell_size() ) { //‚‘¬‰»—p
+				if ( it2->cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 					for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); ) {
-						// ƒ‰ƒxƒ‹
+						// ãƒ©ãƒ™ãƒ«
 						if (!i) {
 							if (it3->value_GetType() != F_TAG_INT && 
 								it3->value_GetType() != F_TAG_DOUBLE && 
@@ -2223,7 +2223,7 @@ char	CParser0::MakeCompleteConvertionWhenToIf(const yaya::string_t& dicfilename)
 							}
 							i = 1;
 							it3++;
-							// ÅŒã‚Ì€@‚±‚ê‚Í•K‚¸==”»’è
+							// æœ€å¾Œã®é …ã€€ã“ã‚Œã¯å¿…ãš==åˆ¤å®š
 							if (it3 == it2->cell().end()) {
 								CCell	addcell1(F_TAG_LOCALVARIABLE);
 								addcell1.name    = caseary[depthm1];
@@ -2308,18 +2308,18 @@ char	CParser0::MakeCompleteConvertionWhenToIf(const yaya::string_t& dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::CheckDepth1
- *  ‹@”\ŠT—vF  ”®‚ÌƒJƒbƒR‚ª³‚µ‚­•Â‚¶‚Ä‚¢‚é‚©ŒŸ¸‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::CheckDepth1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ•°å¼ã®ã‚«ãƒƒã‚³ãŒæ­£ã—ãé–‰ã˜ã¦ã„ã‚‹ã‹æ¤œæŸ»ã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::CheckDepth1(CStatement& st, const yaya::string_t& dicfilename)
 {
-	// ()/[]‚Ì‘Î‰‚Ã‚¯‚ğŒŸ¸
+	// ()/[]ã®å¯¾å¿œã¥ã‘ã‚’æ¤œæŸ»
 	std::vector<size_t>	hb_depth;
 	ptrdiff_t depth = 0;
-	if ( st.cell_size() ) { //‚‘¬‰»—p
+	if ( st.cell_size() ) { //é«˜é€ŸåŒ–ç”¨
 		for(std::vector<CCell>::iterator it = st.cell().begin(); it != st.cell().end(); it++) {
 			if (it->value_GetType() == F_TAG_BRACKETIN)
 				depth++;
@@ -2350,21 +2350,21 @@ char	CParser0::CheckDepth1(CStatement& st, const yaya::string_t& dicfilename)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CParser0::CheckDepthAndSerialize1
- *  ‹@”\ŠT—vF  ”®‚Ì‰‰Z‡˜‚ğŒˆ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CParser0::CheckDepthAndSerialize1
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ•°å¼ã®æ¼”ç®—é †åºã‚’æ±ºå®šã—ã¾ã™
  *
- *  •Ô’l@@F  1/0=ƒGƒ‰[/³í
+ *  è¿”å€¤ã€€ã€€ï¼š  1/0=ã‚¨ãƒ©ãƒ¼/æ­£å¸¸
  * -----------------------------------------------------------------------
  */
 char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dicfilename)
 {
-	// Ä“x()“ü‚êq‚Ì‘Î‰‚ğŒŸ¸‚µ‚Â‚ÂA‰‰Z‡˜Zo—p‚Ìƒtƒ‰ƒO‚ğì¬‚·‚é
-	// ƒtƒ‰ƒOdepthvec‚Í‘Î‰‚·‚é€‚Ìˆ—ó‘Ô‚ğ¦‚µ‚Ä‚¢‚éB
-	// -1    ˆ—Ï‚à‚µ‚­‚Íˆ—‘ÎÛ‚Å‚Í‚È‚¢€
-	// -2    ˆ—‘Ò‚¿‚Ì€
-	// 0ˆÈã ‰‰ZqA”š‚ª‘å‚«‚¢‚Ù‚Ç—Dæ“x‚ª‚‚¢
+	// å†åº¦()å…¥ã‚Œå­ã®å¯¾å¿œã‚’æ¤œæŸ»ã—ã¤ã¤ã€æ¼”ç®—é †åºç®—å‡ºç”¨ã®ãƒ•ãƒ©ã‚°ã‚’ä½œæˆã™ã‚‹
+	// ãƒ•ãƒ©ã‚°depthvecã¯å¯¾å¿œã™ã‚‹é …ã®å‡¦ç†çŠ¶æ…‹ã‚’ç¤ºã—ã¦ã„ã‚‹ã€‚
+	// -1    å‡¦ç†æ¸ˆã‚‚ã—ãã¯å‡¦ç†å¯¾è±¡ã§ã¯ãªã„é …
+	// -2    å‡¦ç†å¾…ã¡ã®é …
+	// 0ä»¥ä¸Š æ¼”ç®—å­ã€æ•°å­—ãŒå¤§ãã„ã»ã©å„ªå…ˆåº¦ãŒé«˜ã„
 
-	//‚±‚±‚Íint‚Å‚È‚¢‚Æ‚¾‚ßcci--‚Ìƒ‹[ƒv‚Å•‰i0xFFFFFFFF‚É‚È‚Á‚Äunsigned‚¾‚Æ‹‘å‚È’lj‚É‚È‚é‰Â”\«‚ª‚ ‚é
+	//ã“ã“ã¯intã§ãªã„ã¨ã ã‚â€¦â€¦i--ã®ãƒ«ãƒ¼ãƒ—ã§è² ï¼ˆï¼0xFFFFFFFFã«ãªã£ã¦unsignedã ã¨å·¨å¤§ãªå€¤ï¼‰ã«ãªã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹
 	ptrdiff_t sz = st.cell_size();
 	ptrdiff_t i = 0;
 
@@ -2373,7 +2373,7 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 
 	size_t depth = 0;
 	for(i = 0; i < sz; i++) {
-		// ‰‰Zq
+		// æ¼”ç®—å­
 		int	type = st.cell()[i].value_GetType();
 		if (type >= F_TAG_ORIGIN && type < F_TAG_ORIGIN_VALUE) {
 			if (F_TAG_ISIN_OR_OUT(type)) {
@@ -2384,7 +2384,7 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 				depthvec.emplace_back(depth + formulatag_depth[type]);
 			continue;
 		}
-		// ‰‰ZqˆÈŠO
+		// æ¼”ç®—å­ä»¥å¤–
 		depthvec.emplace_back(-2);
 	}
 	if (depth) {
@@ -2396,12 +2396,12 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 		return 1;
 	}
 
-	// ‰‰Z‡˜‚ÌŒˆ’è
+	// æ¼”ç®—é †åºã®æ±ºå®š
 	for( ; ; ) {
-		// ‰‰Z‘ÎÛ‚Ì‰‰Zq‚ğ”­Œ©
-		// “¯ˆê[‚³‚Ì‰‰Zq‚Ì•À—ñ‚ÍÅ‰‚Ì‚à‚Ì‚ª‘I‚Î‚ê‚éB‚Â‚Ü‚èAYA5‚Å‚Í‰‰Zq‚Íí‚É¶‚©‚ç‰E‚ÖŒ‹‡‚³‚ê‚é
-		// ‚µ‚½‚ª‚Á‚Ä i=j=1 ‚Í i=j; j=1 ‚Æ“™‰¿‚Å‚ ‚éBi ‚É 1 ‚Í‘ã“ü‚³‚ê‚È‚¢B‰E‚©‚çŒ‹‡‚³‚ê‚éC/C++‚Æ‚Í
-		// ‚±‚±‚ÍˆÙ‚È‚Á‚Ä‚¢‚éB
+		// æ¼”ç®—å¯¾è±¡ã®æ¼”ç®—å­ã‚’ç™ºè¦‹
+		// åŒä¸€æ·±ã•ã®æ¼”ç®—å­ã®ä¸¦åˆ—ã¯æœ€åˆã®ã‚‚ã®ãŒé¸ã°ã‚Œã‚‹ã€‚ã¤ã¾ã‚ŠAYA5ã§ã¯æ¼”ç®—å­ã¯å¸¸ã«å·¦ã‹ã‚‰å³ã¸çµåˆã•ã‚Œã‚‹
+		// ã—ãŸãŒã£ã¦ i=j=1 ã¯ i=j; j=1 ã¨ç­‰ä¾¡ã§ã‚ã‚‹ã€‚i ã« 1 ã¯ä»£å…¥ã•ã‚Œãªã„ã€‚å³ã‹ã‚‰çµåˆã•ã‚Œã‚‹C/C++ã¨ã¯
+		// ã“ã“ã¯ç•°ãªã£ã¦ã„ã‚‹ã€‚
 		ptrdiff_t	t_index = -1;
 		ptrdiff_t	t_depth = -1;
 		for(i = 0; i < sz; i++)
@@ -2409,19 +2409,19 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 				t_depth = depthvec[i];
 				t_index = i;
 			}
-		// ‘ÎÛ‚ª–³‚­‚È‚Á‚½‚ç”²‚¯‚é
+		// å¯¾è±¡ãŒç„¡ããªã£ãŸã‚‰æŠœã‘ã‚‹
 		if (t_depth == -1)
 			break;
 
-		// ’è‹`‚ÌŠJn@‰‰Zq‚Ì“o˜^
+		// å®šç¾©ã®é–‹å§‹ã€€æ¼”ç®—å­ã®ç™»éŒ²
 		int	t_type = st.cell()[t_index].value_GetType();
 		CSerial	addserial(t_index);
 		depthvec[t_index] = -2;
-		// ¶•Ó‚Ì€‚ğæ“¾
+		// å·¦è¾ºã®é …ã‚’å–å¾—
 		ptrdiff_t f_depth = 1;
 		bool out_of_bracket = false;
 		for(i = t_index - 1; i >= 0; i--) {
-			// ƒJƒbƒR[‚³ŒŸ¸
+			// ã‚«ãƒƒã‚³æ·±ã•æ¤œæŸ»
 			if (F_TAG_ISIN(st.cell()[i].value_GetType()))
 				f_depth--;
 			else if (F_TAG_ISOUT(st.cell()[i].value_GetType()))
@@ -2430,7 +2430,7 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 				out_of_bracket = true;
 				break;
 			}
-			// æ“¾
+			// å–å¾—
 			if (depthvec[i] == -2) {
 				addserial.index.emplace_back(i);
 				depthvec[i] = -1;
@@ -2444,13 +2444,13 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 				vm.logger().Error(E_E, 22, dicfilename, st.linecount);
 			return 1;
 		}
-		// ‰‰Zq‚ª","‚Ìê‡A¶€‚Ì‚³‚ç‚É¶‚ÖŒŸõ‚ği‚ßA‚à‚µˆø”‚ğŠÖ”‚É“n‚·‚½‚ß‚Ì‰‰Zq‚ÆŠÖ”‚ª
-		// Œ©‚Â‚©‚Á‚½ê‡‚Íˆø”‚Â‚«ŠÖ”ˆµ‚¢‚É‘‚«Š·‚¦‚éB
-		// ŠÖ”‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚Í’Êí‚Ì”z—ñ‚Æ‚¢‚¤‚±‚Æ‚É‚È‚é
+		// æ¼”ç®—å­ãŒ","ã®å ´åˆã€å·¦é …ã®ã•ã‚‰ã«å·¦ã¸æ¤œç´¢ã‚’é€²ã‚ã€ã‚‚ã—å¼•æ•°ã‚’é–¢æ•°ã«æ¸¡ã™ãŸã‚ã®æ¼”ç®—å­ã¨é–¢æ•°ãŒ
+		// è¦‹ã¤ã‹ã£ãŸå ´åˆã¯å¼•æ•°ã¤ãé–¢æ•°æ‰±ã„ã«æ›¸ãæ›ãˆã‚‹ã€‚
+		// é–¢æ•°ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯é€šå¸¸ã®é…åˆ—ã¨ã„ã†ã“ã¨ã«ãªã‚‹
 		if (t_type == F_TAG_COMMA) {
 			f_depth = 1;
 			for( ; i >= 0; i--) {
-				// ƒJƒbƒR[‚³ŒŸ¸
+				// ã‚«ãƒƒã‚³æ·±ã•æ¤œæŸ»
 				if (F_TAG_ISIN(st.cell()[i].value_GetType()))
 					f_depth--;
 				else if (F_TAG_ISOUT(st.cell()[i].value_GetType()))
@@ -2462,7 +2462,7 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 			}
 			if (i > 0) {
 				if (st.cell()[i].value_GetType() == F_TAG_FUNCPARAM) {
-					// ŠÖ”
+					// é–¢æ•°
 					depthvec[t_index] = -1;
 					addserial.tindex = i;
 					depthvec[i] = -2;
@@ -2479,20 +2479,20 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 			}
 			//}
 			//
-			// ‰E•Ó‚Ì€‚ğæ“¾@‰‰Zq‚ª","‚Ìê‡‚Í—ñ‹“‚³‚ê‚½‚·‚×‚Ä‚ğˆêŠ‡‚µ‚Äæ“¾‚·‚é
+			// å³è¾ºã®é …ã‚’å–å¾—ã€€æ¼”ç®—å­ãŒ","ã®å ´åˆã¯åˆ—æŒ™ã•ã‚ŒãŸã™ã¹ã¦ã‚’ä¸€æ‹¬ã—ã¦å–å¾—ã™ã‚‹
 			//if (t_type == F_TAG_COMMA) {
 			// ","
 			bool gflg = 0;
 			f_depth = 1;
 			for(i = t_index + 1; i < sz; i++) {
-				// ƒJƒbƒR[‚³ŒŸ¸
+				// ã‚«ãƒƒã‚³æ·±ã•æ¤œæŸ»
 				if (F_TAG_ISIN(st.cell()[i].value_GetType()))
 					f_depth++;
 				else if (F_TAG_ISOUT(st.cell()[i].value_GetType()))
 					f_depth--;
 				if (!f_depth)
 					break;
-				// æ“¾
+				// å–å¾—
 				if (depthvec[i] == -2) {
 					addserial.index.emplace_back(i);
 					depthvec[i] = -1;
@@ -2514,7 +2514,7 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 			}
 		}
 		else {
-			// ","ˆÈŠO
+			// ","ä»¥å¤–
 			for(i = t_index + 1; i < sz; i++) {
 				if (depthvec[i] == -2) {
 					addserial.index.emplace_back(i);
@@ -2528,14 +2528,14 @@ char	CParser0::CheckDepthAndSerialize1(CStatement& st, const yaya::string_t& dic
 			}
 		}
 
-		// ‰‰Z’è‹`‚ğ“o˜^
+		// æ¼”ç®—å®šç¾©ã‚’ç™»éŒ²
 		st.serial().emplace_back(addserial);
 	}
 
-	// ‰‰Z‡˜‚ªŒˆ’è‚·‚é‚ÆA–¢ˆ—€‚ª‚Ğ‚Æ‚Â‚¾‚¯c‚é‚±‚Æ‚É‚È‚éi‚±‚ê‚ªŒ‹‰ÊjB‚±‚ê‚ğŠm”F‚·‚é
+	// æ¼”ç®—é †åºãŒæ±ºå®šã™ã‚‹ã¨ã€æœªå‡¦ç†é …ãŒã²ã¨ã¤ã ã‘æ®‹ã‚‹ã“ã¨ã«ãªã‚‹ï¼ˆã“ã‚ŒãŒçµæœï¼‰ã€‚ã“ã‚Œã‚’ç¢ºèªã™ã‚‹
 	//
-	// ‚à‚µ–¢ˆ—€‚ª‰‰Zq‚Å‚È‚¢ê‡‚ÍA—LŒø‚È€‚ª1‚Â‚µ‚©‚È‚¢‚½‚ß‰‰Z‚ª–³‚©‚Á‚½‚±‚Æ‚ğˆÓ–¡‚µ‚Ä‚¢‚éB
-	// ‚»‚Ì‚Ü‚Ü‚Å‚ÍŒ‹‰Ê‚ª“¾‚ç‚ê‚È‚¢‚Ì‚ÅAuc‚Á‚½€‚©‚çŒ‹‰Ê‚ğ“¾‚év‚±‚Æ‚ğw¦‚·‚éƒtƒ‰ƒO‚ğ’Ç‰Á‚·‚é
+	// ã‚‚ã—æœªå‡¦ç†é …ãŒæ¼”ç®—å­ã§ãªã„å ´åˆã¯ã€æœ‰åŠ¹ãªé …ãŒ1ã¤ã—ã‹ãªã„ãŸã‚æ¼”ç®—ãŒç„¡ã‹ã£ãŸã“ã¨ã‚’æ„å‘³ã—ã¦ã„ã‚‹ã€‚
+	// ãã®ã¾ã¾ã§ã¯çµæœãŒå¾—ã‚‰ã‚Œãªã„ã®ã§ã€ã€Œæ®‹ã£ãŸé …ã‹ã‚‰çµæœã‚’å¾—ã‚‹ã€ã“ã¨ã‚’æŒ‡ç¤ºã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’è¿½åŠ ã™ã‚‹
 	size_t scount = 0;
 	for(i = 0; i < sz; i++) {
 		if (depthvec[i] == -2) {

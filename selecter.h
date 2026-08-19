@@ -1,11 +1,11 @@
 // 
 // AYA version 5
 //
-// o—Í‚Ì‘I‘ğ‚ğs‚È‚¤ƒNƒ‰ƒX@CSelecter/CDuplEvInfo
+// å‡ºåŠ›ã®é¸æŠã‚’è¡Œãªã†ã‚¯ãƒ©ã‚¹ã€€CSelecter/CDuplEvInfo
 // written by umeici. 2004
 // 
-// CSelecter‚Ío—Í‚Ì‘I‘ğ‚ğs‚È‚¢‚Ü‚·B
-// CDuplEvInfo‚Íd•¡‰ñ”ğ‚ğs‚È‚¢‚Ü‚·B
+// CSelecterã¯å‡ºåŠ›ã®é¸æŠã‚’è¡Œãªã„ã¾ã™ã€‚
+// CDuplEvInfoã¯é‡è¤‡å›é¿ã‚’è¡Œãªã„ã¾ã™ã€‚
 //
 
 #ifndef	SELECTERH
@@ -69,14 +69,14 @@ public:
 class	CDuplEvInfo
 {
 protected:
-	choicetype_t	type;			// ‘I‘ğí•Ê
+	choicetype_t	type;			// é¸æŠç¨®åˆ¥
 
-	std::vector<size_t>	num;			// --‚Å‹æØ‚ç‚ê‚½—Ìˆæ–ˆ‚ÌŒó•â”
-	std::vector<size_t>	roundorder;		// „‰ñ‡˜
+	std::vector<size_t>	num;			// --ã§åŒºåˆ‡ã‚‰ã‚ŒãŸé ˜åŸŸæ¯ã®å€™è£œæ•°
+	std::vector<size_t>	roundorder;		// å·¡å›é †åº
 
-	ptrdiff_t	lastroundorder; // ’¼‘O‚Ì„‰ñ‡˜’l
-	size_t	total;			// o—ÍŒó•â’l‚Ì‘”
-	size_t	index;			// Œ»İ‚Ì„‰ñˆÊ’u
+	ptrdiff_t	lastroundorder; // ç›´å‰ã®å·¡å›é †åºå€¤
+	size_t	total;			// å‡ºåŠ›å€™è£œå€¤ã®ç·æ•°
+	size_t	index;			// ç¾åœ¨ã®å·¡å›ä½ç½®
 
 private:
 	CDuplEvInfo(void);
@@ -108,10 +108,10 @@ class CSelecter
 {
 protected:
 	CAyaVM *pvm;
-	std::vector<CVecValue>	values;			// o—ÍŒó•â’l
-	size_t					areanum;		// o—ÍŒó•â‚ğ’~Ï‚·‚é—Ìˆæ‚Ì”
-	CDuplEvInfo				*duplctl;		// ‘Î‰‚·‚éd•¡‰ñ”ğî•ñ‚Ö‚Ìƒ|ƒCƒ“ƒ^
-	ptrdiff_t				aindex;			// switch\•¶‚Åg—p
+	std::vector<CVecValue>	values;			// å‡ºåŠ›å€™è£œå€¤
+	size_t					areanum;		// å‡ºåŠ›å€™è£œã‚’è“„ç©ã™ã‚‹é ˜åŸŸã®æ•°
+	CDuplEvInfo				*duplctl;		// å¯¾å¿œã™ã‚‹é‡è¤‡å›é¿æƒ…å ±ã¸ã®ãƒã‚¤ãƒ³ã‚¿
+	ptrdiff_t				aindex;			// switchæ§‹æ–‡ã§ä½¿ç”¨
 
 	friend class CFunction;//for pool
 public:

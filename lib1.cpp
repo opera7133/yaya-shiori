@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// 1‚Â‚ÌDLL‚ğˆµ‚¤ƒNƒ‰ƒX@CLib1
+// 1ã¤ã®DLLã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ã€€CLib1
 // written by umeici. 2004
 // 
 
@@ -20,6 +20,9 @@
 #include <string.h>
 
 #include "lib.h"
+#if defined(POSIX)
+#include <libgen.h>
+#endif
 
 #include "ayavm.h"
 
@@ -51,25 +54,25 @@ static std::string str_getenv(const std::string& name) {
         return std::string(var);
     }
 }
-// dllƒT[ƒ`ƒpƒXŠÖ˜AB
-// POSIXã‚Å‚ÍA‚ ‚é“Á’è‚ÌêŠ‚ÉDLL‚Æ“¯–¼‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğ’u‚­–‚ÅSAORI‚É‘Î‰‚·‚éB
-// DLL‚Æ“¯–¼‚Æ‚Í‰]‚Á‚Ä‚àA‚»‚ê‚ÍƒVƒ“ƒ{ƒŠƒbƒNƒŠƒ“ƒN‚Å‚ ‚é‚×‚«‚ÅA—á‚¦‚ÎŸ‚Ì‚æ‚¤‚É‚Å‚ ‚éB
+// dllã‚µãƒ¼ãƒãƒ‘ã‚¹é–¢é€£ã€‚
+// POSIXä¸Šã§ã¯ã€ã‚ã‚‹ç‰¹å®šã®å ´æ‰€ã«DLLã¨åŒåã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ç½®ãäº‹ã§SAORIã«å¯¾å¿œã™ã‚‹ã€‚
+// DLLã¨åŒåã¨ã¯äº‘ã£ã¦ã‚‚ã€ãã‚Œã¯ã‚·ãƒ³ãƒœãƒªãƒƒã‚¯ãƒªãƒ³ã‚¯ã§ã‚ã‚‹ã¹ãã§ã€ä¾‹ãˆã°æ¬¡ã®ã‚ˆã†ã«ã§ã‚ã‚‹ã€‚
 // % pwd
 // /home/foo/.saori
 // % ls -l
 // -rwxr-xr-x x foo bar xxxxx 1 1 00:00 libssu.so
 // lrwxr-xr-x x foo bar xxxxx 1 1 00:00 ssu.dll -> libssu.so
 //
-// ƒpƒX‚ÍŠÂ‹«•Ï” SAORI_FALLBACK_PATH ‚©‚çæ“¾‚·‚éB‚±‚ê‚ÍƒRƒƒ“‹æØ‚è‚Ìâ‘ÎƒpƒX‚Å‚ ‚éB
+// ãƒ‘ã‚¹ã¯ç’°å¢ƒå¤‰æ•° SAORI_FALLBACK_PATH ã‹ã‚‰å–å¾—ã™ã‚‹ã€‚ã“ã‚Œã¯ã‚³ãƒ­ãƒ³åŒºåˆ‡ã‚Šã®çµ¶å¯¾ãƒ‘ã‚¹ã§ã‚ã‚‹ã€‚
 static std::vector<std::string> posix_dll_search_path;
 static bool posix_dll_search_path_is_ready = false;
 static std::string posix_search_fallback_dll(const std::string& dllfile) {
-    // dllfile‚Í’T‚µ‚½‚¢ƒtƒ@ƒCƒ‹DLL–¼BƒpƒX‹æØ‚è•¶š‚Í/B
-    // ‘ã‘Öƒ‰ƒCƒuƒ‰ƒŠ‚ªŒ©•t‚©‚ê‚Î‚»‚Ìâ‘ÎƒpƒX‚ğA
-    // Œ©•t‚¯‚ç‚ê‚È‚¯‚ê‚Î‹ó•¶š—ñ‚ğ•Ô‚·B
+    // dllfileã¯æ¢ã—ãŸã„ãƒ•ã‚¡ã‚¤ãƒ«DLLåã€‚ãƒ‘ã‚¹åŒºåˆ‡ã‚Šæ–‡å­—ã¯/ã€‚
+    // ä»£æ›¿ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãŒè¦‹ä»˜ã‹ã‚Œã°ãã®çµ¶å¯¾ãƒ‘ã‚¹ã‚’ã€
+    // è¦‹ä»˜ã‘ã‚‰ã‚Œãªã‘ã‚Œã°ç©ºæ–‡å­—åˆ—ã‚’è¿”ã™ã€‚
     
     if (!posix_dll_search_path_is_ready) {
-	// SAORI_FALLBACK_PATH‚ğŒ©‚éB
+	// SAORI_FALLBACK_PATHã‚’è¦‹ã‚‹ã€‚
 		std::string path = str_getenv("SAORI_FALLBACK_PATH");
         if (path.length() > 0) {
             while (true) {
@@ -97,7 +100,7 @@ static std::string posix_search_fallback_dll(const std::string& dllfile) {
 		std::string fpath = *ite + '/' + fname;
 	struct stat sb;
 	if (stat(fpath.c_str(), &sb) == 0) {
-	    // ‘ã‘Öƒ‰ƒCƒuƒ‰ƒŠ‚ª‘¶İ‚·‚é‚æ‚¤‚¾B‚±‚êˆÈã‚Ìƒ`ƒFƒbƒN‚ÍÈ—ªB
+	    // ä»£æ›¿ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãŒå­˜åœ¨ã™ã‚‹ã‚ˆã†ã ã€‚ã“ã‚Œä»¥ä¸Šã®ãƒã‚§ãƒƒã‚¯ã¯çœç•¥ã€‚
 	    return fpath;
 	}
     }
@@ -106,10 +109,10 @@ static std::string posix_search_fallback_dll(const std::string& dllfile) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLib1::LoadLib
- *  ‹@”\ŠT—vF  DLL‚ğƒ[ƒh‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLib1::LoadLib
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  DLLã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã™
  *
- *  •Ô’l@@F@0/1=¸”s/¬Œ÷(Šù‚Éƒ[ƒh‚³‚ê‚Ä‚¢‚éŠÜ‚Ş)
+ *  è¿”å€¤ã€€ã€€ï¼šã€€0/1=å¤±æ•—/æˆåŠŸ(æ—¢ã«ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹å«ã‚€)
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -144,9 +147,9 @@ int CLib1::LoadLib() {
 	std::string libfile = narrow(name);
     fix_filepath(libfile);
 
-    // ŠÂ‹«•Ï” SAORI_FALLBACK_ALWAYS ‚ª’è‹`‚³‚ê‚Ä‚¢‚ÄAŠ‚Â
-    // ‹ó‚Å‚à"0"‚Å‚à‚È‚¯‚ê‚ÎA‚±‚Ìdllƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Ä‚İ‚é–‚Í
-    // ‰‚ß‚©‚ç‚â‚ç‚È‚¢B‚»‚¤‚Å‚È‚¯‚ê‚ÎA‚µ‚Édlopen‚µ‚Ä‚İ‚éB
+    // ç’°å¢ƒå¤‰æ•° SAORI_FALLBACK_ALWAYS ãŒå®šç¾©ã•ã‚Œã¦ã„ã¦ã€ä¸”ã¤
+    // ç©ºã§ã‚‚"0"ã§ã‚‚ãªã‘ã‚Œã°ã€ã“ã®dllãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã„ã¦ã¿ã‚‹äº‹ã¯
+    // åˆã‚ã‹ã‚‰ã‚„ã‚‰ãªã„ã€‚ãã†ã§ãªã‘ã‚Œã°ã€è©¦ã—ã«dlopenã—ã¦ã¿ã‚‹ã€‚
     char* env_fallback_always = getenv("SAORI_FALLBACK_ALWAYS");
     bool fallback_always = false;
     if (env_fallback_always != NULL) {
@@ -160,22 +163,22 @@ int CLib1::LoadLib() {
     if (!fallback_always) {
 	void* handle = dlopen(libfile.c_str(), RTLD_LAZY);
 	if (handle != NULL) {
-	    // load, unload, request‚ğæo‚µ‚Ä‚İ‚éB
+	    // load, unload, requestã‚’å–å‡ºã—ã¦ã¿ã‚‹ã€‚
 	    void* sym_load = dlsym(handle, "load");
 	    void* sym_unload = dlsym(handle, "unload");
 	    void* sym_request = dlsym(handle, "request");
 	    if (sym_load != NULL && sym_unload != NULL && sym_request != NULL) {
-		// ‚È‚ñ‚Æ³í‚É“Ç‚ß‚½B
+		// ãªã‚“ã¨æ­£å¸¸ã«èª­ã‚ãŸã€‚
 		do_fallback = false;
 	    }
 	}
 	dlclose(handle);
     }
     if (do_fallback) {
-	// ‘ã‘Öƒ‰ƒCƒuƒ‰ƒŠ‚ğ’T‚·B
+	// ä»£æ›¿ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’æ¢ã™ã€‚
 		std::string fallback_lib = posix_search_fallback_dll(get_fname(libfile));
 	if (fallback_lib.length() == 0) {
-	    // –³‚¢B
+	    // ç„¡ã„ã€‚
 	    char* cstr_path = getenv("SAORI_FALLBACK_PATH");
 		std::string fallback_path =
 		(cstr_path == NULL ?
@@ -213,10 +216,10 @@ int CLib1::LoadLib() {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLib1::Load
- *  ‹@”\ŠT—vF  load‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLib1::Load
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  loadã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  •Ô’l@@F@0/1=¸”s/¬Œ÷
+ *  è¿”å€¤ã€€ã€€ï¼šã€€0/1=å¤±æ•—/æˆåŠŸ
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -225,7 +228,7 @@ int	CLib1::Load(void)
 	if (!LoadLib())
 		return 0;
 
-	// ƒAƒhƒŒƒXæ“¾
+	// ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	if ( ! isAlreadyLoaded ) {
 		bool (*loadlib)(yaya::global_t h, long len) = NULL;
 		int charset = CHARSET_UTF8;
@@ -249,20 +252,20 @@ int	CLib1::Load(void)
 			return 0;
 		}
 
-		// DLLƒpƒX•¶š—ñì¬
+		// DLLãƒ‘ã‚¹æ–‡å­—åˆ—ä½œæˆ
 		wchar_t	drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
 		_wsplitpath(name.c_str(), drive, dir, fname, ext);
 		yaya::string_t	dllpath = drive;
 		dllpath += dir;
 
-		// ƒpƒX•¶š—ñ‚ğMBCS‚É•ÏŠ·
+		// ãƒ‘ã‚¹æ–‡å­—åˆ—ã‚’MBCSã«å¤‰æ›
 		char	*t_dllpath = Ccct::Ucs2ToMbcs(dllpath, charset);
 		if (t_dllpath == NULL)
 			return 0;
 
 		long	len = (long)strlen(t_dllpath);
 
-		// ƒpƒX•¶š—ñ‚ğƒq[ƒv‚ÉƒRƒs[
+		// ãƒ‘ã‚¹æ–‡å­—åˆ—ã‚’ãƒ’ãƒ¼ãƒ—ã«ã‚³ãƒ”ãƒ¼
 		HGLOBAL	gmem = ::GlobalAlloc(GMEM_FIXED, len);
 		if (!gmem) {
 			free(t_dllpath);
@@ -274,7 +277,7 @@ int	CLib1::Load(void)
 		free(t_dllpath);
 		t_dllpath = NULL;
 
-		// Às
+		// å®Ÿè¡Œ
 		(*loadlib)(gmem, len);
 	}
 	
@@ -286,7 +289,7 @@ int CLib1::Load(void) {
 		return 0;
     }
     
-    // ƒAƒhƒŒƒXæ“¾
+    // ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	long (*loadlib)(char* h, long len) = NULL;
 
 	if (loadlib == NULL) {
@@ -297,7 +300,7 @@ int CLib1::Load(void) {
 	 return 0;
     }
     
-    // DLLƒpƒX•¶š—ñì¬
+    // DLLãƒ‘ã‚¹æ–‡å­—åˆ—ä½œæˆ
 	yaya::string_t::size_type pos_slash = name.rfind(L'/');
 	std::string dllpath;
     if (pos_slash == yaya::string_t::npos) {
@@ -309,11 +312,11 @@ int CLib1::Load(void) {
 
     long len = dllpath.length();
 
-    // ƒpƒX•¶š—ñ‚ğƒq[ƒv‚ÉƒRƒs[
+    // ãƒ‘ã‚¹æ–‡å­—åˆ—ã‚’ãƒ’ãƒ¼ãƒ—ã«ã‚³ãƒ”ãƒ¼
     char* gmem = static_cast<char*>(malloc(len));
     memcpy(gmem, dllpath.c_str(), len);
 
-    // Às
+    // å®Ÿè¡Œ
     id = (*loadlib)(gmem, len);
     
     return 1;
@@ -321,10 +324,10 @@ int CLib1::Load(void) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLib1::Unload
- *  ‹@”\ŠT—vF  unload‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLib1::Unload
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  unloadã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  •Ô’l@@F@0/1/2=¸”s/¬Œ÷/ƒ[ƒh‚³‚ê‚Ä‚¢‚È‚¢A‚à‚µ‚­‚ÍŠù‚Éunload‚³‚ê‚Ä‚¢‚é
+ *  è¿”å€¤ã€€ã€€ï¼šã€€0/1/2=å¤±æ•—/æˆåŠŸ/ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ãªã„ã€ã‚‚ã—ãã¯æ—¢ã«unloadã•ã‚Œã¦ã„ã‚‹
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -333,7 +336,7 @@ int	CLib1::Unload(void)
 	if (hDLL == NULL)
 		return 2;
 
-	// ƒAƒhƒŒƒXæ“¾
+	// ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	if ( ! isAlreadyLoaded ) {
 		bool (*unloadlib)(void) = NULL;
 
@@ -344,7 +347,7 @@ int	CLib1::Unload(void)
 		if (unloadlib == NULL)
 			return 0;
 
-		// Às
+		// å®Ÿè¡Œ
 		(*unloadlib)();
 	}
 	UnloadLib();
@@ -357,7 +360,7 @@ int CLib1::Unload(void) {
 	return 2;
     }
 
-    // ƒAƒhƒŒƒXæ“¾
+    // ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	int (*unloadlib)(long) = NULL;
 
 	if (unloadlib == NULL) {
@@ -368,7 +371,7 @@ int CLib1::Unload(void) {
 	 return 0;
     }
 
-    // Às
+    // å®Ÿè¡Œ
     (*unloadlib)(id);
 	UnloadLib();
     
@@ -377,8 +380,8 @@ int CLib1::Unload(void) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLib1::Release
- *  ‹@”\ŠT—vF  DLL‚ğƒŠƒŠ[ƒX‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLib1::Release
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  DLLã‚’ãƒªãƒªãƒ¼ã‚¹ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -406,10 +409,10 @@ void CLib1::UnloadLib(void) {
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CLib1::Request
- *  ‹@”\ŠT—vF  request‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CLib1::Request
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  requestã‚’å®Ÿè¡Œã—ã¾ã™
  *
- *  •Ô’l@@F@0/1=¸”s/¬Œ÷
+ *  è¿”å€¤ã€€ã€€ï¼šã€€0/1=å¤±æ•—/æˆåŠŸ
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -420,7 +423,7 @@ int	CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr)
 	if (hDLL == NULL)
 		return 0;
 
-	// ƒAƒhƒŒƒXæ“¾
+	// ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	if (requestlib == NULL)
 		requestlib = (HGLOBAL (*)(HGLOBAL h, long *len))GetProcAddress(hDLL, "request");
 	if (requestlib == NULL)
@@ -428,14 +431,14 @@ int	CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr)
 	if (requestlib == NULL)
 		return 0;
 
-	// •¶š—ñ‚ğƒ}ƒ‹ƒ`ƒoƒCƒg•¶šƒR[ƒh‚É•ÏŠ·
+	// æ–‡å­—åˆ—ã‚’ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›
 	char	*t_istr = Ccct::Ucs2ToMbcs(istr, charset);
 	if (t_istr == NULL)
 		return 0;
 
 	long	len = (long)strlen(t_istr);
 
-	// request•¶š—ñ‚ğƒq[ƒv‚ÉƒRƒs[
+	// requestæ–‡å­—åˆ—ã‚’ãƒ’ãƒ¼ãƒ—ã«ã‚³ãƒ”ãƒ¼
 	HGLOBAL	igmem = ::GlobalAlloc(GMEM_FIXED, len);
 	if (!igmem) {
 		free(t_istr);
@@ -446,10 +449,10 @@ int	CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr)
 	free(t_istr);
 	t_istr = NULL;
 
-	// Às
+	// å®Ÿè¡Œ
 	HGLOBAL	ogmem = (*requestlib)(igmem, &len);
 
-	// Œ‹‰Êæ“¾
+	// çµæœå–å¾—
 	char	*t_ostr = (char *)malloc((len + 1)*sizeof(char));
 	if (t_ostr == NULL) {
 		GlobalFree(ogmem);
@@ -461,7 +464,7 @@ int	CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr)
 	GlobalFree(ogmem);
 	ogmem = NULL;
 
-	// Œ‹‰Ê‚ğUCS-2‚Ö•ÏŠ·
+	// çµæœã‚’UCS-2ã¸å¤‰æ›
 	wchar_t	*t_ostr2 = Ccct::MbcsToUcs2(t_ostr, charset);
 	free(t_ostr);
 	t_ostr = NULL;
@@ -481,7 +484,7 @@ int CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr) {
 	return 0;
     }
     
-    // ƒAƒhƒŒƒXæ“¾
+    // ã‚¢ãƒ‰ãƒ¬ã‚¹å–å¾—
 	if (requestlib == NULL) {
         std::string func_name = filename + "_saori_request";
         requestlib = (char*(*)(long, char*, long *))dlsym(hDLL, func_name.c_str());
@@ -490,7 +493,7 @@ int CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr) {
 	return 0;
     }
     
-    // •¶š—ñ‚ğƒ}ƒ‹ƒ`ƒoƒCƒg•¶šƒR[ƒh‚É•ÏŠ·
+    // æ–‡å­—åˆ—ã‚’ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›
     char *t_istr = Ccct::Ucs2ToMbcs(istr, charset);
     if (t_istr == NULL) {
 	return 0;
@@ -498,20 +501,20 @@ int CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr) {
 
     long len = (long)strlen(t_istr);
 
-    // ƒpƒX•¶š—ñ‚ğƒq[ƒv‚ÉƒRƒs[
+    // ãƒ‘ã‚¹æ–‡å­—åˆ—ã‚’ãƒ’ãƒ¼ãƒ—ã«ã‚³ãƒ”ãƒ¼
     char* igmem = static_cast<char*>(malloc(len));
     memcpy(igmem, t_istr, len);
     free(t_istr);
 	t_istr = NULL;
 
-    // Às
+    // å®Ÿè¡Œ
     char* ogmem = (*requestlib)(id, igmem, &len);
 
-    // Œ‹‰Êæ“¾
+    // çµæœå–å¾—
 	std::string t_ostr(ogmem, len);
 	free(ogmem);
 
-    // Œ‹‰Ê‚ğUCS-2‚Ö•ÏŠ·
+    // çµæœã‚’UCS-2ã¸å¤‰æ›
     wchar_t *t_ostr2 = Ccct::MbcsToUcs2(t_ostr, charset);
     if (t_ostr2 == NULL) {
 	return 0;

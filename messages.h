@@ -1,11 +1,11 @@
 // 
 // AYA version 5
 //
-// ƒƒOƒƒbƒZ[ƒW
+// ãƒ­ã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 // written by umeici. 2004
 // 
-// ‰pŒê‚ÌƒƒbƒZ[ƒW‚ÍŠî–{“I‚ÉˆÈ‰º‚ÌƒTƒCƒg“™‚Å©“®–|–ó‚µ‚½‚à‚Ì‚Å‚·B
-// excite–|–ó
+// è‹±èªã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯åŸºæœ¬çš„ã«ä»¥ä¸‹ã®ã‚µã‚¤ãƒˆç­‰ã§è‡ªå‹•ç¿»è¨³ã—ãŸã‚‚ã®ã§ã™ã€‚
+// exciteç¿»è¨³
 // http://www.excite.co.jp/world/
 //
 
@@ -16,17 +16,17 @@
 #include <vector>
 #include <string>
 #include "globaldef.h"
-// ƒƒbƒZ[ƒWí•Ê
+// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç¨®åˆ¥
 #define	E_I			0	/* info */
 #define	E_F			1	/* fatal */
 #define	E_E			2	/* error */
 #define	E_W			3	/* warning */
 #define	E_N			4	/* note */
 #define E_J			5	/* other(j) */
-#define	E_END		6	/* ƒƒO‚ÌI—¹ */
-#define	E_SJIS		16	/* ƒ}ƒ‹ƒ`ƒoƒCƒg•¶šƒR[ƒhSJIS */
-#define	E_UTF8		17	/* ƒ}ƒ‹ƒ`ƒoƒCƒg•¶šƒR[ƒhUTF-8 */
-#define	E_DEFAULT	32	/* ƒ}ƒ‹ƒ`ƒoƒCƒg•¶šƒR[ƒhOSƒfƒtƒHƒ‹ƒg‚ÌƒR[ƒh */
+#define	E_END		6	/* ãƒ­ã‚°ã®çµ‚äº† */
+#define	E_SJIS		16	/* ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰ï¼SJIS */
+#define	E_UTF8		17	/* ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰ï¼UTF-8 */
+#define	E_DEFAULT	32	/* ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚³ãƒ¼ãƒ‰ï¼OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒ¼ãƒ‰ */
 
 namespace yayamsg {
 
@@ -39,19 +39,19 @@ bool IsEmpty(void);
 
 typedef std::vector<yaya::string_t> MessageArray;
 
-// ƒtƒF[ƒ^ƒ‹ƒGƒ‰[•¶š—ñ
+// ãƒ•ã‚§ãƒ¼ã‚¿ãƒ«ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—
 extern MessageArray msgf;
 
-// ƒGƒ‰[•¶š—ñ
+// ã‚¨ãƒ©ãƒ¼æ–‡å­—åˆ—
 extern MessageArray msge;
 
-// ƒ[ƒjƒ“ƒO•¶š—ñ
+// ãƒ¯ãƒ¼ãƒ‹ãƒ³ã‚°æ–‡å­—åˆ—
 extern MessageArray msgw;
 
-// ’‹L•¶š—ñ
+// æ³¨è¨˜æ–‡å­—åˆ—
 extern MessageArray msgn;
 
-// ‚»‚Ì‘¼‚ÌƒƒO•¶š—ñ
+// ãã®ä»–ã®ãƒ­ã‚°æ–‡å­—åˆ—
 extern MessageArray msgj;
 
 }

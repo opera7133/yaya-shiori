@@ -25,9 +25,9 @@
 #define std_shared_ptr  std::shared_ptr
 #define std_make_shared std::make_shared
 
-// freebsdでdefine nullptr 0を行うと
-// aya5.cpp:L507のloghandler_list.emplace_back(nullptr)で
-// 型不一致のエラーが出るのでdefineしない。
+// freebsd縺ｧdefine nullptr 0繧定｡後≧縺ｨ
+// aya5.cpp:L507縺ｮloghandler_list.emplace_back(nullptr)縺ｧ
+// 蝙倶ｸ堺ｸ閾ｴ縺ｮ繧ｨ繝ｩ繝ｼ縺悟繧九縺ｧdefine縺励↑縺
 
 #else
 
@@ -143,8 +143,8 @@ typedef unsigned long long uint64_t;
 
 #ifndef _WINDOWS
 
-#define ULL_DEF(p) p
-#define LL_DEF(p) p
+#define ULL_DEF(p) p ## ULL
+#define LL_DEF(p) p ## LL
 
 #endif // _WINDOWS
 

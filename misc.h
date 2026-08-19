@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// G—pŠÖ”
+// é›‘ç”¨é–¢æ•°
 // written by umeici. 2004
 // 
 
@@ -76,7 +76,7 @@ void	DecodeURL(std::string &out,const yaya::char_t *in,size_t in_len,bool isPlus
 
 inline bool IsSpace(const yaya::char_t &c) {
 #if !defined(POSIX) && !defined(__MINGW32__)
-	return c == L' ' || c == L'\t' || c == L'@';
+	return c == L' ' || c == L'\t' || c == L'ã€€';
 #else
 	return c == L' ' || c == L'\t' || c == L'\u3000';
 #endif
@@ -84,10 +84,10 @@ inline bool IsSpace(const yaya::char_t &c) {
 
 //----
 
-// ŠÖ”ŒÄ‚Ño‚µ‚ÌŒÀŠE‚ğŒŸ¸‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
+// é–¢æ•°å‘¼ã³å‡ºã—ã®é™ç•Œã‚’æ¤œæŸ»ã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
 
-#define	CCALLLIMIT_CALLDEPTH_MAX	32		//ŒÄ‚Ño‚µŒÀŠEƒfƒtƒHƒ‹ƒg
-#define	CCALLLIMIT_LOOP_MAX			10000	//ƒ‹[ƒvˆ—ŒÀŠEƒfƒtƒHƒ‹ƒg
+#define	CCALLLIMIT_CALLDEPTH_MAX	32		//å‘¼ã³å‡ºã—é™ç•Œãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
+#define	CCALLLIMIT_LOOP_MAX			10000	//ãƒ«ãƒ¼ãƒ—å‡¦ç†é™ç•Œãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
 class	CCallLimit
 {
 protected:

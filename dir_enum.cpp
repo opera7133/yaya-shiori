@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// ディレクトリ内列挙　CDirEnum
+// 繝�繧｣繝ｬ繧ｯ繝医Μ蜀�蛻玲嫌縲CDirEnum
 // 
 
 #if defined(WIN32) || defined(_WIN32_WCE)

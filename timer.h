@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// タイマークラス CTimer
+// 繧ｿ繧､繝槭�ｼ繧ｯ繝ｩ繧ｹ CTimer
 // written by fifthmoon. 2005
 // 
 

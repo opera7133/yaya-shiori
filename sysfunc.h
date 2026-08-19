@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// ƒVƒXƒeƒ€ŠÖ”‚ðŽÀs‚·‚éƒNƒ‰ƒX@CSystemFunction
+// ã‚·ã‚¹ãƒ†ãƒ é–¢æ•°ã‚’å®Ÿè¡Œã™ã‚‹ã‚¯ãƒ©ã‚¹ã€€CSystemFunction
 // written by umeici. 2004
 // 
 
@@ -17,6 +17,12 @@
 #include <vector>
 
 #include "deelx.h"
+#ifdef FREAD
+#undef FREAD
+#endif
+#ifdef FWRITE
+#undef FWRITE
+#endif
 
 #include "globaldef.h"
 #include "value.h"
@@ -49,14 +55,14 @@ private:
 	CAyaVM &vm;
 
 	protected:
-	int		lasterror;					// ÅŠú‚É”­¶‚µ‚½ƒGƒ‰[‚Ì”Ô†
-	size_t	lso;						// LSO‚ª•Ô‚·’l
+	int		lasterror;					// æœ€æœŸã«ç™ºç”Ÿã—ãŸã‚¨ãƒ©ãƒ¼ã®ç•ªå·
+	size_t	lso;						// LSOãŒè¿”ã™å€¤
 
-	CValue	re_str;						// ³‹K•\Œ»ˆ—Œ‹‰Ê‚ÌÚ×î•ñiˆê’v‚µ‚½•¶Žš—ñj
-	CValue	re_pos;						// ³‹K•\Œ»ˆ—Œ‹‰Ê‚ÌÚ×î•ñiˆê’v‚µ‚½ˆÊ’uj
-	CValue	re_len;						// ³‹K•\Œ»ˆ—Œ‹‰Ê‚ÌÚ×î•ñiˆê’v‚µ‚½’·‚³j
+	CValue	re_str;						// æ­£è¦è¡¨ç¾å‡¦ç†çµæžœã®è©³ç´°æƒ…å ±ï¼ˆä¸€è‡´ã—ãŸæ–‡å­—åˆ—ï¼‰
+	CValue	re_pos;						// æ­£è¦è¡¨ç¾å‡¦ç†çµæžœã®è©³ç´°æƒ…å ±ï¼ˆä¸€è‡´ã—ãŸä½ç½®ï¼‰
+	CValue	re_len;						// æ­£è¦è¡¨ç¾å‡¦ç†çµæžœã®è©³ç´°æƒ…å ±ï¼ˆä¸€è‡´ã—ãŸé•·ã•ï¼‰
 
-	int re_option; //³‹K•\Œ»ƒIƒvƒVƒ‡ƒ“
+	int re_option; //æ­£è¦è¡¨ç¾ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 
 	static const CSF_FUNCTABLE sysfunc[];
 
@@ -164,7 +170,7 @@ protected:
 	CValue	FSIZE(CSF_FUNCPARAM &p);
 	CValue	FENUM(CSF_FUNCPARAM &p);
 	CValue	FCHARSET(CSF_FUNCPARAM &p);
-	// ARRAYSYZE winnt.h ‚Æƒ}ƒNƒ‚ª”í‚Á‚½BŒ¸“_‚QB
+	// ARRAYSYZE winnt.h ã¨ãƒžã‚¯ãƒ­ãŒè¢«ã£ãŸã€‚æ¸›ç‚¹ï¼’ã€‚
 	CValue	ArraySize(CSF_FUNCPARAM &p);
 	CValue	SETDELIM(CSF_FUNCPARAM &p);
 	CValue	ISEVALUABLE(CSF_FUNCPARAM &p);

@@ -1,11 +1,11 @@
 // 
 // AYA version 5
 //
-// ”®‚Ì€‚ğˆµ‚¤ƒNƒ‰ƒX@CCell/CSerial
+// æ•°å¼ã®é …ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ã€€CCell/CSerial
 // written by umeici. 2004
 // 
-// CCell‚ÍƒXƒe[ƒgƒƒ“ƒg“à‚Ì”®‚Ì€‚ğACSerial‚Í‚»‚Ì‰‰Z‡˜‚ğ•Û‚·‚é‚¾‚¯‚ÌƒNƒ‰ƒX‚Å‚·B
-// ‘€ì‚Í‚±‚ê‚ç‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‚ÂƒNƒ‰ƒX‚ªs‚È‚¢‚Ü‚·B
+// CCellã¯ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆå†…ã®æ•°å¼ã®é …ã‚’ã€CSerialã¯ãã®æ¼”ç®—é †åºã‚’ä¿æŒã™ã‚‹ã ã‘ã®ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
+// æ“ä½œã¯ã“ã‚Œã‚‰ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒã¤ã‚¯ãƒ©ã‚¹ãŒè¡Œãªã„ã¾ã™ã€‚
 //
 
 #ifndef	CELLH
@@ -26,9 +26,9 @@
 class	CSerial
 {
 public:
-	size_t	tindex;						// ‰‰Zq‚ÌCCellˆÊ’u”Ô†
-	std::vector<size_t> index;				// ‰‰Z‘ÎÛ‚ÌCCellˆÊ’u”Ô†‚ÌƒŠƒXƒg
-									// ‰‰Zq‚ªF_TAG_FUNCPARAM/F_TAG_SYSFUNCPARAM‚Ìê‡‚ÍAindex[0]‚ªŠÖ”‚ğ¦‚µ‚Ü‚·
+	size_t	tindex;						// æ¼”ç®—å­ã®CCellä½ç½®ç•ªå·
+	std::vector<size_t> index;				// æ¼”ç®—å¯¾è±¡ã®CCellä½ç½®ç•ªå·ã®ãƒªã‚¹ãƒˆ
+									// æ¼”ç®—å­ãŒF_TAG_FUNCPARAM/F_TAG_SYSFUNCPARAMã®å ´åˆã¯ã€index[0]ãŒé–¢æ•°ã‚’ç¤ºã—ã¾ã™
 public:
 	CSerial(int t) { tindex = t; }
 
@@ -41,17 +41,17 @@ public:
 class	CCell
 {
 public:
-	yaya::string_t	name;			// ‚±‚Ì€‚Ì"–¼‘O"ithis‚ªƒ[ƒJƒ‹•Ï”/ŠÖ”‚Ì‚Ég—p‚µ‚Ü‚·j
-	ptrdiff_t		index;			// ˆÊ’u”Ô†ithis‚ª•Ï”/ƒ[ƒJƒ‹•Ï”/ŠÖ”‚ÌÛ‚Ég—p‚µ‚Ü‚·j
-	ptrdiff_t		depth;			// {}“ü‚êq‚Ì[‚³ithis‚ªƒ[ƒJƒ‹•Ï”‚Ì‚Ég—p‚µ‚Ü‚·j
+	yaya::string_t	name;			// ã“ã®é …ã®"åå‰"ï¼ˆthisãŒãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°/é–¢æ•°ã®æ™‚ã«ä½¿ç”¨ã—ã¾ã™ï¼‰
+	ptrdiff_t		index;			// ä½ç½®ç•ªå·ï¼ˆthisãŒå¤‰æ•°/ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°/é–¢æ•°ã®éš›ã«ä½¿ç”¨ã—ã¾ã™ï¼‰
+	ptrdiff_t		depth;			// {}å…¥ã‚Œå­ã®æ·±ã•ï¼ˆthisãŒãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã®æ™‚ã«ä½¿ç”¨ã—ã¾ã™ï¼‰
 
 private:
-	int     m_type;									// m_value‚Éƒ^ƒCƒv‚µ‚©Ši”[‚µ‚È‚¢ê‡‚Ég—p
+	int     m_type;									// m_valueã«ã‚¿ã‚¤ãƒ—ã—ã‹æ ¼ç´ã—ãªã„å ´åˆã«ä½¿ç”¨
 
-	mutable std_shared_ptr<CValue> m_value;		// ’lithis‚ªƒŠƒeƒ‰ƒ‹’l‚ÌÛ‚Ég—p‚µ‚Ü‚·j
-	mutable std_shared_ptr<CValue> m_ansv;		// ’lithis‚ª•Ï”/ƒ[ƒJƒ‹•Ï”/ŠÖ”‚ÌÛ‚ÉA‚»‚Ì“à—e/•Ô’l‚ğŠi”[‚µ‚Ü‚·j
-	mutable std_shared_ptr<CValue> m_order;		// ‰‰Z‚Ég—pi”z—ñ‚Ì˜”‚ğˆê“I‚É•Û‚µ‚Ü‚·j
-	mutable std_shared_ptr<CValue> m_emb_ansv;	// ’li%[n]‚ÅQÆ‚³‚ê‚é’l‚ğ•Û‚µ‚Ü‚·j
+	mutable std_shared_ptr<CValue> m_value;		// å€¤ï¼ˆthisãŒãƒªãƒ†ãƒ©ãƒ«å€¤ã®éš›ã«ä½¿ç”¨ã—ã¾ã™ï¼‰
+	mutable std_shared_ptr<CValue> m_ansv;		// å€¤ï¼ˆthisãŒå¤‰æ•°/ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°/é–¢æ•°ã®éš›ã«ã€ãã®å†…å®¹/è¿”å€¤ã‚’æ ¼ç´ã—ã¾ã™ï¼‰
+	mutable std_shared_ptr<CValue> m_order;		// æ¼”ç®—æ™‚ã«ä½¿ç”¨ï¼ˆé…åˆ—ã®åºæ•°ã‚’ä¸€æ™‚çš„ã«ä¿æŒã—ã¾ã™ï¼‰
+	mutable std_shared_ptr<CValue> m_emb_ansv;	// å€¤ï¼ˆ%[n]ã§å‚ç…§ã•ã‚Œã‚‹å€¤ã‚’ä¿æŒã—ã¾ã™ï¼‰
 
 public:
 	CCell(int t)
@@ -65,7 +65,7 @@ public:
 	{
 		index = -1;
 		depth = -1;
-		m_type  = F_TAG_STRING; //•W€‚ÍSTRING
+		m_type  = F_TAG_STRING; //æ¨™æº–ã¯STRING
 	}
 
 	~CCell(void) {

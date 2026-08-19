@@ -7,7 +7,7 @@
 //
 // http://www.regexlab.com/deelx/
 //
-// Author: ʷ��ΰ (sswater shi)
+// Author: ﾊｷﾊﾙﾎｰ (sswater shi)
 // sswater@gmail.com
 //
 // $Revision$

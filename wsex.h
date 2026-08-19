@@ -1,7 +1,7 @@
 // 
 // AYA version 5
 //
-// stl::wstring‚ğchar*•—‚Ég‚¤‚½‚ß‚ÌŠÖ”‚È‚Ç
+// stl::wstringã‚’char*é¢¨ã«ä½¿ã†ãŸã‚ã®é–¢æ•°ãªã©
 // written by umeici. 2004
 // 
 
@@ -44,7 +44,7 @@ namespace yaya {
 
 	#if defined(__GNUC__)
         // in g++ 12.2.0 (Debian 12.2.0-14)
-        //wsex.h:46:131: error: eformatf attribute argument 2 value e3f refers to parameter type econst yaya::char_t*f {aka econst wchar_t*f}
+        //wsex.h:46:131: error: â€˜formatâ€™ attribute argument 2 value â€˜3â€™ refers to parameter type â€˜const yaya::char_t*â€™ {aka â€˜const wchar_t*â€™}
 		//int snprintf(yaya::char_t* buf, size_t count, const yaya::char_t* format, ...)__attribute__((format(printf, 3, 4)));
 		int snprintf(yaya::char_t* buf, size_t count, const yaya::char_t* format, ...);
 	#elif defined(_MSC_VER)

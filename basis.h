@@ -1,7 +1,7 @@
 //
 // AYA version 5
 //
-// å‚È§Œä‚ğs‚È‚¤ƒNƒ‰ƒX@CBasis
+// ä¸»ãªåˆ¶å¾¡ã‚’è¡Œãªã†ã‚¯ãƒ©ã‚¹ã€€CBasis
 // written by umeici. 2004
 //
 
@@ -54,14 +54,14 @@ class	CBasis
 public:
 	CAyaVM &vm;
 
-	yaya::string_t	base_path;					// ãˆÊƒ‚ƒWƒ…[ƒ‹‚©‚çload‚É“n‚³‚ê‚éƒpƒX
+	yaya::string_t	base_path;					// ä¸Šä½ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‹ã‚‰loadæ™‚ã«æ¸¡ã•ã‚Œã‚‹ãƒ‘ã‚¹
 	yaya::string_t	load_path;					// messagetxt\savefile\yaya.txt etc.
-	yaya::string_t  messagetxt_path;			// ƒGƒ‰[ƒƒbƒZ[ƒW‚ğ“Ç‚ñ‚¾ƒpƒX
+	yaya::string_t  messagetxt_path;			// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’èª­ã‚“ã ãƒ‘ã‚¹
 
 protected:
 	char	msglang_for_compat;
 
-	char	dic_charset;				// •¶šƒR[ƒhƒZƒbƒgiShift_JIS/UTF-8/OSƒfƒtƒHƒ‹ƒgj
+	char	dic_charset;				// æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚»ãƒƒãƒˆï¼ˆShift_JIS/UTF-8/OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆï¼‰
 	char    setting_charset;
 	char	output_charset;
 	char	file_charset;
@@ -76,21 +76,21 @@ protected:
 #if !defined(WIN32)
 	typedef void* HWND;
 #endif
-	HWND	hlogrcvWnd;				// ƒ`ƒFƒbƒNƒc[ƒ‹‚ÌhWnd
+	HWND	hlogrcvWnd;				// ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã®hWnd
 
-	yaya::string_t	logpath;				// ƒƒOƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	yaya::string_t	modulename;				// ƒ‚ƒWƒ…[ƒ‹‚Ìåƒtƒ@ƒCƒ‹–¼i—á‚¦‚Îa.dll‚Ìê‡‚Í"a"j
-	yaya::string_t  config_file_name_trailer;  // åİ’èƒtƒ@ƒCƒ‹–¼¶¬‚ÌƒgƒŒƒCƒ‰[(’Êí‚Í‹ó)
-	yaya::string_t	modename;				// Œ»İ‚Ìƒ‚[ƒh (emergency or normal)
-	char	suppress;				// ©—¥“®ì—}~i\•¶‰ğÍ‚ÅƒGƒ‰[‚ª‹N‚«‚½Û‚É“®ì‚ğƒ}ƒXƒN‚·‚é‚½‚ß‚Ég—p‚µ‚Ü‚·j
-	char	checkparser;			// \•¶‰ğÍŒ‹‰Ê‚ÌƒƒO‚Ö‚Ì‹L˜^‚ğw¦‚·‚éƒtƒ‰ƒO
-	char	iolog;					// “üo—Í‚ÌƒƒO‚Ö‚Ì‹L˜^‚ğw¦‚·‚éƒtƒ‰ƒO
+	yaya::string_t	logpath;				// ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	yaya::string_t	modulename;				// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ä¸»ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆä¾‹ãˆã°a.dllã®å ´åˆã¯"a"ï¼‰
+	yaya::string_t  config_file_name_trailer;  // ä¸»è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«åç”Ÿæˆæ™‚ã®ãƒˆãƒ¬ã‚¤ãƒ©ãƒ¼(é€šå¸¸ã¯ç©º)
+	yaya::string_t	modename;				// ç¾åœ¨ã®ãƒ¢ãƒ¼ãƒ‰ (emergency or normal)
+	char	suppress;				// è‡ªå¾‹å‹•ä½œæŠ‘æ­¢ï¼ˆæ§‹æ–‡è§£æã§ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸéš›ã«å‹•ä½œã‚’ãƒã‚¹ã‚¯ã™ã‚‹ãŸã‚ã«ä½¿ç”¨ã—ã¾ã™ï¼‰
+	char	checkparser;			// æ§‹æ–‡è§£æçµæœã®ãƒ­ã‚°ã¸ã®è¨˜éŒ²ã‚’æŒ‡ç¤ºã™ã‚‹ãƒ•ãƒ©ã‚°
+	char	iolog;					// å…¥å‡ºåŠ›ã®ãƒ­ã‚°ã¸ã®è¨˜éŒ²ã‚’æŒ‡ç¤ºã™ã‚‹ãƒ•ãƒ©ã‚°
 
-	CBasisFuncPos loadindex;				// ŠÖ” load ‚ÌˆÊ’u
-	CBasisFuncPos unloadindex;				// ŠÖ” unload ‚ÌˆÊ’u
-	CBasisFuncPos requestindex;				// ŠÖ” request ‚ÌˆÊ’u
+	CBasisFuncPos loadindex;				// é–¢æ•° load ã®ä½ç½®
+	CBasisFuncPos unloadindex;				// é–¢æ•° unload ã®ä½ç½®
+	CBasisFuncPos requestindex;				// é–¢æ•° request ã®ä½ç½®
 
-	char	run;					// loadŠ®—¹‚Å0¨1‚Ö
+	char	run;					// loadå®Œäº†ã§0â†’1ã¸
 
 private:
 	CBasis(void);

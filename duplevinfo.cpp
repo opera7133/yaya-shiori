@@ -1,8 +1,8 @@
 // 
 // AYA version 5
 //
-// d•¡‰ñ”ğ§Œä‚ğs‚È‚¤ƒNƒ‰ƒX@CDuplEvInfo
-// - åˆ—•”
+// é‡è¤‡å›é¿åˆ¶å¾¡ã‚’è¡Œãªã†ã‚¯ãƒ©ã‚¹ã€€CDuplEvInfo
+// - ä¸»å‡¦ç†éƒ¨
 // written by umeici. 2004
 // 
 
@@ -30,24 +30,24 @@
 ////////////////////////////////////////
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CDuplEvInfo::Choice
- *  ‹@”\ŠT—vF  Œó•â‚©‚ç‘I‘ğ‚µ‚Äo—Í‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CDuplEvInfo::Choice
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å€™è£œã‹ã‚‰é¸æŠã—ã¦å‡ºåŠ›ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 CValue	CDuplEvInfo::Choice(CAyaVM &vm, size_t areanum, const std::vector<CVecValue> &values, int mode)
 {
-	// —Ìˆæ–ˆ‚ÌŒó•â”‚Æ‘”‚ğXV@•Ï‰»‚ª‚ ‚Á‚½ê‡‚Í„‰ñ‡˜‚ğ‰Šú‰»‚·‚é
+	// é ˜åŸŸæ¯ã®å€™è£œæ•°ã¨ç·æ•°ã‚’æ›´æ–°ã€€å¤‰åŒ–ãŒã‚ã£ãŸå ´åˆã¯å·¡å›é †åºã‚’åˆæœŸåŒ–ã™ã‚‹
 	if ( UpdateNums(areanum, values) ) {
 		lastroundorder = -1;
 		InitRoundOrder(vm,mode);
 	}
 
-	// ’l‚Ìæ“¾‚Æ„‰ñ§Œä
+	// å€¤ã®å–å¾—ã¨å·¡å›åˆ¶å¾¡
 	CValue	result = GetValue(vm, areanum, values);
 
 	lastroundorder = roundorder[index];
 
-	// „‰ñˆÊ’u‚ği‚ß‚é@„‰ñ‚ªŠ®—¹‚µ‚½‚ç„‰ñ‡˜‚ğ‰Šú‰»‚·‚é
+	// å·¡å›ä½ç½®ã‚’é€²ã‚ã‚‹ã€€å·¡å›ãŒå®Œäº†ã—ãŸã‚‰å·¡å›é †åºã‚’åˆæœŸåŒ–ã™ã‚‹
 	index++;
 	if ( index >= roundorder.size() ) {
 		InitRoundOrder(vm,mode);
@@ -58,7 +58,7 @@ CValue	CDuplEvInfo::Choice(CAyaVM &vm, size_t areanum, const std::vector<CVecVal
 
 size_t	CDuplEvInfo::GetNum(CAyaVM &vm, size_t areanum, const std::vector<CVecValue> &values, int mode)
 {
-	// —Ìˆæ–ˆ‚ÌŒó•â”‚Æ‘”‚ğXV@•Ï‰»‚ª‚ ‚Á‚½ê‡‚Í„‰ñ‡˜‚ğ‰Šú‰»‚·‚é
+	// é ˜åŸŸæ¯ã®å€™è£œæ•°ã¨ç·æ•°ã‚’æ›´æ–°ã€€å¤‰åŒ–ãŒã‚ã£ãŸå ´åˆã¯å·¡å›é †åºã‚’åˆæœŸåŒ–ã™ã‚‹
 	if ( UpdateNums(areanum, values) ) {
 		lastroundorder = -1;
 		InitRoundOrder(vm,mode);
@@ -68,13 +68,13 @@ size_t	CDuplEvInfo::GetNum(CAyaVM &vm, size_t areanum, const std::vector<CVecVal
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CDuplEvInfo::InitRoundOrder
- *  ‹@”\ŠT—vF  „‰ñ‡˜‚ğ‰Šú‰»‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CDuplEvInfo::InitRoundOrder
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å·¡å›é †åºã‚’åˆæœŸåŒ–ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CDuplEvInfo::InitRoundOrder(CAyaVM &vm,int mode_param)
 {
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	index = 0;
 	roundorder.clear();
 	roundorder.reserve(total);
@@ -88,12 +88,12 @@ void	CDuplEvInfo::InitRoundOrder(CAyaVM &vm,int mode_param)
 			}
 		}
 
-		//‹Ù‹}ƒGƒ‰[‰ñ”ğ—p
+		//ç·Šæ€¥æ™‚ã‚¨ãƒ©ãƒ¼å›é¿ç”¨
 		if ( ! roundorder.size() ) {
 			roundorder.emplace_back(0);
 		}
 
-		//ƒVƒƒƒbƒtƒ‹‚·‚é
+		//ã‚·ãƒ£ãƒƒãƒ•ãƒ«ã™ã‚‹
 		size_t n = roundorder.size();
 		if ( n >= 2 ) {
 			for (size_t i = 0 ; i < n ; ++i ) {
@@ -106,7 +106,7 @@ void	CDuplEvInfo::InitRoundOrder(CAyaVM &vm,int mode_param)
 			}
 		}
 
-		//lastroundorder‚Í i = 1 ˆÈ~ (2ŒÂ–ÚˆÈ~) ‚Ìƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚É·‚µ‚Ş
+		//lastroundorderã¯ i = 1 ä»¥é™ (2å€‹ç›®ä»¥é™) ã®ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«å·®ã—è¾¼ã‚€
 		if ( lastroundorder >= 0 ) {
 			if ( n >= 2 ) {
 				size_t lrand = vm.genrand_uint(n) + 1;
@@ -130,18 +130,18 @@ void	CDuplEvInfo::InitRoundOrder(CAyaVM &vm,int mode_param)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CDuplEvInfo::UpdateNums
- *  ‹@”\ŠT—vF  —Ìˆæ–ˆ‚ÌŒó•â”‚Æ‘”‚ğXV‚µ‚Ü‚·
- *  •Ô’l@@@  0/1=•Ï‰»‚È‚µ/‚ ‚è
+ *  é–¢æ•°å  ï¼š  CDuplEvInfo::UpdateNums
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é ˜åŸŸæ¯ã®å€™è£œæ•°ã¨ç·æ•°ã‚’æ›´æ–°ã—ã¾ã™
+ *  è¿”å€¤ã€€ã€€ã€€  0/1=å¤‰åŒ–ãªã—/ã‚ã‚Š
  * -----------------------------------------------------------------------
  */
 bool	CDuplEvInfo::UpdateNums(size_t areanum, const std::vector<CVecValue> &values)
 {
-	// Œ³‚ÌŒó•â”‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+	// å…ƒã®å€™è£œæ•°ã‚’ä¿å­˜ã—ã¦ãŠã
 	size_t	bef_numlenm1 = num.size() - 1;
 
-	// —Ìˆæ–ˆ‚ÌŒó•â”‚Æ‘g‚İ‡‚í‚¹‘”‚ğXV
-	// Œó•â”‚É•Ï‰»‚ª‚ ‚Á‚½ê‡‚Íƒtƒ‰ƒO‚É‹L˜^‚·‚é
+	// é ˜åŸŸæ¯ã®å€™è£œæ•°ã¨çµ„ã¿åˆã‚ã›ç·æ•°ã‚’æ›´æ–°
+	// å€™è£œæ•°ã«å¤‰åŒ–ãŒã‚ã£ãŸå ´åˆã¯ãƒ•ãƒ©ã‚°ã«è¨˜éŒ²ã™ã‚‹
 	bool changed = areanum != bef_numlenm1;
 	if ( changed ) {
 		num.resize(areanum+1);
@@ -181,11 +181,11 @@ bool	CDuplEvInfo::UpdateNums(const CValue& value)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CDuplEvInfo::GetValue
- *  ‹@”\ŠT—vF  Œ»İ‚Ì„‰ñˆÊ’u‚©‚ç’l‚ğæ“¾‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CDuplEvInfo::GetValue
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ç¾åœ¨ã®å·¡å›ä½ç½®ã‹ã‚‰å€¤ã‚’å–å¾—ã—ã¾ã™
  *
- *  Ši”[—Ìˆæ‚ªˆê‚Â‚µ‚©‚È‚¢ê‡‚Í‚»‚ê‚ğ‚»‚Ì‚Ü‚Üo‚·‚Ì‚Å’l‚ÌŒ^‚ª•ÛŒì‚³‚ê‚Ü‚·B
- *  —Ìˆæ‚ª•¡”‚ ‚éê‡‚Í‚»‚ê‚ç‚Í•¶š—ñ‚Æ‚µ‚ÄŒ‹‡‚³‚ê‚Ü‚·‚Ì‚ÅA•¶š—ñŒ^‚Å‚Ìo—Í‚Æ‚È‚è‚Ü‚·B
+ *  æ ¼ç´é ˜åŸŸãŒä¸€ã¤ã—ã‹ãªã„å ´åˆã¯ãã‚Œã‚’ãã®ã¾ã¾å‡ºã™ã®ã§å€¤ã®å‹ãŒä¿è­·ã•ã‚Œã¾ã™ã€‚
+ *  é ˜åŸŸãŒè¤‡æ•°ã‚ã‚‹å ´åˆã¯ãã‚Œã‚‰ã¯æ–‡å­—åˆ—ã¨ã—ã¦çµåˆã•ã‚Œã¾ã™ã®ã§ã€æ–‡å­—åˆ—å‹ã§ã®å‡ºåŠ›ã¨ãªã‚Šã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 CValue	CDuplEvInfo::GetValue(CAyaVM &vm, size_t areanum, const std::vector<CVecValue> &values)

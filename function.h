@@ -1,11 +1,11 @@
 // 
 // AYA version 5
 //
-// ŠÖ”‚ğˆµ‚¤ƒNƒ‰ƒX@CFunction/CStatement
+// é–¢æ•°ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹ã€€CFunction/CStatement
 // written by umeici. 2004
 // 
-// CFunction‚ªŠÖ”ACStatement‚ªŠÖ”“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚Å‚·B
-// CStatement‚Í’l‚Ì•Û‚Ì‚İ‚ÅA‘€ì‚ÍƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‚ÂCFunction‚Ås‚¢‚Ü‚·B
+// CFunctionãŒé–¢æ•°ã€CStatementãŒé–¢æ•°å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã§ã™ã€‚
+// CStatementã¯å€¤ã®ä¿æŒã®ã¿ã§ã€æ“ä½œã¯ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æŒã¤CFunctionã§è¡Œã„ã¾ã™ã€‚
 //
 
 #ifndef	FUNCTIONH
@@ -34,17 +34,17 @@ class CSelecter;
 class	CStatement
 {
 public:
-	int				type;			// ƒXƒe[ƒgƒƒ“ƒg‚Ìí•Ê
-	ptrdiff_t		jumpto;			// ”ò‚Ñæs”Ô† break/continue/return/if/elseif/else/for/foreach‚Åg—p‚µ‚Ü‚·
-									// ŠY“–’PˆÊI’[‚Ì"}"‚ÌˆÊ’u‚ªŠi”[‚³‚ê‚Ä‚¢‚Ü‚·
-	ptrdiff_t linecount;			// «‘ƒtƒ@ƒCƒ‹’†‚Ìs”Ô†
+	int				type;			// ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã®ç¨®åˆ¥
+	ptrdiff_t		jumpto;			// é£›ã³å…ˆè¡Œç•ªå· break/continue/return/if/elseif/else/for/foreachã§ä½¿ç”¨ã—ã¾ã™
+									// è©²å½“å˜ä½çµ‚ç«¯ã®"}"ã®ä½ç½®ãŒæ ¼ç´ã•ã‚Œã¦ã„ã¾ã™
+	ptrdiff_t linecount;			// è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ä¸­ã®è¡Œç•ªå·
 
 	mutable std_shared_ptr < CDuplEvInfo >	dupl_block;		// pool:{ //...
 	mutable bool						ismutiarea;
 
 private:
-	mutable std_shared_ptr<std::vector<CCell> >		m_cell;				// ”®‚Ì€‚ÌŒQ@
-	mutable std_shared_ptr<std::vector<CSerial> >	m_serial;			// ”®‚Ì‰‰Z‡˜
+	mutable std_shared_ptr<std::vector<CCell> >		m_cell;				// æ•°å¼ã®é …ã®ç¾¤ã€€
+	mutable std_shared_ptr<std::vector<CSerial> >	m_serial;			// æ•°å¼ã®æ¼”ç®—é †åº
 
 public:
 	CStatement(int t, ptrdiff_t l, std_shared_ptr<CDuplEvInfo> dupl = std_shared_ptr<CDuplEvInfo>() )
@@ -129,15 +129,15 @@ private:
 	CAyaVM *pvm;
 	
 public:
-	yaya::string_t				name;			// –¼‘O
-	yaya::string_t::size_type	namelen;		// –¼‘O‚Ì’·‚³
-	std::vector<CStatement>		statement;		// –½—ßŒS
-	yaya::string_t				dicfilename;	// ‘Î‰‚·‚é«‘ƒtƒ@ƒCƒ‹–¼
+	yaya::string_t				name;			// åå‰
+	yaya::string_t::size_type	namelen;		// åå‰ã®é•·ã•
+	std::vector<CStatement>		statement;		// å‘½ä»¤éƒ¡
+	yaya::string_t				dicfilename;	// å¯¾å¿œã™ã‚‹è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«å
 	yaya::string_t				dicfilename_fullpath;
 
 protected:
-	size_t					statelenm1;		// statement‚Ì’·‚³-1i1‚ğŒ¸‚¶‚Ä‚¢‚é‚Ì‚ÍI’[‚Ì"}"‚ğˆ—‚µ‚È‚¢‚½‚ß‚Å‚·j
-	size_t					linecount;		// ’è‹`‚³‚ê‚½s
+	size_t					statelenm1;		// statementã®é•·ã•-1ï¼ˆ1ã‚’æ¸›ã˜ã¦ã„ã‚‹ã®ã¯çµ‚ç«¯ã®"}"ã‚’å‡¦ç†ã—ãªã„ãŸã‚ã§ã™ï¼‰
+	size_t					linecount;		// å®šç¾©ã•ã‚ŒãŸè¡Œ
 
 private:
 	CFunction(void);

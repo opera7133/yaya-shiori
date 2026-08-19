@@ -1,7 +1,7 @@
 //
 // AYA version 5
 //
-// å‚È§Œä‚ğs‚È‚¤ƒNƒ‰ƒX@CBasis
+// ä¸»ãªåˆ¶å¾¡ã‚’è¡Œãªã†ã‚¯ãƒ©ã‚¹ã€€CBasis
 // written by umeici. 2004
 //
 
@@ -68,7 +68,7 @@
 #define MSGLANG_KOREAN 4
 #define MSGLANG_GERMAN 5
 
-// ŒÃ‚¢VC++‚ÌSDK‚Å‚Í`/ƒ}ƒJƒI‚ÌƒTƒuŒ¾ŒêID‚ª–¢’è‹`‚Ìê‡‚ª‚ ‚é‚½‚ß•âŠ®
+// å¤ã„VC++ã®SDKã§ã¯é¦™æ¸¯/ãƒã‚«ã‚ªã®ã‚µãƒ–è¨€èªIDãŒæœªå®šç¾©ã®å ´åˆãŒã‚ã‚‹ãŸã‚è£œå®Œ
 #if defined(WIN32)
 #ifndef SUBLANG_CHINESE_HONGKONG
 #define SUBLANG_CHINESE_HONGKONG 0x03
@@ -78,7 +78,7 @@
 #endif
 #endif
 
-// msglang ‚©‚çŠù’è‚ÌƒGƒ‰[ƒƒbƒZ[ƒWƒe[ƒuƒ‹‚ÌƒpƒX‚ğ“¾‚é
+// msglang ã‹ã‚‰æ—¢å®šã®ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ‘ã‚¹ã‚’å¾—ã‚‹
 static const wchar_t* MsgLangToMessageTxt(char lang)
 {
 	switch (lang) {
@@ -93,7 +93,7 @@ static const wchar_t* MsgLangToMessageTxt(char lang)
 }
 
 /* -----------------------------------------------------------------------
- * CBasisƒRƒ“ƒXƒgƒ‰ƒNƒ^
+ * CBasisã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
  * -----------------------------------------------------------------------
  */
 
@@ -106,14 +106,14 @@ CBasis::CBasis(CAyaVM &vmr) : vm(vmr)
 
 #if defined(WIN32)
 	{
-		// ƒ†[ƒU[‚ÌŠù’èƒƒP[ƒ‹‚ª“ú–{Œê‚È‚ç JAPANESEA’†‘Œê‚È‚çŠÈ‘Ì/”É‘ÌA
-		// ŠØ‘Œê‚È‚ç KOREANAƒhƒCƒcŒê‚È‚ç GERMANA‚»‚êˆÈŠO‚Í ENGLISH
+		// ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®æ—¢å®šãƒ­ã‚±ãƒ¼ãƒ«ãŒæ—¥æœ¬èªãªã‚‰ JAPANESEã€ä¸­å›½èªãªã‚‰ç°¡ä½“/ç¹ä½“ã€
+		// éŸ“å›½èªãªã‚‰ KOREANã€ãƒ‰ã‚¤ãƒ„èªãªã‚‰ GERMANã€ãã‚Œä»¥å¤–ã¯ ENGLISH
 		LANGID langid = GetUserDefaultLangID();
 		if (PRIMARYLANGID(langid) == LANG_JAPANESE) {
 			msglang_for_compat = MSGLANG_JAPANESE;
 		}
 		else if (PRIMARYLANGID(langid) == LANG_CHINESE) {
-			// ‘ä˜pE`Eƒ}ƒJƒI‚Í”É‘ÌšA‚»‚êˆÈŠOi’†‘–{“yEƒVƒ“ƒKƒ|[ƒ‹“™j‚ÍŠÈ‘Ìš
+			// å°æ¹¾ãƒ»é¦™æ¸¯ãƒ»ãƒã‚«ã‚ªã¯ç¹ä½“å­—ã€ãã‚Œä»¥å¤–ï¼ˆä¸­å›½æœ¬åœŸãƒ»ã‚·ãƒ³ã‚¬ãƒãƒ¼ãƒ«ç­‰ï¼‰ã¯ç°¡ä½“å­—
 			WORD sublang = SUBLANGID(langid);
 			if (sublang == SUBLANG_CHINESE_TRADITIONAL ||
 				sublang == SUBLANG_CHINESE_HONGKONG ||
@@ -134,14 +134,14 @@ CBasis::CBasis(CAyaVM &vmr) : vm(vmr)
 	}
 #else
 	{
-		// C++ ‚ÌŠù’èƒƒP[ƒ‹‚ğæ“¾‚µ‚Ä”»’è‚·‚é (ƒOƒ[ƒoƒ‹ó‘Ô‚Í•ÏX‚µ‚È‚¢)
+		// C++ ã®æ—¢å®šãƒ­ã‚±ãƒ¼ãƒ«ã‚’å–å¾—ã—ã¦åˆ¤å®šã™ã‚‹ (ã‚°ãƒ­ãƒ¼ãƒãƒ«çŠ¶æ…‹ã¯å¤‰æ›´ã—ãªã„)
 		try {
 			std::string name = std::locale("").name();
 			if (name.find("ja") != std::string::npos || name.find("Japan") != std::string::npos) {
 				msglang_for_compat = MSGLANG_JAPANESE;
 			}
 			else if (name.find("zh") != std::string::npos || name.find("Chinese") != std::string::npos) {
-				// zh_TW / zh_HK / zh_MO / Hant ‚Í”É‘ÌšA‚»‚êˆÈŠOizh_CN “™j‚ÍŠÈ‘Ìš
+				// zh_TW / zh_HK / zh_MO / Hant ã¯ç¹ä½“å­—ã€ãã‚Œä»¥å¤–ï¼ˆzh_CN ç­‰ï¼‰ã¯ç°¡ä½“å­—
 				if (name.find("TW") != std::string::npos || name.find("HK") != std::string::npos ||
 					name.find("MO") != std::string::npos || name.find("Hant") != std::string::npos)
 					msglang_for_compat = MSGLANG_TRADITIONAL_CHINESE;
@@ -159,7 +159,7 @@ CBasis::CBasis(CAyaVM &vmr) : vm(vmr)
 			}
 		}
 		catch (...) {
-			// ƒƒP[ƒ‹–¼‚ªæ“¾‚Å‚«‚È‚¢ŠÂ‹«‚Å‚Í ENGLISH ‚ÉƒtƒH[ƒ‹ƒoƒbƒN
+			// ãƒ­ã‚±ãƒ¼ãƒ«åãŒå–å¾—ã§ããªã„ç’°å¢ƒã§ã¯ ENGLISH ã«ãƒ•ã‚©ãƒ¼ãƒ«ãƒãƒƒã‚¯
 			msglang_for_compat = MSGLANG_ENGLISH;
 		}
 	}
@@ -184,10 +184,10 @@ CBasis::CBasis(CAyaVM &vmr) : vm(vmr)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetModuleHandle
- *  ‹@”\ŠT—vF  ƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚ğæ“¾‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SetModuleHandle
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã—ã¾ã™
  *
- *  ‚Â‚¢‚Å‚Éƒ‚ƒWƒ…[ƒ‹‚Ìåƒtƒ@ƒCƒ‹–¼æ“¾‚às‚¢‚Ü‚·
+ *  ã¤ã„ã§ã«ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ä¸»ãƒ•ã‚¡ã‚¤ãƒ«åå–å¾—ã‚‚è¡Œã„ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::SetModuleName(const yaya::string_t &s,const yaya::char_t *trailer,const yaya::char_t *mode)
@@ -204,20 +204,20 @@ void	CBasis::SetModuleName(const yaya::string_t &s,const yaya::char_t *trailer,c
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetPath
- *  ‹@”\ŠT—vF  HGLOBAL‚ÉŠi”[‚³‚ê‚½ƒtƒ@ƒCƒ‹ƒpƒX‚ğæ“¾‚µ‚Ü‚· HGLOBAL‚ÍŠJ•ú‚µ‚Ü‚¹‚ñ
+ *  é–¢æ•°å  ï¼š  CBasis::SetPath
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  HGLOBALã«æ ¼ç´ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’å–å¾—ã—ã¾ã™ HGLOBALã¯é–‹æ”¾ã—ã¾ã›ã‚“
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32) || defined(_WIN32_WCE)
 void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 {
-	// æ“¾‚Æ—ÌˆæŠJ•ú
+	// å–å¾—ã¨é ˜åŸŸé–‹æ”¾
 	std::string	mbpath;
 	mbpath.assign((char *)h, 0, len);
-	//GlobalFree(h); //load‘¤‚ÅŠJ•ú
+	//GlobalFree(h); //loadå´ã§é–‹æ”¾
 	h = NULL;
 
-	// •¶šƒR[ƒh‚ğUCS-2‚Ö•ÏŠ·
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’UCS-2ã¸å¤‰æ›
 	if ( is_utf8 ) {
 		Ccct::MbcsToUcs2Buf(base_path, mbpath, CHARSET_UTF8);
 	}
@@ -225,7 +225,7 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 		Ccct::MbcsToUcs2Buf(base_path, mbpath, CHARSET_DEFAULT);
 	}
 
-	//ÅŒã‚ª\‚Å‚à/‚Å‚à‚È‚¯‚ê‚Î‘«‚·
+	//æœ€å¾ŒãŒ\ã§ã‚‚/ã§ã‚‚ãªã‘ã‚Œã°è¶³ã™
 	if (base_path.length() == 0 || ( (base_path[base_path.length()-1] != L'/') && (base_path[base_path.length()-1] != L'\\') ) ) {
 		base_path += L"\\";
 	}
@@ -235,7 +235,7 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 #elif defined(POSIX)
 void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 {
-	// æ“¾‚Æ—ÌˆæŠJ•ú
+	// å–å¾—ã¨é ˜åŸŸé–‹æ”¾
 	if ( is_utf8 ) {
 		std::string	mbpath;
 		mbpath.assign((char *)h, 0, len);
@@ -244,16 +244,16 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 	else {
 		base_path = widen(std::string(h, static_cast<std::string::size_type>(len)));
 	}
-	//free(h); //load‘¤‚ÅŠJ•ú
+	//free(h); //loadå´ã§é–‹æ”¾
 	h = NULL;
-	// ƒXƒ‰ƒbƒVƒ…‚ÅI‚í‚Á‚Ä‚È‚¯‚ê‚Î•t‚¯‚éB
+	// ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã§çµ‚ã‚ã£ã¦ãªã‘ã‚Œã°ä»˜ã‘ã‚‹ã€‚
 	if (base_path.length() == 0 || base_path[base_path.length() - 1] != L'/') {
 		base_path += L'/';
 	}
-	// ƒ‚ƒWƒ…[ƒ‹ƒnƒ“ƒhƒ‹‚Ìæ“¾‚Ío—ˆ‚È‚¢‚Ì‚ÅA—Í‹Z‚ÅˆÊ’u‚ğ’m‚éB
-	// ‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚é‘S‚Ä‚Ì*.dll(case insensitive)‚ğ’T‚µA
-	// ’†g‚Éyaya.dll‚Æ‚¢‚¤•¶š—ñ‚ğŠÜ‚ñ‚Å‚¢‚½‚çA‚»‚ê‚ğ‘I‚ÔB
-	// ‚½‚¾‚µ‘Î‰‚·‚é*.txt‚ª–³‚¯‚ê‚Îdll‚Ì’†g‚ÍŒ©‚¸‚ÉŸ‚Ös‚­B
+	// ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãƒãƒ³ãƒ‰ãƒ«ã®å–å¾—ã¯å‡ºæ¥ãªã„ã®ã§ã€åŠ›æŠ€ã§ä½ç½®ã‚’çŸ¥ã‚‹ã€‚
+	// ã“ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ã‚ã‚‹å…¨ã¦ã®*.dll(case insensitive)ã‚’æ¢ã—ã€
+	// ä¸­èº«ã«yaya.dllã¨ã„ã†æ–‡å­—åˆ—ã‚’å«ã‚“ã§ã„ãŸã‚‰ã€ãã‚Œã‚’é¸ã¶ã€‚
+	// ãŸã ã—å¯¾å¿œã™ã‚‹*.txtãŒç„¡ã‘ã‚Œã°dllã®ä¸­èº«ã¯è¦‹ãšã«æ¬¡ã¸è¡Œãã€‚
 	modulename = L"yaya";
 	DIR* dh = opendir(narrow(base_path).c_str());
 	if (dh == NULL) {
@@ -263,16 +263,16 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 	while (true) {
 	struct dirent* ent = readdir(dh);
 	if (ent == NULL) {
-	    break; // ‚à‚¤–³‚¢
+	    break; // ã‚‚ã†ç„¡ã„
 	}
 	std::string fname(ent->d_name, strlen(ent->d_name)/*ent->d_namlen*/);	// by umeici. 2005/1/16 5.6.0.232
 	if (lc(get_extension(fname)) == "dll") {
 		std::string txt_file = narrow(base_path) + change_extension(fname, "txt");
 	    struct stat sb;
 	    if (::stat(txt_file.c_str(), &sb) == 0) {
-		// txtƒtƒ@ƒCƒ‹‚ª‚ ‚é‚Ì‚ÅA’†g‚ğŒ©‚Ä‚İ‚éB
+		// txtãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ã®ã§ã€ä¸­èº«ã‚’è¦‹ã¦ã¿ã‚‹ã€‚
 		if (file_content_search(narrow(base_path) + fname, "yaya.dll") != std::string::npos) {
-		    // ‚±‚ê‚ÍYAYA‚ÌDLL‚Å‚ ‚éB
+		    // ã“ã‚Œã¯YAYAã®DLLã§ã‚ã‚‹ã€‚
 		    modulename = widen(drop_extension(fname));
 		    break;
 		}
@@ -285,8 +285,8 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetLogRcvWnd
- *  ‹@”\ŠT—vF  ƒ`ƒFƒbƒNƒc[ƒ‹‚©‚ç“n‚³‚ê‚½hWnd‚ğ•Û‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SetLogRcvWnd
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒã‚§ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«ã‹ã‚‰æ¸¡ã•ã‚ŒãŸhWndã‚’ä¿æŒã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -298,8 +298,8 @@ void	CBasis::SetLogRcvWnd(long hwnd)
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetLogger
- *  ‹@”\ŠT—vF  ƒƒO‹@”\‚ğ‰Šú‰» / Äİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SetLogger
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ãƒ­ã‚°æ©Ÿèƒ½ã‚’åˆæœŸåŒ– / å†è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void CBasis::SetLogger(void)
@@ -308,23 +308,23 @@ void CBasis::SetLogger(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::Configure
- *  ‹@”\ŠT—vF  load‚És‚¤‰Šúİ’èˆ—
+ *  é–¢æ•°å  ï¼š  CBasis::Configure
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  loadæ™‚ã«è¡Œã†åˆæœŸè¨­å®šå‡¦ç†
  * -----------------------------------------------------------------------
  */
 void	CBasis::Configure(void)
 {
-	// Šî‘bİ’èƒtƒ@ƒCƒ‹i—á‚¦‚Îaya.txtj‚ğ“Ç‚İæ‚è
+	// åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆä¾‹ãˆã°aya.txtï¼‰ã‚’èª­ã¿å–ã‚Š
 	std::vector<CDic1>	dics;
 	LoadBaseConfigureFile(dics);
-	// Šî‘bİ’èƒtƒ@ƒCƒ‹“Ç‚İæ‚è‚Åd“Ä‚ÈƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Í‚±‚±‚ÅI—¹
+	// åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿å–ã‚Šã§é‡ç¯¤ãªã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã“ã“ã§çµ‚äº†
 	if (suppress)
 		return;
 
-	// ƒƒMƒ“ƒO‚ğŠJn
+	// ãƒ­ã‚®ãƒ³ã‚°ã‚’é–‹å§‹
 	SetLogger();
 
-	// «‘“Ç‚İ‚İ‚Æ\•¶‰ğÍ
+	// è¾æ›¸èª­ã¿è¾¼ã¿ã¨æ§‹æ–‡è§£æ
 	if (vm.parser0().Parse(dic_charset, dics))
 		SetSuppress();
 
@@ -334,18 +334,18 @@ void	CBasis::Configure(void)
 		if (checkparser)
 			logex.OutExecutionCodeForCheck();
 
-		// ‘O‰ñI—¹‚É•Û‘¶‚µ‚½•Ï”‚ğ•œŒ³
+		// å‰å›çµ‚äº†æ™‚ã«ä¿å­˜ã—ãŸå¤‰æ•°ã‚’å¾©å…ƒ
 		RestoreVariable();
 
 		if (checkparser)
 			logex.OutVariableInfoForCheck();
 	}
 
-	// ‚±‚±‚Ü‚Å‚Ìˆ—‚Åd“Ä‚ÈƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚Í‚±‚±‚ÅI—¹
+	// ã“ã“ã¾ã§ã®å‡¦ç†ã§é‡ç¯¤ãªã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ã“ã“ã§çµ‚äº†
 	if (suppress)
 		return;
 
-	// ŠO•”ƒ‰ƒCƒuƒ‰ƒŠ‚Æƒtƒ@ƒCƒ‹‚Ì•¶šƒR[ƒh‚ğ‰Šú‰»
+	// å¤–éƒ¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¨ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’åˆæœŸåŒ–
 	vm.libs().SetCharset(extension_charset);
 	vm.files().SetCharset(file_charset);
 
@@ -353,27 +353,27 @@ void	CBasis::Configure(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::Termination
- *  ‹@”\ŠT—vF  unload‚És‚¤I—¹ˆ—
+ *  é–¢æ•°å  ï¼š  CBasis::Termination
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  unloadæ™‚ã«è¡Œã†çµ‚äº†å‡¦ç†
  * -----------------------------------------------------------------------
  */
 void	CBasis::Termination(void)
 {
-	// “®ì—}~‚³‚ê‚Ä‚¢‚È‚¯‚ê‚ÎI—¹‚Ìˆ—‚ğÀs
+	// å‹•ä½œæŠ‘æ­¢ã•ã‚Œã¦ã„ãªã‘ã‚Œã°çµ‚äº†æ™‚ã®å‡¦ç†ã‚’å®Ÿè¡Œ
 	if (!suppress) {
 		// unload
 		ExecuteUnload();
-		// ƒ[ƒh‚µ‚Ä‚¢‚é‚·‚×‚Ä‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğunload
+		// ãƒ­ãƒ¼ãƒ‰ã—ã¦ã„ã‚‹ã™ã¹ã¦ã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’unload
 		vm.libs().DeleteAll();
-		// ŠJ‚¢‚Ä‚¢‚é‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+		// é–‹ã„ã¦ã„ã‚‹ã™ã¹ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 		vm.files().DeleteAll();
-		// •Ï”‚Ì•Û‘¶
+		// å¤‰æ•°ã®ä¿å­˜
 		if ( auto_save ) {
 			SaveVariable();
 		}
 	}
 
-	// ƒƒMƒ“ƒO‚ğI—¹
+	// ãƒ­ã‚®ãƒ³ã‚°ã‚’çµ‚äº†
 	vm.logger().Termination();
 
 	//
@@ -383,15 +383,15 @@ void	CBasis::Termination(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::IsSuppress
- *  ‹@”\ŠT—vF  Œ»İ‚Ì©—¥—}~ó‘Ô‚ğ•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::IsSuppress
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  ç¾åœ¨ã®è‡ªå¾‹æŠ‘æ­¢çŠ¶æ…‹ã‚’è¿”ã—ã¾ã™
  *
- *  •Ô’l@@F  0/1=”ñ—}~/—}~
+ *  è¿”å€¤ã€€ã€€ï¼š  0/1=éæŠ‘æ­¢/æŠ‘æ­¢
  *
- *  Šî‘bİ’èƒtƒ@ƒCƒ‹‚Ì“Ç‚İæ‚è‚â«‘ƒtƒ@ƒCƒ‹‚Ì‰ğÍ’†‚ÉA“®ìŒp‘±¢“ï‚ÈƒGƒ‰[‚ª”­¶‚·‚é‚Æ
- *  SetSuppress()‚É‚æ‚Á‚Ä—}~İ’è‚³‚ê‚Ü‚·B—}~İ’è‚³‚ê‚é‚ÆAload/request/unload‚Å‚Ì“®ì‚ª
- *  ‚·‚×‚Äƒ}ƒXƒN‚³‚ê‚Ü‚·B‚±‚ÌArequest‚Ì•Ô’l‚Íí‚É‹ó•¶š—ñ‚É‚È‚è‚Ü‚·BiHGLOBAL=NULLA
- *  len=0‚Å‰“š‚µ‚Ü‚·j
+ *  åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿å–ã‚Šã‚„è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ã®è§£æä¸­ã«ã€å‹•ä½œç¶™ç¶šå›°é›£ãªã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã™ã‚‹ã¨
+ *  SetSuppress()ã«ã‚ˆã£ã¦æŠ‘æ­¢è¨­å®šã•ã‚Œã¾ã™ã€‚æŠ‘æ­¢è¨­å®šã•ã‚Œã‚‹ã¨ã€load/request/unloadã§ã®å‹•ä½œãŒ
+ *  ã™ã¹ã¦ãƒã‚¹ã‚¯ã•ã‚Œã¾ã™ã€‚ã“ã®æ™‚ã€requestã®è¿”å€¤ã¯å¸¸ã«ç©ºæ–‡å­—åˆ—ã«ãªã‚Šã¾ã™ã€‚ï¼ˆHGLOBAL=NULLã€
+ *  len=0ã§å¿œç­”ã—ã¾ã™ï¼‰
  * -----------------------------------------------------------------------
  */
 char	CBasis::IsSuppress(void)
@@ -400,8 +400,8 @@ char	CBasis::IsSuppress(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CSystemFunction::ToFullPath
- *  ‹@”\ŠT—vF  “n‚³‚ê‚½•¶š—ñ‚ª‘Š‘ÎƒpƒX•\‹L‚È‚çâ‘ÎƒpƒX‚É‘‚«Š·‚¦‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CSystemFunction::ToFullPath
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  æ¸¡ã•ã‚ŒãŸæ–‡å­—åˆ—ãŒç›¸å¯¾ãƒ‘ã‚¹è¡¨è¨˜ãªã‚‰çµ¶å¯¾ãƒ‘ã‚¹ã«æ›¸ãæ›ãˆã¾ã™
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32)
@@ -439,8 +439,8 @@ yaya::string_t CBasis::ToFullPath(const yaya::string_t& str)
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetSuppress
- *  ‹@”\ŠT—vF  ©—¥“®ì—}~‚ğİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SetSuppress
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  è‡ªå¾‹å‹•ä½œæŠ‘æ­¢ã‚’è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::SetSuppress(void)
@@ -449,8 +449,8 @@ void	CBasis::SetSuppress(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::ResetSuppress
- *  ‹@”\ŠT—vF  ©—¥“®ì—}~‹@”\‚ğƒŠƒZƒbƒg‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::ResetSuppress
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  è‡ªå¾‹å‹•ä½œæŠ‘æ­¢æ©Ÿèƒ½ã‚’ãƒªã‚»ãƒƒãƒˆã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::ResetSuppress(void)
@@ -459,36 +459,36 @@ void	CBasis::ResetSuppress(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::LoadBaseConfigureFile
- *  ‹@”\ŠT—vF  Šî‘bİ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İæ‚èAŠeíƒpƒ‰ƒ[ƒ^‚ğƒZƒbƒg‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::LoadBaseConfigureFile
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿å–ã‚Šã€å„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ã‚»ãƒƒãƒˆã—ã¾ã™
  *
- *  Šî‘bİ’èƒtƒ@ƒCƒ‹‚ÍDLL‚Æ“¯ŠK‘w‚É‘¶İ‚·‚é–¼‘O‚ª"DLLåƒtƒ@ƒCƒ‹–¼.txt"‚Ìƒtƒ@ƒCƒ‹‚Å‚·B
+ *  åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¯DLLã¨åŒéšå±¤ã«å­˜åœ¨ã™ã‚‹åå‰ãŒ"DLLä¸»ãƒ•ã‚¡ã‚¤ãƒ«å.txt"ã®ãƒ•ã‚¡ã‚¤ãƒ«ã§ã™ã€‚
  *
- *  «‘ƒtƒ@ƒCƒ‹‚Ì•¶šƒR[ƒh‚ÍShift_JISˆÈŠO‚É‚àUTF-8‚ÆOSƒfƒtƒHƒ‹ƒg‚ÌƒR[ƒh‚É‘Î‰‚Å‚«‚Ü‚·‚ªA
- *  ‚±‚ÌŠî‘bİ’èƒtƒ@ƒCƒ‹‚ÍOSƒfƒtƒHƒ‹ƒg‚ÌƒR[ƒh‚Å“Ç‚İæ‚ç‚ê‚é‚±‚Æ‚É’ˆÓ‚µ‚Ä‚­‚¾‚³‚¢B
- *  ‘Û‰»‚ÉŠÖ‚µ‚Äl—¶‚·‚éê‡‚ÍA‚±‚Ìƒtƒ@ƒCƒ‹“à‚Ì‹Lq‚Éƒ}ƒ‹ƒ`ƒoƒCƒg•¶š‚ğg—p‚·‚é‚×‚«‚Å‚Í
- *  ‚ ‚è‚Ü‚¹‚ñi•¶šƒR[ƒh0x7FˆÈ‰º‚ÌASCII•¶š‚Ì‚İ‚Å‹Lq‚·‚×‚«‚Å‚·jB
+ *  è¾æ›¸ãƒ•ã‚¡ã‚¤ãƒ«ã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ã¯Shift_JISä»¥å¤–ã«ã‚‚UTF-8ã¨OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒ¼ãƒ‰ã«å¯¾å¿œã§ãã¾ã™ãŒã€
+ *  ã“ã®åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¯OSãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ã‚³ãƒ¼ãƒ‰ã§èª­ã¿å–ã‚‰ã‚Œã‚‹ã“ã¨ã«æ³¨æ„ã—ã¦ãã ã•ã„ã€‚
+ *  å›½éš›åŒ–ã«é–¢ã—ã¦è€ƒæ…®ã™ã‚‹å ´åˆã¯ã€ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®è¨˜è¿°ã«ãƒãƒ«ãƒãƒã‚¤ãƒˆæ–‡å­—ã‚’ä½¿ç”¨ã™ã‚‹ã¹ãã§ã¯
+ *  ã‚ã‚Šã¾ã›ã‚“ï¼ˆæ–‡å­—ã‚³ãƒ¼ãƒ‰0x7Fä»¥ä¸‹ã®ASCIIæ–‡å­—ã®ã¿ã§è¨˜è¿°ã™ã¹ãã§ã™ï¼‰ã€‚
  * -----------------------------------------------------------------------
  */
 void	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
 {
-	// İ’èƒtƒ@ƒCƒ‹("name".txt)“Ç‚İæ‚è
+	// è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«("name".txt)èª­ã¿å–ã‚Š
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	yaya::string_t	filename = load_path + modulename + config_file_name_trailer + L".txt";
 
-	// æ‚ÉŒİŠ·—p‚ÉƒGƒ‰[ƒƒbƒZ[ƒWƒe[ƒuƒ‹‚ğ“Ç‚ñ‚Å‚¨‚­B
+	// å…ˆã«äº’æ›ç”¨ã«ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’èª­ã‚“ã§ãŠãã€‚
 	SetParameter(L"messagetxt",MsgLangToMessageTxt(msglang_for_compat));
 
-	// ‚¢‚Á‚½‚ñ‘Ş”ğimessagetxt_path ‚Íİ’èƒtƒ@ƒCƒ‹‚Å‚Ì–¾¦w’è‚ğŒŸo‚·‚é‚½‚ß‚ÉT‚¦‚éj
+	// ã„ã£ãŸã‚“é€€é¿ï¼ˆmessagetxt_path ã¯è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã§ã®æ˜ç¤ºæŒ‡å®šã‚’æ¤œå‡ºã™ã‚‹ãŸã‚ã«æ§ãˆã‚‹ï¼‰
 	char old_msglang = msglang_for_compat;
 	yaya::string_t old_messagetxt_path = messagetxt_path;
 	
-	// “Ç‚İ‚İ“–‰‚Í•¶šƒR[ƒh‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‚Ì‚ÅACHARSET_UNDEF‚É‚·‚é
+	// èª­ã¿è¾¼ã¿å½“åˆã¯æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒå®šç¾©ã•ã‚Œã¦ã„ãªã„ã®ã§ã€CHARSET_UNDEFã«ã™ã‚‹
 	LoadBaseConfigureFile_Base(filename,dics,CHARSET_UNDEF);
 
-	// msglang‚ª•Ï‚í‚èA‚©‚Âİ’èƒtƒ@ƒCƒ‹‚Åmessagetxt‚ª–¾¦w’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ì‚İ“Ç‚İ’¼‚µ
-	// imessagetxt‚ğ–¾¦w’è‚µ‚Ä‚¢‚éê‡‚Íƒ†[ƒU[w’è‚ğ—Dæ‚µAã‘‚«‚µ‚È‚¢j
+	// msglangãŒå¤‰ã‚ã‚Šã€ã‹ã¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã§messagetxtãŒæ˜ç¤ºæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã®ã¿èª­ã¿ç›´ã—
+	// ï¼ˆmessagetxtã‚’æ˜ç¤ºæŒ‡å®šã—ã¦ã„ã‚‹å ´åˆã¯ãƒ¦ãƒ¼ã‚¶ãƒ¼æŒ‡å®šã‚’å„ªå…ˆã—ã€ä¸Šæ›¸ãã—ãªã„ï¼‰
 	if ( old_msglang != msglang_for_compat && old_messagetxt_path == messagetxt_path ) {
 		SetParameter(L"messagetxt",MsgLangToMessageTxt(msglang_for_compat));
 	}
@@ -496,7 +496,7 @@ void	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
 
 void	CBasis::LoadBaseConfigureFile_Base(yaya::string_t filename,std::vector<CDic1> &dics,char cset)
 {
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	FILE	*fp = yaya::w_fopen(filename.c_str(), L"r");
 	if (fp == NULL) {
 		vm.logger().Error(E_E, 5, filename);
@@ -504,7 +504,7 @@ void	CBasis::LoadBaseConfigureFile_Base(yaya::string_t filename,std::vector<CDic
 		return;
 	}
 
-	// “Ç‚İæ‚èˆ—
+	// èª­ã¿å–ã‚Šå‡¦ç†
 	CComment	comment;
 	yaya::string_t	cmd, param;
 	size_t line=0;
@@ -519,36 +519,36 @@ void	CBasis::LoadBaseConfigureFile_Base(yaya::string_t filename,std::vector<CDic
 	while ( true ) {
 		line += 1;
 
-		// 1s“Ç‚İ‚İ
+		// 1è¡Œèª­ã¿è¾¼ã¿
 		cset_real = cset;
 
 		if ( cset == CHARSET_UNDEF ) {
-			//Œã‚Ìİ’è‚Å•ÏX‚³‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚é‚Ì‚ÅA–ˆ‰ñã‘‚«‚·‚é‚±‚Æ
+			//å¾Œã®è¨­å®šã§å¤‰æ›´ã•ã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ã®ã§ã€æ¯å›ä¸Šæ›¸ãã™ã‚‹ã“ã¨
 			//always overwrite cset_real because setting_charset may be modified in SetParameter function
 			cset_real = setting_charset;
 		}
 
 		if (yaya::ws_fgets(buf, readline, fp, cset_real, 0, line) == yaya::WS_EOF) {
-			// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 			fclose(fp);
 
 			break;
 		}
 
-		// ‰üs‚ÍÁ‹
+		// æ”¹è¡Œã¯æ¶ˆå»
 		CutCrLf(readline);
 
-		// ƒRƒƒ“ƒgƒAƒEƒgˆ—
+		// ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆå‡¦ç†
 		comment.Process_Top(readline);
 		comment.Process(readline);
 		comment.Process_Tail(readline);
 
-		// ‹ósA‚à‚µ‚­‚Í‘S‘Ì‚ªƒRƒƒ“ƒgs‚¾‚Á‚½ê‡‚ÍŸ‚Ìs‚Ö
+		// ç©ºè¡Œã€ã‚‚ã—ãã¯å…¨ä½“ãŒã‚³ãƒ¡ãƒ³ãƒˆè¡Œã ã£ãŸå ´åˆã¯æ¬¡ã®è¡Œã¸
 		if (readline.size() == 0) {
 			continue;
 		}
 
-		// ƒpƒ‰ƒ[ƒ^‚ğİ’è
+		// ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š
 		if (Split(readline, cmd, param, L",")) {
 			SetParameter(cmd, param, &dics);
 		}
@@ -559,8 +559,8 @@ void	CBasis::LoadBaseConfigureFile_Base(yaya::string_t filename,std::vector<CDic
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SetParameter
- *  ‹@”\ŠT—vF  LoadBaseConfigureFile‚©‚çŒÄ‚Î‚ê‚Ü‚·BŠeíƒpƒ‰ƒ[ƒ^‚ğİ’è‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SetParameter
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  LoadBaseConfigureFileã‹ã‚‰å‘¼ã°ã‚Œã¾ã™ã€‚å„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param, std::vector<CDic1> *dics)
@@ -597,7 +597,7 @@ bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param
 			}
 		}
 
-		//posix‚Å‚Ínpos‚Íunsigned‚È-1‚ÅƒoƒJ‚Å‚©‚¢”‚É‚È‚é‚Ì‚Å‚»‚Ì‘Îô
+		//posixã§ã¯nposã¯unsignedãª-1ã§ãƒã‚«ã§ã‹ã„æ•°ã«ãªã‚‹ã®ã§ãã®å¯¾ç­–
 		yaya::string_t load_path_bak = load_path;
 		auto s_pos = filename.rfind('/');
 		s_pos = (s_pos == yaya::string_t::npos) ? (0) : (s_pos);
@@ -699,11 +699,11 @@ bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param
 		}
 	}
 	// messagetxt
-	else if ( cmd == L"messagetxt" ) { //‘½Œ¾Œê‰»
+	else if ( cmd == L"messagetxt" ) { //å¤šè¨€èªåŒ–
 		yaya::string_t param1,param2;
 		Split(param, param1, param2, L",");
 
-		char cset = CHARSET_UTF8; //UTF8ŒÅ’è
+		char cset = CHARSET_UTF8; //UTF8å›ºå®š
 
 		if ( param2.size() ) {
 			char cx = Ccct::CharsetTextToID(param2.c_str());
@@ -763,7 +763,7 @@ bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param
 			else
 				base_path += param;
 
-			//ÅŒã‚ª\‚Å‚à/‚Å‚à‚È‚¯‚ê‚Î‘«‚·
+			//æœ€å¾ŒãŒ\ã§ã‚‚/ã§ã‚‚ãªã‘ã‚Œã°è¶³ã™
 			if (base_path.length() == 0 || ( (base_path[base_path.length()-1] != L'/') && (base_path[base_path.length()-1] != L'\\') ) ) {
 				#if defined(WIN32) || defined(_WIN32_WCE)
 				base_path += L"\\";
@@ -782,12 +782,12 @@ bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param
 		iolog = param != L"off";
 		return true;
 	}
-	// ƒZ[ƒuƒf[ƒ^ˆÃ†‰»
+	// ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿æš—å·åŒ–
 	else if ( cmd == L"save.encode" ) {
 		encode_savefile = param == L"on";
 		return true;
 	}
-	// ©“®ƒZ[ƒu
+	// è‡ªå‹•ã‚»ãƒ¼ãƒ–
 	else if ( cmd == L"save.auto" ) {
 		auto_save = param != L"off";
 		return true;
@@ -905,8 +905,8 @@ bool CBasis::SetParameter(const yaya::string_t &cmd, const yaya::string_t &param
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::GetParameter
- *  ‹@”\ŠT—vF  Šeíƒpƒ‰ƒ[ƒ^‚ğ•¶š—ñ‚Å•Ô‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::GetParameter
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å„ç¨®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’æ–‡å­—åˆ—ã§è¿”ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 static void CBasis_ConvertStringArray(const std::vector<yaya::string_t> &array,CValue &var)
@@ -1027,33 +1027,33 @@ CValue CBasis::GetParameter(const yaya::string_t &cmd)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::SaveVariable
- *  ‹@”\ŠT—vF  •Ï”’l‚ğƒtƒ@ƒCƒ‹‚É•Û‘¶‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::SaveVariable
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å¤‰æ•°å€¤ã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã—ã¾ã™
  *
- *  ƒtƒ@ƒCƒ‹–¼‚Í"DLLåƒtƒ@ƒCƒ‹–¼_variable.cfg"‚Å‚·B
- *  ƒtƒ@ƒCƒ‹ƒtƒH[ƒ}ƒbƒg‚Í1s1•Ï”AƒfƒŠƒ~ƒ^”¼ŠpƒJƒ“ƒ}‚ÅA
+ *  ãƒ•ã‚¡ã‚¤ãƒ«åã¯"DLLä¸»ãƒ•ã‚¡ã‚¤ãƒ«å_variable.cfg"ã§ã™ã€‚
+ *  ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã¯1è¡Œ1å¤‰æ•°ã€ãƒ‡ãƒªãƒŸã‚¿åŠè§’ã‚«ãƒ³ãƒã§ã€
  *
- *  •Ï”–¼,“à—e,ƒfƒŠƒ~ƒ^
+ *  å¤‰æ•°å,å†…å®¹,ãƒ‡ãƒªãƒŸã‚¿
  *
- *  ‚ÌŒ`®‚Å•Û‘¶‚³‚ê‚Ü‚·B“à—e‚Í®”/À”‚Ìê‡‚Í‚»‚Ì‚Ü‚ÜA•¶š—ñ‚Å‚Íƒ_ƒuƒ‹ƒNƒH[ƒg‚³‚ê‚Ü‚·B
- *  ”z—ñ‚Ìê‡‚ÍŠe—v‘fŠÔ‚ªƒRƒƒ“‚Å•ªŠ„‚³‚ê‚Ü‚·BˆÈ‰º‚É—v‘f”3AƒfƒŠƒ~ƒ^"@"‚Å‚Ì—á‚ğ¦‚µ‚Ü‚·B
+ *  ã®å½¢å¼ã§ä¿å­˜ã•ã‚Œã¾ã™ã€‚å†…å®¹ã¯æ•´æ•°/å®Ÿæ•°ã®å ´åˆã¯ãã®ã¾ã¾ã€æ–‡å­—åˆ—ã§ã¯ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã•ã‚Œã¾ã™ã€‚
+ *  é…åˆ—ã®å ´åˆã¯å„è¦ç´ é–“ãŒã‚³ãƒ­ãƒ³ã§åˆ†å‰²ã•ã‚Œã¾ã™ã€‚ä»¥ä¸‹ã«è¦ç´ æ•°3ã€ãƒ‡ãƒªãƒŸã‚¿"@"ã§ã®ä¾‹ã‚’ç¤ºã—ã¾ã™ã€‚
  *
  *  var,1:"TEST":0.3,@
  *
- *  ƒfƒŠƒ~ƒ^‚Íƒ_ƒuƒ‹ƒNƒH[ƒg‚³‚ê‚Ü‚¹‚ñB
+ *  ãƒ‡ãƒªãƒŸã‚¿ã¯ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒˆã•ã‚Œã¾ã›ã‚“ã€‚
  *
- *  Šî‘bİ’èƒtƒ@ƒCƒ‹‚Åİ’è‚µ‚½•¶šƒR[ƒh‚Å•Û‘¶‚³‚ê‚Ü‚·B
+ *  åŸºç¤è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã§è¨­å®šã—ãŸæ–‡å­—ã‚³ãƒ¼ãƒ‰ã§ä¿å­˜ã•ã‚Œã¾ã™ã€‚
  * -----------------------------------------------------------------------
  */
 void	CBasis::SaveVariable(const yaya::char_t* pName)
 {
-	// •Ï”‚Ì•Û‘¶
+	// å¤‰æ•°ã®ä¿å­˜
 	std::string old_locale = yaya::get_safe_str(setlocale(LC_NUMERIC,NULL));
-	setlocale(LC_NUMERIC,"English"); //¬”“_–â‘è‰ñ”ğ
+	setlocale(LC_NUMERIC,"English"); //å°æ•°ç‚¹å•é¡Œå›é¿
 
 	bool ayc = encode_savefile;
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	yaya::string_t	filename;
 	if ( ! pName || ! *pName ) {
 		filename = GetSavefilePath();
@@ -1072,10 +1072,10 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 		free(s_filestr);
 		s_filestr=0;
 
-		filename += L".ays"; //ayc‚¾‚Æ‚©‚Ô‚é‚Ì‚Åc
+		filename += L".ays"; //aycã ã¨ã‹ã¶ã‚‹ã®ã§â€¦
 	}
 	else {
-		filename += L".ays"; //ayc‚¾‚Æ‚©‚Ô‚é‚Ì‚Åc
+		filename += L".ays"; //aycã ã¨ã‹ã¶ã‚‹ã®ã§â€¦
 
 		char *s_filestr = Ccct::Ucs2ToMbcs(filename,CHARSET_DEFAULT);
 #if defined(WIN32)
@@ -1098,21 +1098,21 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 	}
 /*
 #if defined(WIN32)
-	// UTF-8‚Ìê‡‚Íæ“ª‚ÉBOM‚ğ•Û‘¶
+	// UTF-8ã®å ´åˆã¯å…ˆé ­ã«BOMã‚’ä¿å­˜
 	if (charset == CHARSET_UTF8)
 		write_utf8bom(fp);
 #endif
-	// UTF-8‚È‚Ì‚ÉBOM‚ğ•t‚¯‚é‚Ì‚Í‚â‚ß‚½•û‚ª‹X‚µ‚¢‚©‚Æc
-	// ƒgƒ‰ƒuƒ‹‚ÌŒ´ˆö‚É‚È‚é‚Ì‚ÅB
+	// UTF-8ãªã®ã«BOMã‚’ä»˜ã‘ã‚‹ã®ã¯ã‚„ã‚ãŸæ–¹ãŒå®œã—ã„ã‹ã¨â€¦
+	// ãƒˆãƒ©ãƒ–ãƒ«ã®åŸå› ã«ãªã‚‹ã®ã§ã€‚
 
-	// —¹‰ğ‚Å‚·BŠO‚µ‚Ä‚µ‚Ü‚¢‚Ü‚·B
-	// ƒƒ‚
-	// UTF-8‚É‚ÍƒoƒCƒgƒI[ƒ_[‚É‚æ‚éƒoƒŠƒG[ƒVƒ‡ƒ“‚ª‘¶İ‚µ‚È‚¢‚Ì‚ÅBOM‚Í•K—v‚È‚¢B
-	// •t—^‚·‚é‚±‚Æ‚Ío—ˆ‚éB‚µ‚©‚µ‘Î‰‚µ‚Ä‚¢‚È‚¢ƒ\ƒtƒg‚Å“Ç‚ß‚È‚­‚È‚é‚Ì‚Å•t‚¯‚È‚¢‚Ù‚¤‚ª
-	// —Ç‚¢B
+	// äº†è§£ã§ã™ã€‚å¤–ã—ã¦ã—ã¾ã„ã¾ã™ã€‚
+	// ãƒ¡ãƒ¢
+	// UTF-8ã«ã¯ãƒã‚¤ãƒˆã‚ªãƒ¼ãƒ€ãƒ¼ã«ã‚ˆã‚‹ãƒãƒªã‚¨ãƒ¼ã‚·ãƒ§ãƒ³ãŒå­˜åœ¨ã—ãªã„ã®ã§BOMã¯å¿…è¦ãªã„ã€‚
+	// ä»˜ä¸ã™ã‚‹ã“ã¨ã¯å‡ºæ¥ã‚‹ã€‚ã—ã‹ã—å¯¾å¿œã—ã¦ã„ãªã„ã‚½ãƒ•ãƒˆã§èª­ã‚ãªããªã‚‹ã®ã§ä»˜ã‘ãªã„ã»ã†ãŒ
+	// è‰¯ã„ã€‚
 */
 
-	// •¶šƒR[ƒh
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰
 	yaya::string_t str;
 	yaya::string_t wstr;
 	str.reserve(1000);
@@ -1123,29 +1123,29 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 
 	yaya::ws_fputs(str,fp,save_charset,ayc);
 
-	// ‡Ÿ•Û‘¶
+	// é †æ¬¡ä¿å­˜
 	size_t	var_num = vm.variable().GetNumber();
 
 	for(size_t i = 0; i < var_num; i++) {
 		CVariable	*var = vm.variable().GetPtr(i);
-		// Void‚Í•ú’u
+		// Voidã¯æ”¾ç½®
 		if (var->value_const().IsVoid())
 			continue;
-		// “à—e‚ª‹ó•¶š—ñ‚Ì•Ï”‚Í•Û‘¶‚µ‚È‚¢
+		// å†…å®¹ãŒç©ºæ–‡å­—åˆ—ã®å¤‰æ•°ã¯ä¿å­˜ã—ãªã„
 		//if (var->value_const().IsStringReal() && !var->value_const().s_value.size())
 		//	continue;
-		// “à—e‚ª‹ó”Ä—p”z—ñ‚Ì•Ï”‚Í•Û‘¶‚µ‚È‚¢
+		// å†…å®¹ãŒç©ºæ±ç”¨é…åˆ—ã®å¤‰æ•°ã¯ä¿å­˜ã—ãªã„
 		//if (var->value_const().GetType() == F_TAG_ARRAY && !var->value_const().array_size())
 		//	continue;
-		// Á‹ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚é•Ï”‚Í•Û‘¶‚µ‚È‚¢
+		// æ¶ˆå»ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã‚‹å¤‰æ•°ã¯ä¿å­˜ã—ãªã„
 		if (var->IsErased())
 			continue;
 
-		// –¼‘O‚Ì•Û‘¶
+		// åå‰ã®ä¿å­˜
 		str = var->name;
 		str += L',';
 
-		// ’l‚Ì•Û‘¶
+		// å€¤ã®ä¿å­˜
 		switch(var->value_const().GetType()) {
 		case F_TAG_INT:
 			str += yaya::ws_lltoa(var->value_const().i_value);
@@ -1198,7 +1198,7 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 			vm.logger().Error(E_W, 7, var->name);
 			break;
 		};
-		// ƒfƒŠƒ~ƒ^‚Ì•Û‘¶
+		// ãƒ‡ãƒªãƒŸã‚¿ã®ä¿å­˜
 		wstr = var->delimiter;
 		EscapeString(wstr);
 		str += L"\"";
@@ -1213,27 +1213,27 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 		yaya::ws_fputs(str,fp,save_charset,ayc);
 	}
 
-	// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	fclose(fp);
 
-	// ¬”“_–â‘èC³‚ğ–ß‚·
+	// å°æ•°ç‚¹å•é¡Œä¿®æ­£ã‚’æˆ»ã™
 	setlocale(LC_NUMERIC,old_locale.c_str());
 
 	vm.logger().Message(8);
 }
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::RestoreVariable
- *  ‹@”\ŠT—vF  ‘O‰ñ•Û‘¶‚µ‚½•Ï”“à—e‚ğ•œŒ³‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::RestoreVariable
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  å‰å›ä¿å­˜ã—ãŸå¤‰æ•°å†…å®¹ã‚’å¾©å…ƒã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::RestoreVariable(const yaya::char_t* pName)
 {
 	std::string old_locale = yaya::get_safe_str(setlocale(LC_NUMERIC,NULL));
-	setlocale(LC_NUMERIC,"English"); //¬”“_–â‘è‰ñ”ğ
+	setlocale(LC_NUMERIC,"English"); //å°æ•°ç‚¹å•é¡Œå›é¿
 
 	bool ayc = encode_savefile;
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	yaya::string_t	filename;
 	if ( ! pName || ! *pName ) {
 		filename = GetSavefilePath();
@@ -1247,7 +1247,7 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 
 	FILE *fp = NULL;
 
-	//ˆÃ†‰»ƒZ[ƒuƒtƒ@ƒCƒ‹‘Î‰
+	//æš—å·åŒ–ã‚»ãƒ¼ãƒ–ãƒ•ã‚¡ã‚¤ãƒ«å¯¾å¿œ
 	if ( ayc ) {
 		filename += L".ays";
 		fp = yaya::w_fopen(filename.c_str(), L"r");
@@ -1274,12 +1274,12 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 			}
 			else {
 				ayc = true;
-				encode_savefile = true; //ŠÈ’P‚É–ß‚³‚ê‚Ä‚µ‚Ü‚¤‚Ì‚ğ–h~
+				encode_savefile = true; //ç°¡å˜ã«æˆ»ã•ã‚Œã¦ã—ã¾ã†ã®ã‚’é˜²æ­¢
 			}
 		}
 	}
 
-	// “à—e‚ğ“Ç‚İæ‚èA‡Ÿ•œŒ³‚µ‚Ä‚¢‚­
+	// å†…å®¹ã‚’èª­ã¿å–ã‚Šã€é †æ¬¡å¾©å…ƒã—ã¦ã„ã
 	yaya::string_t	linebuffer;
 	linebuffer.reserve(2000);
 
@@ -1295,27 +1295,27 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 
 	for (int i = 1; ; i++) {
 		watcher.erase(), setter.erase(), destorier.erase();
-		// 1s“Ç‚İ‚İ
+		// 1è¡Œèª­ã¿è¾¼ã¿
 		if (yaya::ws_fgets(buf, readline, fp, savefile_charset, ayc, i, false) == yaya::WS_EOF)
 			break;
-		// ‰üs‚ÍÁ‹
+		// æ”¹è¡Œã¯æ¶ˆå»
 		CutCrLf(readline);
-		// ‹ós‚È‚çŸ‚Ìs‚Ö
+		// ç©ºè¡Œãªã‚‰æ¬¡ã®è¡Œã¸
 		if (readline.size() == 0) {
 			linebuffer.erase();
 			continue;
 		}
-		// Šù‚É“Ç‚İæ‚èÏ‚Ì•¶š—ñ‚ÆŒ‹‡
+		// æ—¢ã«èª­ã¿å–ã‚Šæ¸ˆã®æ–‡å­—åˆ—ã¨çµåˆ
 		linebuffer += readline;
-		// ƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“‚ª•Â‚¶‚Ä‚¢‚é‚©Šm”F‚·‚éB•Â‚¶‚Ä‚¢‚È‚¢ê‡‚ÍA
-		// Ÿ‚Ìs‚Ö’l‚ª‘±‚¢‚Ä‚¢‚é‚Æv‚í‚ê‚é‚Ì‚ÅŸ‚Ìs‚Ì“Ç‚İæ‚è‚Ö
+		// ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ãŒé–‰ã˜ã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹ã€‚é–‰ã˜ã¦ã„ãªã„å ´åˆã¯ã€
+		// æ¬¡ã®è¡Œã¸å€¤ãŒç¶šã„ã¦ã„ã‚‹ã¨æ€ã‚ã‚Œã‚‹ã®ã§æ¬¡ã®è¡Œã®èª­ã¿å–ã‚Šã¸
 		if (IsInDQ(linebuffer, 0, linebuffer.size() - 1) != IsInDQ_notindq)
 			continue;
 
 		parseline = linebuffer;
 		linebuffer.erase();
 
-		// •Ï”–¼‚ğæ“¾
+		// å¤‰æ•°åã‚’å–å¾—
 		if (!Split_IgnoreDQ(parseline, varname, value, L",")) {
 			vm.logger().Error(E_W, 1, filename, i);
 			continue;
@@ -1325,12 +1325,12 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 			savefile_charset = Ccct::CharsetTextToID(value.c_str());
 			continue;
 		}
-		// •Ï”–¼‚Ì³“–«‚ğŒŸ¸
+		// å¤‰æ•°åã®æ­£å½“æ€§ã‚’æ¤œæŸ»
 		if (IsLegalVariableName(varname)) {
 			vm.logger().Error(E_W, 2, filename, i);
 			continue;
 		}
-		// ’l‚ÆƒfƒŠƒ~ƒ^‚ğæ‚èo‚·
+		// å€¤ã¨ãƒ‡ãƒªãƒŸã‚¿ã‚’å–ã‚Šå‡ºã™
 		parseline = value;
 		if (!Split_IgnoreDQ(parseline, value, delimiter, L",")) {
 			vm.logger().Error(E_W, 3, filename, i);
@@ -1344,7 +1344,7 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 			delimiter = parseline;
 			if (Split_IgnoreDQ(parseline, delimiter, watcher, L",")) {
 				parseline = watcher;
-				if (Split_IgnoreDQ(parseline, watcher, unused, L","))//«—ˆ‚Ìƒo[ƒWƒ‡ƒ“‚Å“¾‚ç‚ê‚é‰Â”\«‚Ì‚ ‚é’Ç‰Áî•ñ‚Ì”jŠü
+				if (Split_IgnoreDQ(parseline, watcher, unused, L","))//å°†æ¥ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§å¾—ã‚‰ã‚Œã‚‹å¯èƒ½æ€§ã®ã‚ã‚‹è¿½åŠ æƒ…å ±ã®ç ´æ£„
 					vm.logger().Error(E_W,23);
 				parseline = watcher;
 				Split_IgnoreDQ(parseline, watcher, setter, L"|");
@@ -1356,7 +1356,7 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 		}
 		else
 			delimiter = parseline;
-		// ’l‚ğƒ`ƒFƒbƒN‚µ‚ÄŒ^‚ğ”»’è
+		// å€¤ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¦å‹ã‚’åˆ¤å®š
 		int	type;
 
 		if (IsIntString(value)) {
@@ -1375,31 +1375,31 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 			}
 			type = F_TAG_ARRAY;
 		}
-		// ƒfƒŠƒ~ƒ^‚Ì³“–«‚ğŒŸ¸
+		// ãƒ‡ãƒªãƒŸã‚¿ã®æ­£å½“æ€§ã‚’æ¤œæŸ»
 		if (!delimiter.size()) {
 			vm.logger().Error(E_W, 5, filename, i);
 			continue;
 		}
-		// •Ï”‚ğì¬
+		// å¤‰æ•°ã‚’ä½œæˆ
 		int	index = vm.variable().Make(varname, 0);
 		vm.variable().SetType(index, type);
 
 		if (type == F_TAG_INT) {
-			// ®”Œ^
+			// æ•´æ•°å‹
 			vm.variable().SetValue(index, yaya::ws_atoll(value));
 		}
 		else if (type == F_TAG_DOUBLE) {
-			// À”Œ^
+			// å®Ÿæ•°å‹
 			vm.variable().SetValue(index, yaya::ws_atof(value));
 		}
 		else if (type == F_TAG_STRING) {
-			// •¶š—ñŒ^
+			// æ–‡å­—åˆ—å‹
 			CutDoubleQuote(value);
 			UnescapeString(value);
 			vm.variable().SetValue(index, value);
 		}
 		else if (type == F_TAG_ARRAY) {
-			// ”z—ñŒ^
+			// é…åˆ—å‹
 			RestoreArrayVariable(*(vm.variable().GetValuePtr(index)), value);
 		}
 		else {
@@ -1413,7 +1413,7 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 		v.set_setter(setter);
 	}
 
-	// ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	fclose(fp);
 
 	setlocale(LC_NUMERIC,old_locale.c_str());
@@ -1422,8 +1422,8 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::RestoreArrayVariable
- *  ‹@”\ŠT—vF  RestoreVariable‚©‚çŒÄ‚Î‚ê‚Ü‚·B”z—ñ•Ï”‚Ì“à—e‚ğ•œŒ³‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::RestoreArrayVariable
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  RestoreVariableã‹ã‚‰å‘¼ã°ã‚Œã¾ã™ã€‚é…åˆ—å¤‰æ•°ã®å†…å®¹ã‚’å¾©å…ƒã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::RestoreArrayVariable(CValue &var, yaya::string_t &value)
@@ -1464,8 +1464,8 @@ void	CBasis::RestoreArrayVariable(CValue &var, yaya::string_t &value)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::ExecuteLoad
- *  ‹@”\ŠT—vF  loadŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::ExecuteLoad
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  loadé–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::ExecuteLoad(void)
@@ -1479,11 +1479,11 @@ void	CBasis::ExecuteLoad(void)
 		return;
 	}
 
-	// ‘æˆêˆø”idll‚ÌƒpƒXj‚ğì¬
+	// ç¬¬ä¸€å¼•æ•°ï¼ˆdllã®ãƒ‘ã‚¹ï¼‰ã‚’ä½œæˆ
 	CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 	arg.array().emplace_back(CValueSub(base_path));
 
-	// Às@Œ‹‰Ê‚Íg—p‚µ‚È‚¢‚Ì‚Å‚»‚Ì‚Ü‚ÜÌ‚Ä‚é
+	// å®Ÿè¡Œã€€çµæœã¯ä½¿ç”¨ã—ãªã„ã®ã§ãã®ã¾ã¾æ¨ã¦ã‚‹
 	vm.call_limit().InitCall();
 	CLocalVariable	lvar(vm);
 	vm.logger().Io(0, base_path);
@@ -1494,8 +1494,8 @@ void	CBasis::ExecuteLoad(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::ExecuteRequest
- *  ‹@”\ŠT—vF  requestŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::ExecuteRequest
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  requesté–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 #if defined(WIN32) || defined(_WIN32_WCE)
@@ -1517,11 +1517,11 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		return NULL;
 	}
 
-	// “ü—Í•¶š—ñ‚ğæ“¾
+	// å…¥åŠ›æ–‡å­—åˆ—ã‚’å–å¾—
 	std::string	istr;
 	istr.assign((char *)h, 0, (size_t)*len);
 
-	// ‘æˆêˆø”i“ü—Í•¶š—ñj‚ğì¬@‚±‚±‚Å•¶šƒR[ƒh‚ğUCS-2‚Ö•ÏŠ·
+	// ç¬¬ä¸€å¼•æ•°ï¼ˆå…¥åŠ›æ–‡å­—åˆ—ï¼‰ã‚’ä½œæˆã€€ã“ã“ã§æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’UCS-2ã¸å¤‰æ›
 	CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 	wchar_t	*wistr = Ccct::MbcsToUcs2(istr, output_charset);
 	if (wistr != NULL) {
@@ -1534,7 +1534,7 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		vm.logger().Io(0, L"");
 	}
 
-	// Às
+	// å®Ÿè¡Œ
 	vm.call_limit().InitCall();
 	CValue	result;
 	try{
@@ -1551,24 +1551,24 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		CallOnMemoryLimit();
 	}
 
-	// Œ‹‰Ê‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾‚µA•¶šƒR[ƒh‚ğMBCS‚É•ÏŠ·
+	// çµæœã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã—ã€æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’MBCSã«å¤‰æ›
 	yaya::string_t	res = result.GetValueString();
 	vm.logger().Io(1, res);
 	char	*mostr = Ccct::Ucs2ToMbcs(res, output_charset);
 	if (mostr == NULL) {
-		// •¶šƒR[ƒh•ÏŠ·¸”sANULL‚ğ•Ô‚·
+		// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›å¤±æ•—ã€NULLã‚’è¿”ã™
 		*len = 0;
 		GlobalFree(h);
 		h = NULL;
 		return NULL;
 	}
 
-	// •¶šƒR[ƒh•ÏŠ·‚ª¬Œ÷‚µ‚½‚Ì‚ÅAŒ‹‰Ê‚ğGMEM‚ÖƒRƒs[‚µ‚Ä•Ô‚·
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ãŒæˆåŠŸã—ãŸã®ã§ã€çµæœã‚’GMEMã¸ã‚³ãƒ”ãƒ¼ã—ã¦è¿”ã™
 	unsigned int oldlen = *len;
 	*len = (long)strlen(mostr);
 	unsigned int copylen = *len + 1;
 
-	//ƒ[ƒI’[‚àŠÜ‚ŞccŒİŠ·ˆ—‚Ì‚½‚ß
+	//ã‚¼ãƒ­çµ‚ç«¯ã‚‚å«ã‚€â€¦â€¦äº’æ›å‡¦ç†ã®ãŸã‚
 	HGLOBAL r_h = NULL;
 	if (oldlen >= copylen) {
 		r_h = h;
@@ -1635,9 +1635,9 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		return NULL;
 	}
 
-	// “ü—Í•¶š—ñ‚ğæ“¾
+	// å…¥åŠ›æ–‡å­—åˆ—ã‚’å–å¾—
 	std::string istr(h, *len);
-	// ‘æˆêˆø”i“ü—Í•¶š—ñj‚ğì¬@‚±‚±‚Å•¶šƒR[ƒh‚ğUCS-2‚Ö•ÏŠ·
+	// ç¬¬ä¸€å¼•æ•°ï¼ˆå…¥åŠ›æ–‡å­—åˆ—ï¼‰ã‚’ä½œæˆã€€ã“ã“ã§æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’UCS-2ã¸å¤‰æ›
 	CValue arg(F_TAG_ARRAY, 0/*dmy*/);
 	wchar_t *wistr = Ccct::MbcsToUcs2(istr, output_charset);
 
@@ -1652,7 +1652,7 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		vm.logger().Io(0, empty);
 	}
 
-	// Às
+	// å®Ÿè¡Œ
 	vm.call_limit().InitCall();
 	CValue	result;
 	try{
@@ -1669,21 +1669,23 @@ yaya::global_t	CBasis::ExecuteRequest(yaya::global_t h, long *len, bool is_debug
 		CallOnMemoryLimit();
 	}
 
-	// Œ‹‰Ê‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾‚µA•¶šƒR[ƒh‚ğMBCS‚É•ÏŠ·
+	// çµæœã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—ã—ã€æ–‡å­—ã‚³ãƒ¼ãƒ‰ã‚’MBCSã«å¤‰æ›
 	yaya::string_t	res = result.GetValueString();
 	vm.logger().Io(1, res);
 	char *mostr = Ccct::Ucs2ToMbcs(res, output_charset);
 
 	if (mostr == NULL) {
-		// •¶šƒR[ƒh•ÏŠ·¸”sANULL‚ğ•Ô‚·
+		// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›å¤±æ•—ã€NULLã‚’è¿”ã™
 		*len = 0;
 		return NULL;
 	}
 
-	// •¶šƒR[ƒh•ÏŠ·‚ª¬Œ÷‚µ‚½‚Ì‚ÅAŒ‹‰Ê‚ğGMEM‚ÖƒRƒs[‚µ‚Ä•Ô‚·
+	// æ–‡å­—ã‚³ãƒ¼ãƒ‰å¤‰æ›ãŒæˆåŠŸã—ãŸã®ã§ã€çµæœã‚’GMEMã¸ã‚³ãƒ”ãƒ¼ã—ã¦è¿”ã™
 	*len = (long)strlen(mostr);
 	char* r_h = static_cast<char*>(malloc(*len));
 	memcpy(r_h, mostr, *len);
+	free(h);
+	h = NULL;
 	free(mostr);
 	mostr = NULL;
 	return r_h;
@@ -1721,8 +1723,8 @@ void CBasis::CallOnMemoryError()
 #endif
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasis::ExecuteUnload
- *  ‹@”\ŠT—vF  unloadŠÖ”‚ğÀs‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasis::ExecuteUnload
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  unloadé–¢æ•°ã‚’å®Ÿè¡Œã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 void	CBasis::ExecuteUnload(void)
@@ -1736,7 +1738,7 @@ void	CBasis::ExecuteUnload(void)
 		return;
 	}
 
-	// Às@ˆø”–³‚µ@Œ‹‰Ê‚Íg—p‚µ‚È‚¢‚Ì‚Å‚»‚Ì‚Ü‚ÜÌ‚Ä‚é
+	// å®Ÿè¡Œã€€å¼•æ•°ç„¡ã—ã€€çµæœã¯ä½¿ç”¨ã—ãªã„ã®ã§ãã®ã¾ã¾æ¨ã¦ã‚‹
 	vm.call_limit().InitCall();
 	yaya::string_t empty;
 	vm.logger().Io(0, empty);
@@ -1745,8 +1747,8 @@ void	CBasis::ExecuteUnload(void)
 }
 
 /* -----------------------------------------------------------------------
- *  ŠÖ”–¼  F  CBasisFuncPos::CBasisFuncPos
- *  ‹@”\ŠT—vF  ŠÖ”ˆÊ’u‚ğ’T‚µAˆÊ’u‚Æu’T‚µ‚½‚©‚Ç‚¤‚©v‚ğƒLƒƒƒbƒVƒ…‚µ‚Ü‚·
+ *  é–¢æ•°å  ï¼š  CBasisFuncPos::CBasisFuncPos
+ *  æ©Ÿèƒ½æ¦‚è¦ï¼š  é–¢æ•°ä½ç½®ã‚’æ¢ã—ã€ä½ç½®ã¨ã€Œæ¢ã—ãŸã‹ã©ã†ã‹ã€ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã—ã¾ã™
  * -----------------------------------------------------------------------
  */
 ptrdiff_t CBasisFuncPos::Find(CAyaVM &vm,const yaya::char_t *name)
