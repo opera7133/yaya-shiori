@@ -42,6 +42,7 @@ protected:
 	yaya::global_t (*requestlib)(long id, yaya::global_t h, long *len);
 	long id;
 	std::string filename;
+	bool nativeSaori;
 #endif // POSIX
 
 	module_t hDLL;
@@ -64,6 +65,7 @@ public:
 		hDLL    = NULL;
 		requestlib = NULL;
 		isAlreadyLoaded = false;
+		nativeSaori = false;
 	}
 
 	~CLib1(void) { Unload(); }

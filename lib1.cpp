@@ -35,6 +35,10 @@
 #endif
 #include "globaldef.h"
 
+extern "C" int utatane_yaya_native_saori_load(const char *path);
+extern "C" int utatane_yaya_native_saori_unload(const char *path);
+extern "C" char *utatane_yaya_native_saori_request(const char *path, char *request, long *length);
+
 //////////DEBUG/////////////////////////
 #ifdef _WINDOWS
 #ifdef _DEBUG
@@ -146,6 +150,11 @@ int CLib1::LoadLib() {
 
 	std::string libfile = narrow(name);
     fix_filepath(libfile);
+    if (utatane_yaya_native_saori_load(libfile.c_str()) != 0) {
+        nativeSaori = true;
+        hDLL = reinterpret_cast<void *>(1);
+        return 1;
+    }
 
     // 環境変数 SAORI_FALLBACK_ALWAYS が定義されていて、且つ
     // 空でも"0"でもなければ、このdllファイルを開いてみる事は
@@ -288,6 +297,7 @@ int CLib1::Load(void) {
     if (!LoadLib()) {
 		return 0;
     }
+    if (nativeSaori) return 1;
     
     // アドレス取得
 	long (*loadlib)(char* h, long len) = NULL;
@@ -358,6 +368,13 @@ int	CLib1::Unload(void)
 int CLib1::Unload(void) {
     if (hDLL == NULL) {
 	return 2;
+    }
+    if (nativeSaori) {
+        const std::string path = narrow(name);
+        const int result = utatane_yaya_native_saori_unload(path.c_str());
+        nativeSaori = false;
+        hDLL = NULL;
+        return result;
     }
 
     // アドレス取得
@@ -482,6 +499,23 @@ int CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr) {
 
     if (hDLL == NULL) {
 	return 0;
+    }
+
+    if (nativeSaori) {
+        char *input = Ccct::Ucs2ToMbcs(istr, charset);
+        if (input == NULL) return 0;
+        long length = static_cast<long>(strlen(input));
+        const std::string path = narrow(name);
+        char *output = utatane_yaya_native_saori_request(path.c_str(), input, &length);
+        free(input);
+        if (output == NULL) return 0;
+        const std::string response(output, length);
+        free(output);
+        wchar_t *wide = Ccct::MbcsToUcs2(response, charset);
+        if (wide == NULL) return 0;
+        ostr = wide;
+        free(wide);
+        return 1;
     }
     
     // アドレス取得
