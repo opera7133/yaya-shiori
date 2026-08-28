@@ -255,6 +255,18 @@ void	CBasis::SetPath(yaya::global_t h, int len, bool is_utf8)
 	// 中身にyaya.dllという文字列を含んでいたら、それを選ぶ。
 	// ただし対応する*.txtが無ければdllの中身は見ずに次へ行く。
 	modulename = L"yaya";
+	// Utatane: retain AYA's configuration and persistent-variable basename.
+	// Explicit YAYA configuration and the DLL detection below take precedence.
+	struct stat configStat;
+	const std::string configRoot = narrow(base_path);
+	if (::stat((configRoot + "yaya.txt").c_str(), &configStat) != 0 &&
+	    ::stat((configRoot + "yaya_config.txt").c_str(), &configStat) != 0) {
+		if (::stat((configRoot + "aya5.txt").c_str(), &configStat) == 0 && S_ISREG(configStat.st_mode)) {
+			modulename = L"aya5";
+		} else if (::stat((configRoot + "aya.txt").c_str(), &configStat) == 0 && S_ISREG(configStat.st_mode)) {
+			modulename = L"aya";
+		}
+	}
 	DIR* dh = opendir(narrow(base_path).c_str());
 	if (dh == NULL) {
 		std::cerr << narrow(base_path) << "is not a directory!" << std::endl;
