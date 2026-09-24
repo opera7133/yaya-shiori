@@ -7,6 +7,8 @@
 #include <memory>
 
 #include "posix_utils.h"
+#include "ccct.h"
+#include <cstdlib>
 
 std::string lc(const std::string& fname) {
 	std::string result;
@@ -107,21 +109,14 @@ std::string::size_type bm_search(const std::string& world, const std::string& da
 }
 
 std::wstring widen(const std::string& str) {
-	std::wstring ws;
-	ws.reserve(str.size());
-	for (std::string::const_iterator ite = str.begin(); ite != str.end(); ite++) {
-		ws += static_cast<wchar_t>(*ite);
-	}
-	return ws;
+    std::wstring result;
+    Ccct::MbcsToUcs2Buf(result, str, CHARSET_UTF8);
+    return result;
 }
 
 std::string narrow(const std::wstring& str) {
-	std::string s;
-	s.reserve(str.size());
-	for (std::wstring::const_iterator ite = str.begin(); ite != str.end(); ite++) {
-		s += static_cast<char>(*ite);
-	}
-	return s;
+    std::unique_ptr<char, decltype(&std::free)> bytes(Ccct::Ucs2ToMbcs(str, CHARSET_UTF8), std::free);
+    return bytes ? std::string(bytes.get()) : std::string();
 }
 
 void fix_filepath(std::string& str) {
