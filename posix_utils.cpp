@@ -8,6 +8,7 @@
 
 #include "posix_utils.h"
 #include "ccct.h"
+#include "manifest.h"
 #include <cstdlib>
 
 std::string lc(const std::string& fname) {
