@@ -145,7 +145,12 @@ CValue	CSelecter::Output()
 		case CHOICETYPE_ALL:
 			return StructString();
 		case CHOICETYPE_LAST:
-			return *values.rbegin()->array.rbegin();
+			// 最後の空でない領域の最後の候補　全ての領域が空ならVOID
+			for(size_t i = areanum + 1; i > 0; i--) {
+				if (values[i - 1].array.size())
+					return values[i - 1].array.back();
+			}
+			return CValue();
 		}
 
 	switch ( duplctl->GetType() & CHOICETYPE_SELECT_FILTER ) {
@@ -229,9 +234,11 @@ CValue	CSelecter::ChoiceRandom(void)
 size_t	CSelecter::ChoiceRandom_NumGet(void)
 {
 	if (areanum) {
-		size_t aret=0;
+		// 領域ごとの候補数の積（空の領域は数えない　CDuplEvInfo::UpdateNumsと同じ）
+		size_t aret=1;
 		for (size_t i = 0; i <= areanum; i++)
-			aret *= values[i].array.size();
+			if (values[i].array.size())
+				aret *= values[i].array.size();
 		return aret;
 	}
 	else

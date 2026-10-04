@@ -27,6 +27,7 @@
 #include "ccct.h"
 #include "log.h"
 #include "manifest.h"
+#include "misc.h"
 #if defined(POSIX)
 # include "posix_utils.h"
 #endif
@@ -168,8 +169,8 @@ int CLib1::LoadLib() {
 		// なんと正常に読めた。
 		do_fallback = false;
 	    }
+	    dlclose(handle);
 	}
-	dlclose(handle);
     }
     if (do_fallback) {
 	// 代替ライブラリを探す。
@@ -250,8 +251,8 @@ int	CLib1::Load(void)
 		}
 
 		// DLLパス文字列作成
-		wchar_t	drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
-		_wsplitpath(name.c_str(), drive, dir, fname, ext);
+		yaya::string_t	drive, dir, fname, ext;
+		SplitPathParts(name, drive, dir, fname, ext);
 		yaya::string_t	dllpath = drive;
 		dllpath += dir;
 
@@ -449,7 +450,14 @@ int	CLib1::Request(const yaya::string_t &istr, yaya::string_t &ostr)
 	// 実行
 	HGLOBAL	ogmem = (*requestlib)(igmem, &len);
 
-	// 結果取得
+	// 結果取得（DLLが応答を返さなかった場合は、従来どおり空の応答として扱う）
+	if (ogmem == NULL || len < 0) {
+		if (ogmem) {
+			GlobalFree(ogmem);
+		}
+		ostr.erase();
+		return 1;
+	}
 	char	*t_ostr = (char *)malloc((len + 1)*sizeof(char));
 	if (t_ostr == NULL) {
 		GlobalFree(ogmem);
