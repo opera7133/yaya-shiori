@@ -95,6 +95,42 @@ char	CParser0::Parse(int charset, const std::vector<CDic1>& dics)
 	return bool(errcount != 0);
 }
 
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CParser0::ParseShellDictionary
+ *  機能概要：  読む辞書が無い場合に使う組み込み辞書（シェルモード）を作成します
+ *
+ *  requestの入力をEVALし、その結果を返すだけの関数requestと、空のload/unloadを定義します。
+ *
+ *  返値　　：  0/1=正常/エラー
+ * -----------------------------------------------------------------------
+ */
+char	CParser0::ParseShellDictionary(void)
+{
+	const yaya::string_t dicname = L"_SHELL_DIC_";
+
+	vm.logger().Message(3);
+
+	std::vector<yaya::string_t>	factors;
+	size_t depth = 0;
+	ptrdiff_t targetfunction = -1;
+	yaya::string_t line(L"load{}unload{}request{EVAL(_argv[0])}");
+	SeparateFactor(factors, line);
+
+	size_t errcount = 0;
+	if (DefineFunctions(factors, dicname, 0, depth, targetfunction)) {
+		errcount += 1;
+	}
+
+	vm.logger().Message(8);
+	vm.logger().Message(9);
+
+	errcount += ParseAfterLoad(dicname);
+
+	vm.logger().Message(8);
+
+	return bool(errcount != 0);
+}
+
 bool	CParser0::ParseAfterLoad(const yaya::string_t &dicfilename)
 {
 	int aret=0;
@@ -154,6 +190,244 @@ char	CParser0::ParseEmbedString(yaya::string_t& str, CStatement& st, const yaya:
 		return 1;
 
 	return 0;
+}
+
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CParser0::IsEvalBlock
+ *  機能概要：  EVALに渡された文字列が、数式ひとつではなく文の並びであるかを判定します
+ *  　　　　　  クォートの外に{、}、;、改行があるか、先頭が制御文のキーワードなら真です
+ * -----------------------------------------------------------------------
+ */
+bool	CParser0::IsEvalBlock(const yaya::string_t& str)
+{
+	bool dq    = false;
+	bool quote = false;
+
+	for(yaya::string_t::size_type i = 0; i < str.size(); ++i) {
+		yaya::char_t c = str[i];
+		if (c == L'\"') {
+			if (!quote) {
+				dq = !dq;
+			}
+		}
+		else if (c == L'\'') {
+			if (!dq) {
+				quote = !quote;
+			}
+		}
+		else if (!dq && !quote) {
+			if (c == L'{' || c == L'}' || c == L';' || c == L'\r' || c == L'\n') {
+				return true;
+			}
+			// 行末の<<'か<<"はヒアドキュメントの開始（中の改行はクォートの内側に見えるのでここで判定する）
+			if (c == L'<' && str.compare(i, 2, L"<<") == 0 && i + 2 < str.size() &&
+				(str[i + 2] == L'\'' || str[i + 2] == L'\"')) {
+				yaya::string_t::size_type j = i + 3;
+				while (j < str.size() && IsSpace(str[j])) {
+					++j;
+				}
+				if (j < str.size() && (str[j] == L'\r' || str[j] == L'\n')) {
+					return true;
+				}
+			}
+		}
+	}
+
+	// 先頭の語を取り出す
+	yaya::string_t::size_type start = 0;
+	while (start < str.size() && IsSpace(str[start])) {
+		++start;
+	}
+	yaya::string_t::size_type end = start;
+	while (end < str.size() && !IsSpace(str[end])) {
+		++end;
+	}
+	yaya::string_t word(str, start, end - start);
+
+	static const yaya::char_t* const keywords[] = {
+		L"return", L"if", L"while", L"for", L"foreach", L"switch", L"void", L"parallel", NULL
+	};
+	for(size_t k = 0; keywords[k]; ++k) {
+		if (word == keywords[k]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CParser0::ParseEvalBlock
+ *  機能概要：  EVALに渡された文の並びを、関数表に登録しない一時関数funcに変換します
+ *  　　　　　  文字列全体が関数の本体の{}の中に書かれているものとして扱います
+ *  　　　　　  辞書と同じく改行、;、{、}で文を区切り、コメントと行末の/による行の結合を処理します
+ *
+ *  返値　　：  0/1=正常/エラー
+ * -----------------------------------------------------------------------
+ */
+char	CParser0::ParseEvalBlock(const yaya::string_t& str, CFunction& func, const yaya::string_t& dicfilename, ptrdiff_t linecount)
+{
+	// 辞書の読み込み中に使う状態を退避しておく
+	std::vector<choicetype_t>	old_choicetype = m_defaultBlockChoicetypeStack;
+	std::vector<size_t>			old_blockheader = m_BlockhHeaderOfProcessingIndexStack;
+
+	// 関数本体の {
+	func.statement.emplace_back(CStatement(ST_OPEN, linecount, std_make_shared<CDuplEvInfo>(CHOICETYPE_RANDOM)));
+	m_BlockhHeaderOfProcessingIndexStack.clear();
+	m_BlockhHeaderOfProcessingIndexStack.emplace_back(0);
+	m_defaultBlockChoicetypeStack.clear();
+	m_defaultBlockChoicetypeStack.emplace_back(CSelecter::GetDefaultBlockChoicetype(CHOICETYPE_RANDOM));
+
+	int		errcount = 0;
+	size_t	depth = 1;
+	CComment	comment;
+	yaya::string_t	linebuffer;
+	std::vector<yaya::string_t>	factors;
+
+	// ヒアドキュメント　LoadDictionary1と同じく、中の改行とクォートを\xFFFFで始まる2文字に置き換える
+	int		isInHereDocument = 0; //2 = ダブルクオート 1 = シングルクオート
+	bool	isHereDocumentFirstLine = true;
+
+	yaya::string_t::size_type pos = 0;
+	bool	last = false;
+	while (!last && !errcount) {
+		// 1行取り出す
+		yaya::string_t::size_type next = str.find_first_of(L"\r\n", pos);
+		yaya::string_t	readline;
+		if (next == yaya::string_t::npos) {
+			readline.assign(str, pos, str.size() - pos);
+			last = true;
+		}
+		else {
+			readline.assign(str, pos, next - pos);
+			pos = next + 1;
+			// CRLFで1つの改行
+			if (str[next] == L'\r' && pos < str.size() && str[pos] == L'\n') {
+				++pos;
+			}
+		}
+
+		if (isInHereDocument) {
+			// ヒアドキュメントの中は行頭の空白だけを消し、コメントも処理しない
+			CutStartSpace(readline);
+			yaya::char_t q = (isInHereDocument == 1) ? L'\'' : L'\"';
+			if (readline.size() >= 3 && readline[0] == q && readline[1] == L'>' && readline[2] == L'>') {
+				// 終わりの'>>（">>）はクォートだけを残し、続きと合わせて文として処理する
+				if (isHereDocumentFirstLine) {
+					vm.logger().Error(E_W, 21, dicfilename, linecount);
+				}
+				readline.erase(1, 2);
+				isInHereDocument = 0;
+				linebuffer.append(readline);
+			}
+			else {
+				if (isHereDocumentFirstLine) {
+					isHereDocumentFirstLine = false;
+				}
+				else {
+					linebuffer.append(L"\xFFFF\x0001");
+				}
+				yaya::string_t trimmed = readline;
+				CutEndSpace(trimmed);
+				if (trimmed.size() >= 3 &&
+					(trimmed.compare(trimmed.size() - 3, 3, L"<<'") == 0 || trimmed.compare(trimmed.size() - 3, 3, L"<<\"") == 0)) {
+					vm.logger().Error(E_W, 22, dicfilename, linecount);
+				}
+				if (isInHereDocument == 1) {
+					yaya::ws_replace(readline, L"\'", L"\xFFFF\x0003");
+				}
+				else {
+					yaya::ws_replace(readline, L"\"", L"\xFFFF\x0002");
+				}
+				linebuffer.append(readline);
+				continue;
+			}
+		}
+		else {
+			// 不要な空白とコメントを消す
+			CutSpace(readline);
+			comment.Process_Top(readline);
+			comment.Process(readline);
+			if (readline.size()) {
+				linebuffer.append(readline);
+				// 終端が"/"なら次の行と結合する
+				if (!last && readline[readline.size() - 1] == L'/') {
+					linebuffer.erase(linebuffer.end() - 1);
+					continue;
+				}
+				// 終端が<<'か<<"ならヒアドキュメントの開始　開きのクォートだけを残す
+				if (!last && readline.size() >= 3) {
+					if (readline.compare(readline.size() - 3, 3, L"<<'") == 0) {
+						isInHereDocument = 1;
+					}
+					else if (readline.compare(readline.size() - 3, 3, L"<<\"") == 0) {
+						isInHereDocument = 2;
+					}
+					if (isInHereDocument) {
+						isHereDocumentFirstLine = true;
+						linebuffer.erase(linebuffer.size() - 3, 2);
+						continue;
+					}
+				}
+			}
+			else if (!last) {
+				// 空行は読み飛ばす
+				continue;
+			}
+		}
+		if (!linebuffer.size()) {
+			continue;
+		}
+
+		comment.Process_Tail(linebuffer);
+		// {、}、;で分割
+		factors.clear();
+		SeparateFactor(factors, linebuffer);
+
+		for(std::vector<yaya::string_t>::iterator it = factors.begin(); it != factors.end(); it++) {
+			if (!(it->size()))
+				continue;
+			if ((*it)[it->size()-1]==L':' && (it+1) != factors.end() && *(it+1)==L"{"){
+				*(it+1)=L"";
+				*it+=L"{";
+			}
+			if (!StoreInternalStatement(func, *it, depth, dicfilename, linecount)) {
+				errcount++;
+			}
+			// 本体の } まで閉じてしまったら '}' 過多
+			if (!depth) {
+				vm.logger().Error(E_E, 2, dicfilename, linecount);
+				errcount++;
+				break;
+			}
+		}
+	}
+
+	// 閉じていないヒアドキュメントは閉じていない文字列と同じ扱い
+	if (!errcount && isInHereDocument) {
+		vm.logger().Error(E_E, 7, dicfilename, linecount);
+		errcount++;
+	}
+
+	if (!errcount && depth != 1) {
+		vm.logger().Error(E_E, 94, dicfilename, linecount);
+		errcount++;
+	}
+
+	if (!errcount) {
+		// 関数本体の }
+		func.statement.emplace_back(CStatement(ST_CLOSE, linecount));
+
+		errcount += AddSimpleIfBrace(func);
+		errcount += SetCellType(func);
+		errcount += MakeCompleteFormula(func);
+		errcount += vm.parser1().CheckExecutionCode(func);
+	}
+
+	m_defaultBlockChoicetypeStack = old_choicetype;
+	m_BlockhHeaderOfProcessingIndexStack = old_blockheader;
+
+	return (errcount) ? 1 : 0;
 }
 /* -----------------------------------------------------------------------
  *  関数名  ：  CParser0::DynamicLoadDictionary
@@ -412,6 +686,7 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 	size_t depth = 0;
 	ptrdiff_t targetfunction = -1;
 	std::vector<CDefine>	defines;
+	std::vector<CPreProcessCondition>	conds;
 	char	errcount = 0;
 
 	int	 isInHereDocument = 0; //2 = ダブルクオート 1 = シングルクオート
@@ -464,7 +739,7 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 			//ヒアドキュメント解除部
 			if ( isInHereDocument == 1 ) {
 				if (readline.compare(0,3,L"'>>") == 0) {
-					readline.erase(1,3);
+					readline.erase(1,2);
 					isInHereDocument = 0;
 					
 					if ( isHereDocumentFirstLine ) {
@@ -477,7 +752,7 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 			}
 			else {
 				if (readline.compare(0,3,L"\">>") == 0) {
-					readline.erase(1,3);
+					readline.erase(1,2);
 					isInHereDocument = 0;
 					
 					if ( isHereDocumentFirstLine ) {
@@ -567,6 +842,14 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 			}
 		}
 
+		// #ifdef系プリプロセッサの処理　無効な区間の行はここで読み捨てる
+		int	cpp = GetConditionalPreProcess(linebuffer, conds, defines, gdefines, file, i);
+		if (cpp == 1)
+			continue;
+		else if (cpp == 2) {
+			errcount = 1;
+			continue;
+		}
 		// プリプロセッサの場合は取得
 		int	pp = GetPreProcess(linebuffer, defines, gdefines, file, i);
 		// プリプロセッサであったらこの行の処理は終わり、次へ
@@ -597,6 +880,12 @@ char	CParser0::LoadDictionary1(const yaya::string_t& filename, std::vector<CDefi
 
 	if ( depth != 0 ) {
 		vm.logger().Error(E_E, 94, filename, -1);
+		errcount = 1;
+	}
+
+	// 閉じていない#ifdef/#ifndef
+	if ( conds.size() ) {
+		vm.logger().Error(E_E, 103, filename, conds.back().linecount);
 		errcount = 1;
 	}
 
@@ -679,6 +968,191 @@ char	CParser0::GetPreProcess(yaya::string_t &str, std::vector<CDefine>& defines,
 }
 
 /* -----------------------------------------------------------------------
+ *  関数名  ：  CParser0::GetConditionalPreProcess
+ *  機能概要：  #ifdef/#ifndef/#elifdef/#elifndef/#else/#endif/#error/#warningを処理します
+ *  　　　　　  #ifdef等で無効になっている区間の行は読み捨てます
+ *
+ *  返値　　：  0/1/2=通常の行/処理済（読み捨てを含む）/エラー
+ * -----------------------------------------------------------------------
+ */
+char	CParser0::GetConditionalPreProcess(yaya::string_t& str, std::vector<CPreProcessCondition>& conds,
+		const std::vector<CDefine>& defines, const std::vector<CDefine>& gdefines, const yaya::string_t& dicfilename, ptrdiff_t linecount)
+{
+#if !defined(POSIX) && !defined(__MINGW32__)
+	static const yaya::string_t space_delim(L" \t　");
+#else
+	static const yaya::string_t space_delim(L" \t\u3000");
+#endif
+
+	bool	skipping = conds.size() && conds.back().state != PP_COND_ACTIVE;
+
+	// （この関数に来るまでに空文字列は除外されているので、いきなり[0]を参照しても問題ない）
+	if (str[0] != L'#') {
+		if (skipping) {
+			str.erase();
+			return 1;
+		}
+		return 0;
+	}
+
+	// ディレクティブ名と引数に分ける　行末の//コメントは除く
+	yaya::string_t	line(str);
+	CComment	comment;
+	comment.Process_Tail(line);
+
+	yaya::string_t	pname, arg;
+	yaya::string_t::size_type	sep_pos = line.find_first_of(space_delim);
+	if (sep_pos == yaya::string_t::npos) {
+		pname = line;
+	}
+	else {
+		pname.assign(line, 0, sep_pos);
+		arg.assign(line, sep_pos, line.size() - sep_pos);
+		CutSpace(arg);
+	}
+
+	bool	is_if    = (pname == L"#ifdef" || pname == L"#ifndef");
+	bool	is_elif  = (pname == L"#elifdef" || pname == L"#elifndef");
+	bool	is_else  = (pname == L"#else");
+	bool	is_endif = (pname == L"#endif");
+
+	if (!is_if && !is_elif && !is_else && !is_endif) {
+		// 無効な区間では#error/#warningやそれ以外のプリプロセッサも無視する
+		if (skipping) {
+			str.erase();
+			return 1;
+		}
+		if (pname == L"#error") {
+			str.erase();
+			if (arg.size())
+				vm.logger().Error(E_E, 104, arg, dicfilename, linecount);
+			else
+				vm.logger().Error(E_E, 104, dicfilename, linecount);
+			return 2;
+		}
+		if (pname == L"#warning") {
+			str.erase();
+			if (arg.size())
+				vm.logger().Error(E_W, 28, arg, dicfilename, linecount);
+			else
+				vm.logger().Error(E_W, 28, dicfilename, linecount);
+			return 1;
+		}
+		return 0; // #define/#globaldefineなど
+	}
+
+	str.erase(); //行全体が前処理対象だったので消す
+
+	// 引数の検査と条件の判定　#ifdef系は名前1つ、#else/#endifは引数なし
+	char	ret = 1;
+	bool	cond = false;
+	if (is_if || is_elif) {
+		if (!arg.size() || arg.find_first_of(space_delim) != yaya::string_t::npos) {
+			vm.logger().Error(E_E, 74, dicfilename, linecount);
+			ret = 2;
+		}
+		else {
+			cond = IsPreProcessDefined(arg, defines, gdefines);
+			if (pname == L"#ifndef" || pname == L"#elifndef")
+				cond = !cond;
+		}
+	}
+	else if (arg.size()) {
+		vm.logger().Error(E_E, 74, dicfilename, linecount);
+		ret = 2;
+	}
+
+	// #ifdef/#ifndef
+	if (is_if) {
+		if (skipping)
+			conds.emplace_back(CPreProcessCondition(PP_COND_DONE, linecount));
+		else
+			conds.emplace_back(CPreProcessCondition(cond ? PP_COND_ACTIVE : PP_COND_WAITING, linecount));
+		return ret;
+	}
+
+	// 以降は対応する#ifdef/#ifndefが必要
+	if (conds.empty()) {
+		vm.logger().Error(E_E, 101, pname, dicfilename, linecount);
+		return 2;
+	}
+
+	CPreProcessCondition&	top = conds.back();
+
+	// #endif
+	if (is_endif) {
+		conds.pop_back();
+		return ret;
+	}
+
+	// #elifdef/#elifndef/#else
+	if (top.else_found) {
+		vm.logger().Error(E_E, 102, pname, dicfilename, linecount);
+		return 2;
+	}
+	if (is_else) {
+		top.else_found = true;
+		cond = true;
+	}
+
+	if (top.state == PP_COND_WAITING) {
+		if (cond)
+			top.state = PP_COND_ACTIVE;
+	}
+	else {
+		top.state = PP_COND_DONE;
+	}
+
+	return ret;
+}
+
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CParser0::IsPreProcessDefined
+ *  機能概要：  #ifdef/#ifndefで指定された名前が定義されているかを判定します
+ *  　　　　　  #define/#globaldefine（読み込み済の辞書のもの）、組み込み定義名、
+ *  　　　　　  __AYA_SYSTEM_SYSFUNC_関数名__（システム関数の有無）が対象です
+ * -----------------------------------------------------------------------
+ */
+static const yaya::char_t* const pp_system_defines[] = {
+	L"__AYA_SYSTEM_YAYA5__",
+	L"__AYA_SYSTEM_FILE__",
+	L"__AYA_SYSTEM_LINE__",
+	L"__AYA_SYSTEM_FUNC__",
+};
+
+bool	CParser0::IsPreProcessDefined(const yaya::string_t& name, const std::vector<CDefine>& defines, const std::vector<CDefine>& gdefines)
+{
+	size_t	i;
+	for(i = 0; i < sizeof(pp_system_defines) / sizeof(pp_system_defines[0]); i++) {
+		if (name == pp_system_defines[i])
+			return true;
+	}
+
+	static const yaya::string_t	sysfunc_prefix(L"__AYA_SYSTEM_SYSFUNC_");
+	static const yaya::string_t	sysfunc_suffix(L"__");
+	size_t	fix_len = sysfunc_prefix.size() + sysfunc_suffix.size();
+
+	if (name.size() > fix_len &&
+		name.compare(0, sysfunc_prefix.size(), sysfunc_prefix) == 0 &&
+		name.compare(name.size() - sysfunc_suffix.size(), sysfunc_suffix.size(), sysfunc_suffix) == 0) {
+		yaya::string_t	fname(name, sysfunc_prefix.size(), name.size() - fix_len);
+		return CSystemFunction::FindIndex(fname) >= 0;
+	}
+
+	std::vector<CDefine>::const_iterator	it;
+	for(it = defines.begin(); it != defines.end(); it++) {
+		if (it->before == name)
+			return true;
+	}
+	for(it = gdefines.begin(); it != gdefines.end(); it++) {
+		if (it->before == name)
+			return true;
+	}
+
+	return false;
+}
+
+/* -----------------------------------------------------------------------
  *  関数名  ：  CParser0::ExecDefinePreProcess
  *  機能概要：  #define/#globaldefine処理。文字列を置換します
  * -----------------------------------------------------------------------
@@ -699,7 +1173,7 @@ void	CParser0::ExecDefinePreProcess(yaya::string_t &str, const std::vector<CDefi
  */
 void	CParser0::ExecInternalPreProcess(yaya::string_t &str,const yaya::string_t &file, ptrdiff_t line)
 {
-	if ( str.find_first_of(L"__AYA_SYSTEM_FILE__") != yaya::string_t::npos ) {
+	if ( str.find(L"__AYA_SYSTEM_FILE__") != yaya::string_t::npos ) {
 
 		yaya::string_t file_str = file;
 		yaya::ws_replace(file_str,vm.basis().GetRootPath().c_str(),L"");
@@ -708,7 +1182,7 @@ void	CParser0::ExecInternalPreProcess(yaya::string_t &str,const yaya::string_t &
 		yaya::ws_replace(str, L"__AYA_SYSTEM_FILE__", file_str.c_str());
 	}
 
-	if ( str.find_first_of(L"__AYA_SYSTEM_LINE__") != yaya::string_t::npos ) {
+	if ( str.find(L"__AYA_SYSTEM_LINE__") != yaya::string_t::npos ) {
 		yaya::char_t line_str[32];
 
 		yaya::snprintf(line_str,31,L"%d",line);
@@ -875,8 +1349,12 @@ char	CParser0::DefineFunctions(std::vector<yaya::string_t>& s, const yaya::strin
 				*(it+1)=L"";
 				*it+=L"{";
 			}
+			// 組み込み定義名__AYA_SYSTEM_FUNC__を関数名に置換
+			if (it->find(L"__AYA_SYSTEM_FUNC__") != yaya::string_t::npos) {
+				yaya::ws_replace(*it, L"__AYA_SYSTEM_FUNC__", vm.function_parse().func[targetfunction].name.c_str());
+			}
 			// 関数内のステートメントの定義　{}入れ子の計算もここで行う
-			if (!StoreInternalStatement(targetfunction, *it, depth, dicfilename, linecount))
+			if (!StoreInternalStatement(vm.function_parse().func[targetfunction], *it, depth, dicfilename, linecount))
 				retcode = 1;
 			// 入れ子深さが0になったらこの関数定義から脱出する
 			if (!depth)
@@ -927,11 +1405,9 @@ ptrdiff_t	CParser0::MakeFunction(const yaya::string_t& name, choicetype_t chtype
  *  返値　　：  0/1=エラー/正常
  * -----------------------------------------------------------------------
  */
-char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, size_t& depth, const yaya::string_t& dicfilename, ptrdiff_t linecount)
+char	CParser0::StoreInternalStatement(CFunction& targetfunction, yaya::string_t &str, size_t& depth, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
 	// パラメータのないステートメント
-	CFunction& targetfunction = vm.function_parse().func[targetfunc];
-
 	if(!str.size())
 		return 1;
 	// {
@@ -998,7 +1474,7 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 	if (st == L"return") {
 		if (par.size()) {
 			str = par;
-			return MakeStatement(ST_RETURN_PARAM, targetfunc, str, dicfilename, linecount);
+			return MakeStatement(ST_RETURN_PARAM, targetfunction, str, dicfilename, linecount);
 		}
 		else {
 			targetfunction.statement.emplace_back(CStatement(ST_RETURN, linecount));
@@ -1008,59 +1484,59 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
 	// if
 	else if (st == L"if") {
 		str = par;
-		return MakeStatement(ST_IF, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_IF, targetfunction, str, dicfilename, linecount);
 	}
 	// elseif
 	else if (st == L"elseif") {
 		str = par;
-		return MakeStatement(ST_ELSEIF, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_ELSEIF, targetfunction, str, dicfilename, linecount);
 	}
 	// while
 	else if (st == L"while") {
 		str = par;
-		return MakeStatement(ST_WHILE, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_WHILE, targetfunction, str, dicfilename, linecount);
 	}
 	// switch
 	else if (st == L"switch") {
 		str = par;
-		return MakeStatement(ST_SWITCH, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_SWITCH, targetfunction, str, dicfilename, linecount);
 	}
 	// for
 	else if (st == L"for") {
 		str = par;
-		return MakeStatement(ST_FOR, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_FOR, targetfunction, str, dicfilename, linecount);
 	}
 	// foreach
 	else if (st == L"foreach") {
 		str = par;
-		return MakeStatement(ST_FOREACH, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_FOREACH, targetfunction, str, dicfilename, linecount);
 	}
 	// case　特殊な名前のローカル変数への代入に書き換えてしまう
 	else if (st == L"case") {
-		str = PREFIX_CASE_VAR + vm.function_parse().func[targetfunc].name;
+		str = PREFIX_CASE_VAR + targetfunction.name;
 		str += yaya::ws_itoa(linecount);
 		str += L'=';
 		str += par;
-		return MakeStatement(ST_FORMULA, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_FORMULA, targetfunction, str, dicfilename, linecount);
 	}
 	// when
 	else if (st == L"when") {
 		str = par;
-		return MakeStatement(ST_WHEN, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_WHEN, targetfunction, str, dicfilename, linecount);
 	}
 	// parallel
 	else if (st == L"parallel") {
 		str = par;
-		return MakeStatement(ST_PARALLEL, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_PARALLEL, targetfunction, str, dicfilename, linecount);
 	}
 	// void
 	else if (st == L"void") {
 		str = par;
-		return MakeStatement(ST_VOID, targetfunc, str, dicfilename, linecount);
+		return MakeStatement(ST_VOID, targetfunction, str, dicfilename, linecount);
 	}
 
 	// これまでのすべてにマッチしない文字列は数式と認識される
-	return MakeStatement(ST_FORMULA, targetfunc, str, dicfilename, linecount);
+	return MakeStatement(ST_FORMULA, targetfunction, str, dicfilename, linecount);
 }
 
 /* -----------------------------------------------------------------------
@@ -1070,7 +1546,7 @@ char	CParser0::StoreInternalStatement(size_t targetfunc, yaya::string_t &str, si
  *  返値　　：  0/1=エラー/正常
  * -----------------------------------------------------------------------
  */
-char	CParser0::MakeStatement(int type, size_t targetfunc, yaya::string_t& str, const yaya::string_t& dicfilename, ptrdiff_t linecount)
+char	CParser0::MakeStatement(int type, CFunction& targetfunction, yaya::string_t& str, const yaya::string_t& dicfilename, ptrdiff_t linecount)
 {
 	if (!str.size()) {
 		vm.logger().Error(E_E, 27, dicfilename, linecount);
@@ -1087,7 +1563,7 @@ char	CParser0::MakeStatement(int type, size_t targetfunc, yaya::string_t& str, c
 			return 0;
 	}
 
-	vm.function_parse().func[targetfunc].statement.emplace_back(addstatement);
+	targetfunction.statement.emplace_back(addstatement);
 	return 1;
 }
 
@@ -1516,24 +1992,31 @@ char	CParser0::AddSimpleIfBrace(const yaya::string_t &dicfilename)
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		int	beftype = ST_UNKNOWN;
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			if (beftype == ST_IF ||
-				beftype == ST_ELSEIF ||
-				beftype == ST_ELSE ||
-				beftype == ST_WHEN) {
-				if (it2->type != ST_OPEN) {
-					// { 追加
-					it2 = it->statement.insert(it2, CStatement(ST_OPEN, it2->linecount));
-					it2 += 2;
-					// } 追加
-					it2 = it->statement.insert(it2, CStatement(ST_CLOSE, it2->linecount));
-				}
-			}
-			beftype = it2->type;
-		}
+		AddSimpleIfBrace(*it);
 	}
 			
+	return 0;
+}
+
+char	CParser0::AddSimpleIfBrace(CFunction &func)
+{
+	int	beftype = ST_UNKNOWN;
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+		if (beftype == ST_IF ||
+			beftype == ST_ELSEIF ||
+			beftype == ST_ELSE ||
+			beftype == ST_WHEN) {
+			if (it2->type != ST_OPEN) {
+				// { 追加
+				it2 = func.statement.insert(it2, CStatement(ST_OPEN, it2->linecount));
+				it2 += 2;
+				// } 追加
+				it2 = func.statement.insert(it2, CStatement(ST_CLOSE, it2->linecount));
+			}
+		}
+		beftype = it2->type;
+	}
+
 	return 0;
 }
 
@@ -1551,29 +2034,38 @@ char	CParser0::SetCellType(const yaya::string_t &dicfilename)
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			// 数式以外は飛ばす
-			if (it2->type < ST_FORMULA)
-				continue;
+		errorflg += SetCellType(*it);
+	}
+	
+	return (errorflg) ? 1 : 0;
+}
 
-			if ( it2->cell_size() ) { //高速化用
-				for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); it3++) {
-					// 演算子は飛ばす
-					if (it3->value_GetType() != F_TAG_NOP)
-						continue;
+char	CParser0::SetCellType(CFunction &func)
+{
+	int	errorflg = 0;
 
-					// 項種別取得
-					errorflg += SetCellType1(*it3, 0, it->dicfilename, it2->linecount);
-					// whenの場合、項はリテラルしかあり得ない
-					if (it2->type == ST_WHEN) {
-						if (it3->value_GetType() != F_TAG_INT && 
-							it3->value_GetType() != F_TAG_DOUBLE && 
-							it3->value_GetType() != F_TAG_STRING && 
-							it3->value_GetType() != F_TAG_STRING_PLAIN && 
-							it3->value_GetType() != F_TAG_DOUBLE) {
-							vm.logger().Error(E_E, 45, it->dicfilename, it2->linecount);
-							errorflg++;
-						}
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+		// 数式以外は飛ばす
+		if (it2->type < ST_FORMULA)
+			continue;
+
+		if ( it2->cell_size() ) { //高速化用
+			for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); it3++) {
+				// 演算子は飛ばす
+				if (it3->value_GetType() != F_TAG_NOP)
+					continue;
+
+				// 項種別取得
+				errorflg += SetCellType1(*it3, 0, func.dicfilename, it2->linecount);
+				// whenの場合、項はリテラルしかあり得ない
+				if (it2->type == ST_WHEN) {
+					if (it3->value_GetType() != F_TAG_INT && 
+						it3->value_GetType() != F_TAG_DOUBLE && 
+						it3->value_GetType() != F_TAG_STRING && 
+						it3->value_GetType() != F_TAG_STRING_PLAIN && 
+						it3->value_GetType() != F_TAG_DOUBLE) {
+						vm.logger().Error(E_E, 45, func.dicfilename, it2->linecount);
+						errorflg++;
 					}
 				}
 			}
@@ -1766,6 +2258,17 @@ char	CParser0::MakeCompleteFormula(const yaya::string_t &dicfilename)
 	return (errcount) ? 1 : 0;
 }
 
+char	CParser0::MakeCompleteFormula(CFunction &func)
+{
+	int	errcount = 0;
+
+	errcount += ParseEmbeddedFactor(func);
+	ConvertPlainString(func);
+	errcount += CheckDepthAndSerialize(func);
+
+	return (errcount) ? 1 : 0;
+}
+
 /* -----------------------------------------------------------------------
  *  関数名  ：  CParser0::ParseEmbeddedFactor
  *  機能概要：  "%"で埋め込まれた要素を持つ文字列を分解して数式を作り、元の式と結合します
@@ -1780,9 +2283,18 @@ char	CParser0::ParseEmbeddedFactor(const yaya::string_t& dicfilename)
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-		    errcount += ParseEmbeddedFactor1(*it2, it->dicfilename);
-		}
+		errcount += ParseEmbeddedFactor(*it);
+	}
+
+	return (errcount) ? 1 : 0;
+}
+
+char	CParser0::ParseEmbeddedFactor(CFunction &func)
+{
+	int	errcount = 0;
+
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+	    errcount += ParseEmbeddedFactor1(*it2, func.dicfilename);
 	}
 
 	return (errcount) ? 1 : 0;
@@ -1885,9 +2397,14 @@ void	CParser0::ConvertPlainString(const yaya::string_t& dicfilename)
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-		    ConvertPlainString1(*it2, it->dicfilename);
-		}
+		ConvertPlainString(*it);
+	}
+}
+
+void	CParser0::ConvertPlainString(CFunction &func)
+{
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+	    ConvertPlainString1(*it2, func.dicfilename);
 	}
 }
 
@@ -2100,33 +2617,38 @@ char	CParser0::CheckDepthAndSerialize(const yaya::string_t& dicfilename)
 {
 	int	errcount = 0;
 
-	// 数式のカッコ検査
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			if (it2->type < ST_FORMULA) {
-				continue;
-			}
+		errcount += CheckDepthAndSerialize(*it);
+	}
 
-			errcount += CheckDepth1(*it2, it->dicfilename);
+	return (errcount) ? 1 : 0;
+}
+
+char	CParser0::CheckDepthAndSerialize(CFunction &func)
+{
+	int	errcount = 0;
+
+	// 数式のカッコ検査
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+		if (it2->type < ST_FORMULA) {
+			continue;
 		}
+
+		errcount += CheckDepth1(*it2, func.dicfilename);
 	}
 
 	// whenのif変換の最終処理　仮の数式をifで処理可能な判定式に整形する
-	errcount += MakeCompleteConvertionWhenToIf(dicfilename);
+	errcount += MakeCompleteConvertionWhenToIf(func);
 
 	// 演算順序の決定
-	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
-		if ( it->dicfilename != dicfilename ) { continue; }
-
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			if (it2->type < ST_FORMULA) {
-				continue;
-			}
-
-			errcount += CheckDepthAndSerialize1(*it2, it->dicfilename);
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+		if (it2->type < ST_FORMULA) {
+			continue;
 		}
+
+		errcount += CheckDepthAndSerialize1(*it2, func.dicfilename);
 	}
 
 	return (errcount) ? 1 : 0;
@@ -2146,158 +2668,167 @@ char	CParser0::MakeCompleteConvertionWhenToIf(const yaya::string_t& dicfilename)
 	for(std::vector<CFunction>::iterator it = vm.function_parse().func.begin(); it != vm.function_parse().func.end(); it++) {
 		if ( it->dicfilename != dicfilename ) { continue; }
 
-		std::vector<yaya::string_t>	caseary;
-		yaya::string_t	dmystr;
-		caseary.emplace_back(dmystr);
-		std::vector<size_t> whencnt;
-		whencnt.emplace_back(0);
-		ptrdiff_t depth = 0;
-		for(std::vector<CStatement>::iterator it2 = it->statement.begin(); it2 != it->statement.end(); it2++) {
-			if (depth == -1) {
-				vm.logger().Error(E_E, 52, it->dicfilename, it2->linecount);
-				errcount++;
-				break;
-			}
-			// {
-			if (it2->type == ST_OPEN) {
-				depth++;
-				yaya::string_t	dmystr;
-				caseary.emplace_back(dmystr);
-				whencnt.emplace_back(0);
-				continue;
-			}
-			// }
-			if (it2->type == ST_CLOSE) {
-				caseary[depth] = L"";
-				whencnt[depth] = 0;
-				depth--;
-				continue;
-			}
-			// case
-			if (it2->type == ST_FORMULA) {
-				if (it2->cell_size() >= 2) {
-					if (it2->cell()[0].value_GetType() == F_TAG_LOCALVARIABLE &&
-						it2->cell()[1].value_GetType() == F_TAG_EQUAL) {
-						if (!::wcsncmp(PREFIX_CASE_VAR,
-							it2->cell()[0].name.c_str(),PREFIX_CASE_VAR_SIZE)) {
-							caseary[depth] = it2->cell()[0].name;
-							whencnt[depth] = 0;
-							continue;
-						}
+		errcount += MakeCompleteConvertionWhenToIf(*it);
+	}
+
+	return (errcount) ? 1 : 0;
+}
+
+char	CParser0::MakeCompleteConvertionWhenToIf(CFunction &func)
+{
+	int	errcount = 0;
+
+	std::vector<yaya::string_t>	caseary;
+	yaya::string_t	dmystr;
+	caseary.emplace_back(dmystr);
+	std::vector<size_t> whencnt;
+	whencnt.emplace_back(0);
+	ptrdiff_t depth = 0;
+	for(std::vector<CStatement>::iterator it2 = func.statement.begin(); it2 != func.statement.end(); it2++) {
+		if (depth == -1) {
+			vm.logger().Error(E_E, 52, func.dicfilename, it2->linecount);
+			errcount++;
+			break;
+		}
+		// {
+		if (it2->type == ST_OPEN) {
+			depth++;
+			yaya::string_t	dmystr;
+			caseary.emplace_back(dmystr);
+			whencnt.emplace_back(0);
+			continue;
+		}
+		// }
+		if (it2->type == ST_CLOSE) {
+			caseary[depth] = L"";
+			whencnt[depth] = 0;
+			depth--;
+			continue;
+		}
+		// case
+		if (it2->type == ST_FORMULA) {
+			if (it2->cell_size() >= 2) {
+				if (it2->cell()[0].value_GetType() == F_TAG_LOCALVARIABLE &&
+					it2->cell()[1].value_GetType() == F_TAG_EQUAL) {
+					if (!::wcsncmp(PREFIX_CASE_VAR,
+						it2->cell()[0].name.c_str(),PREFIX_CASE_VAR_SIZE)) {
+						caseary[depth] = it2->cell()[0].name;
+						whencnt[depth] = 0;
+						continue;
 					}
 				}
 			}
-			// when
-			if (it2->type == ST_WHEN) {
-				ptrdiff_t depthm1 = depth - 1;
-				if (depthm1 < 0) {
-					vm.logger().Error(E_E, 64, it->dicfilename, it2->linecount);
-					errcount++;
-					break;
-				}
-				if (!caseary[depthm1].size()) {
-					vm.logger().Error(E_E, 63, it->dicfilename, it2->linecount);
-					errcount++;
-					break;
-				}
-				// if/elseifへ変換
-				if (!whencnt[depthm1])
-					it2->type = ST_IF;
-				else
-					it2->type = ST_ELSEIF;
-				(whencnt[depthm1])++;
-				// 仮の数式を判定式に書き換える
-				bool i = 0;
+		}
+		// when
+		if (it2->type == ST_WHEN) {
+			ptrdiff_t depthm1 = depth - 1;
+			if (depthm1 < 0) {
+				vm.logger().Error(E_E, 64, func.dicfilename, it2->linecount);
+				errcount++;
+				break;
+			}
+			if (!caseary[depthm1].size()) {
+				vm.logger().Error(E_E, 63, func.dicfilename, it2->linecount);
+				errcount++;
+				break;
+			}
+			// if/elseifへ変換
+			if (!whencnt[depthm1])
+				it2->type = ST_IF;
+			else
+				it2->type = ST_ELSEIF;
+			(whencnt[depthm1])++;
+			// 仮の数式を判定式に書き換える
+			bool i = 0;
 
-				if ( it2->cell_size() ) { //高速化用
-					for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); ) {
-						// ラベル
-						if (!i) {
-							if (it3->value_GetType() != F_TAG_INT && 
-								it3->value_GetType() != F_TAG_DOUBLE && 
-								it3->value_GetType() != F_TAG_STRING && 
-								it3->value_GetType() != F_TAG_DOUBLE) {
-								vm.logger().Error(E_E, 53, it->dicfilename, it2->linecount);
-								errcount++;
-								break;
-							}
-							i = 1;
-							it3++;
-							// 最後の項　これは必ず==判定
-							if (it3 == it2->cell().end()) {
-								CCell	addcell1(F_TAG_LOCALVARIABLE);
-								addcell1.name    = caseary[depthm1];
-								addcell1.value_Delete();
-								it3 = it2->cell().insert(it3, addcell1);
-								CCell	addcell2(F_TAG_IFEQUAL);
-								it3 = it2->cell().insert(it3, addcell2);
-								break;
-							}
-							continue;
+			if ( it2->cell_size() ) { //高速化用
+				for(std::vector<CCell>::iterator it3 = it2->cell().begin(); it3 != it2->cell().end(); ) {
+					// ラベル
+					if (!i) {
+						if (it3->value_GetType() != F_TAG_INT && 
+							it3->value_GetType() != F_TAG_DOUBLE && 
+							it3->value_GetType() != F_TAG_STRING && 
+							it3->value_GetType() != F_TAG_DOUBLE) {
+							vm.logger().Error(E_E, 53, func.dicfilename, it2->linecount);
+							errcount++;
+							break;
 						}
-						// or/and
-						i = 0;
-						if (it3->value_GetType() == F_TAG_OR) {
-							// or
+						i = 1;
+						it3++;
+						// 最後の項　これは必ず==判定
+						if (it3 == it2->cell().end()) {
 							CCell	addcell1(F_TAG_LOCALVARIABLE);
-							addcell1.name      = caseary[depthm1];
+							addcell1.name    = caseary[depthm1];
 							addcell1.value_Delete();
 							it3 = it2->cell().insert(it3, addcell1);
 							CCell	addcell2(F_TAG_IFEQUAL);
 							it3 = it2->cell().insert(it3, addcell2);
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-						}
-						else if (it3->value_GetType() == F_TAG_AND) {
-							// and
-							CCell	addcell1(F_TAG_LOCALVARIABLE);
-							addcell1.name      = caseary[depthm1];
-							addcell1.value_Delete();
-							it3 = it2->cell().insert(it3, addcell1);
-							CCell	addcell2(F_TAG_IFLTEQUAL);
-							it3 = it2->cell().insert(it3, addcell2);
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							CCell	addcell3(F_TAG_IFLTEQUAL);
-							it3 = it2->cell().insert(it3, addcell3);
-							CCell	addcell4(F_TAG_LOCALVARIABLE);
-							addcell4.name      = caseary[depthm1];
-							addcell4.value_Delete();
-							it3 = it2->cell().insert(it3, addcell4);
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-							if (it3 == it2->cell().end())
-								break;
-							it3++;
-						}
-						else {
-							vm.logger().Error(E_E, 54, it->dicfilename, it2->linecount);
-							errcount++;
 							break;
 						}
+						continue;
+					}
+					// or/and
+					i = 0;
+					if (it3->value_GetType() == F_TAG_OR) {
+						// or
+						CCell	addcell1(F_TAG_LOCALVARIABLE);
+						addcell1.name      = caseary[depthm1];
+						addcell1.value_Delete();
+						it3 = it2->cell().insert(it3, addcell1);
+						CCell	addcell2(F_TAG_IFEQUAL);
+						it3 = it2->cell().insert(it3, addcell2);
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+					}
+					else if (it3->value_GetType() == F_TAG_AND) {
+						// and
+						CCell	addcell1(F_TAG_LOCALVARIABLE);
+						addcell1.name      = caseary[depthm1];
+						addcell1.value_Delete();
+						it3 = it2->cell().insert(it3, addcell1);
+						CCell	addcell2(F_TAG_IFLTEQUAL);
+						it3 = it2->cell().insert(it3, addcell2);
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						CCell	addcell3(F_TAG_IFLTEQUAL);
+						it3 = it2->cell().insert(it3, addcell3);
+						CCell	addcell4(F_TAG_LOCALVARIABLE);
+						addcell4.name      = caseary[depthm1];
+						addcell4.value_Delete();
+						it3 = it2->cell().insert(it3, addcell4);
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+						if (it3 == it2->cell().end())
+							break;
+						it3++;
+					}
+					else {
+						vm.logger().Error(E_E, 54, func.dicfilename, it2->linecount);
+						errcount++;
+						break;
 					}
 				}
 			}

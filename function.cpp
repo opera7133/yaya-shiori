@@ -34,7 +34,7 @@
 #include "basis.h"
 ////////////////////////////////////////
 
-CFunction::CFunction(CAyaVM& vmr, const yaya::string_t& n, const yaya::string_t& df, int lc) : pvm(&vmr), name(n), dicfilename(df), linecount(lc), dicfilename_fullpath(vmr.basis().ToFullPath(df))
+CFunction::CFunction(CAyaVM& vmr, const yaya::string_t& n, const yaya::string_t& df, int lc) : pvm(&vmr), name(n), dicfilename(df), linecount(lc), dicfilename_fullpath(vmr.basis().ToFullPath(df)), execdepth(0)
 {
 	statelenm1 = 0;
 	namelen = name.size();
@@ -62,6 +62,50 @@ void	CFunction::CompleteSetting(void)
 {
 	statelenm1 = statement.size() - 1;
 }
+
+/* -----------------------------------------------------------------------
+ *  クラス名：  CFunctionReentryGuard
+ *  機能概要：  関数が再帰で呼ばれている間、呼び出し元のセルの一時値を退避します
+ *
+ *  セルは関数ごとに1組しかないため、そのまま再帰すると、呼び出し元が演算の途中で
+ *  セルに持っている部分式の結果（ansv）が上書きされたり、終了時のcell_cleanupで
+ *  解放されたりします。再帰中はセルの一時値を空にして、戻ったら元に戻します
+ * -----------------------------------------------------------------------
+ */
+class CFunctionReentryGuard
+{
+private:
+	CFunction &func;
+	std::vector< std_shared_ptr<CValue> > saved;
+
+	void Swap(void) {
+		std_shared_ptr<CValue> *p = &saved[0];
+		for ( size_t i = 0 ; i < func.statement.size() ; ++i ) {
+			p = func.statement[i].cell_swap_tmpdata(p);
+		}
+	}
+
+public:
+	CFunctionReentryGuard(CFunction &f) : func(f) {
+		if (func.execdepth) {
+			size_t n = 0;
+			for ( size_t i = 0 ; i < func.statement.size() ; ++i ) {
+				n += func.statement[i].cell_size();
+			}
+			if (n) {
+				saved.resize(n * 3);
+				Swap();
+			}
+		}
+		func.execdepth++;
+	}
+	~CFunctionReentryGuard() {
+		func.execdepth--;
+		if (saved.size()) {
+			Swap();
+		}
+	}
+};
 
 CFunction::ExecutionResult	CFunction::Execute() {
 	CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
@@ -112,6 +156,11 @@ CFunction::ExecutionResult	CFunction::Execute(const CValue &arg, CLocalVariable 
 		pvm->call_limit().DeleteCall();
 		return ExecutionResult(pvm);
 	}
+
+	// 再帰呼び出しなら呼び出し元のセルの一時値を退避し、この関数を抜けるときに戻す
+	// （下のcell_cleanupは再帰呼び出し側の一時値に対して行われる）
+	CFunctionReentryGuard reentry(*this);
+
 	ExecutionResult result(NULL);
 	Execute_SEHbody(result,lvar, exitcode);
 	
@@ -124,10 +173,35 @@ CFunction::ExecutionResult	CFunction::Execute(const CValue &arg, CLocalVariable 
 	return result;
 }
 
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CFunction::ExecuteEval
+ *  機能概要：  EVALの一時関数を、呼び出し元のローカル変数のもとで実行します
+ *
+ *  呼び出し元の{}の中にこの関数の本体を書いたのと同じように振る舞います。
+ *  呼び出し元のローカル変数は読み書きでき、中で作ったローカル変数は終了時に消えます。
+ *  _argv/_argc/_FUNC_NAME_ は呼び出し元のものをそのまま使います
+ * -----------------------------------------------------------------------
+ */
+CFunction::ExecutionResult	CFunction::ExecuteEval(CLocalVariable &lvar)
+{
+	int exitcode = ST_NOP;
+
+	CFunctionReentryGuard reentry(*this);
+
+	ExecutionResult result(NULL);
+	Execute_SEHbody(result,lvar, exitcode);
+
+	for ( size_t i = 0 ; i < statement.size() ; ++i ) {
+		statement[i].cell_cleanup();
+	}
+
+	return result;
+}
+
 void CFunction::Execute_SEHhelper(CFunction::ExecutionResult& aret, CLocalVariable& lvar, int& exitcode)
 {
 	SReturnWithParamExpr returnExpr;
-	aret = ExecuteInBrace(1, lvar, BRACE_DEFAULT, exitcode, NULL, 0, &returnExpr);
+	aret = ExecuteInBrace(1, lvar, BRACE_DEFAULT, exitcode, NULL, NULL, 0, &returnExpr);
 }
 
 void CFunction::Execute_SEHbody(ExecutionResult& retas, CLocalVariable& lvar, int& exitcode)
@@ -155,13 +229,14 @@ void CFunction::Execute_SEHbody(ExecutionResult& retas, CLocalVariable& lvar, in
  *  機能概要：  {}を実行し、結果をひとつ返します
  *  引数　　　  type     この{}の種別。ただし0～の場合はswitch構文の際の候補抽出位置
  *  　　　　　  exitcode 終了コード。ST_NOP/ST_BREAK/ST_RETURN/ST_CONTINUE=通常/break/return/continue
+ *  　　　　　  pUpperOutput すぐ外側の{}の出力候補。meltの溶かし先。関数の一番外側の{}ではNULL
  *
  *  "{}"内の各ステートメントを実行します。引数lineで指定される位置から実行を開始し、"}"に突き当たるまで
  *  順次実行していきます。
  *  返値は実行を終了した"}"の位置です。
  * -----------------------------------------------------------------------
  */
-CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalVariable &lvar, yaya::int_t type, int &exitcode, std::vector<CVecValue>* UpperLvCandidatePool,bool inpool, SReturnWithParamExpr* pReturnExpr)
+CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalVariable &lvar, yaya::int_t type, int &exitcode, CSelecter* pUpperOutput, std::vector<CVecValue>* UpperLvCandidatePool,bool inpool, SReturnWithParamExpr* pReturnExpr)
 {
 	// 開始時の処理
 	lvar.AddDepth();
@@ -191,7 +266,6 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 	}
 	if(!UpperLvCandidatePool){
 		UpperLvCandidatePool = &output.values;
-		meltblock = 0;
 	}
 
 	const bool inpool_to_next = (!inmutiarea ? !notpoolblock : false);
@@ -204,7 +278,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 
 		switch(st.type) {
 		case ST_OPEN: {					// "{"
-			ExecutionInBraceResult info = ExecuteInBrace(i + 1, lvar, BRACE_DEFAULT, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+			ExecutionInBraceResult info = ExecuteInBrace(i + 1, lvar, BRACE_DEFAULT, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 			i = info.linenum;
 			output.Append(info.Output());
 			break;
@@ -224,7 +298,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 		case ST_IF:						// if
 			ifflg = 0;
 			if (GetFormulaAnswer(lvar, st).GetTruth()) {
-				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 				i = info.linenum;
 				output.Append(info.Output());
 				ifflg = 1;
@@ -236,7 +310,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			if (ifflg)
 				i = st.jumpto;
 			else if (GetFormulaAnswer(lvar, st).GetTruth()) {
-				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 				i = info.linenum;
 				output.Append(info.Output());
 				ifflg = 1;
@@ -248,7 +322,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			if (ifflg)
 				i = st.jumpto;
 			else {
-				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, BRACE_DEFAULT, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 				i = info.linenum;
 				output.Append(info.Output());
 			}
@@ -278,7 +352,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 				while ( (loop_max == 0) || (loop_max > loop_cur++) ) {
 					if (!GetFormulaAnswer(lvar, st).GetTruth())
 						break;
-					CValue t_value = ExecuteInBrace(i + 2, lvar, BRACE_LOOP, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+					CValue t_value = ExecuteInBrace(i + 2, lvar, BRACE_LOOP, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 					output.Append(t_value);
 
 					if (exitcode == ST_BREAK) {
@@ -323,7 +397,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 				while ( (loop_max == 0) || (loop_max > loop_cur++) ) {
 					if (!GetFormulaAnswer(lvar, statement[i + 1]).GetTruth()) //for第二パラメータ
 						break;
-					CValue t_value = ExecuteInBrace(i + 4, lvar, BRACE_LOOP, exitcode, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
+					CValue t_value = ExecuteInBrace(i + 4, lvar, BRACE_LOOP, exitcode, &output, UpperLvCandidatePool, inpool_to_next, pReturnExpr);
 					output.Append(t_value);
 
 					if (exitcode == ST_BREAK) {
@@ -364,7 +438,7 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 				yaya::int_t sw_index = GetFormulaAnswer(lvar, st).GetValueInt();
 				if (sw_index < 0)
 					sw_index = BRACE_SWITCH_OUT_OF_RANGE;
-				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, sw_index, exitcode, NULL, 0, pReturnExpr);
+				ExecutionInBraceResult info = ExecuteInBrace(i + 2, lvar, sw_index, exitcode, &output, NULL, 0, pReturnExpr);
 				i = info.linenum;
 				output.Append(info.Output());
 			}
@@ -402,14 +476,34 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 	#undef POOL_TO_NEXT
 
 	// return式による候補の上書き
-	if (exitcode == ST_RETURN_PARAM && pReturnExpr && pReturnExpr->used) {
+	const bool returned_with_expr = (exitcode == ST_RETURN_PARAM && pReturnExpr && pReturnExpr->used);
+	if (returned_with_expr) {
 		output.clear();
 		if (pReturnExpr->value.GetType() != F_TAG_NOP)
 			output.Append(pReturnExpr->value);
 	}
 
+	if (meltblock) {
+		if (pUpperOutput) {
+			// 選んだ出力が配列ならばらして、すぐ外側の{}の候補に加える
+			CValue result = output.Output();
+
+			if (result.GetType() == F_TAG_ARRAY) {
+				for(size_t j = 0; j < result.array_size(); ++j) {
+					pUpperOutput->Append(CValue(result.array()[j]));
+				}
+			}
+			else
+				pUpperOutput->Append(result);
+			output.clear();
+		}
+		else if (!returned_with_expr) {
+			// 関数の一番外側の{}は溶かす先が無いので、配列の候補をばらしてから選ぶ
+			output.MeltArray();
+		}
+	}
 	// 候補から出力を選び出す　入れ子の深さが0なら重複回避が働く
-	if (inpool&&!ispoolbegin) {
+	else if (inpool&&!ispoolbegin) {
 		std::vector<CValue>& thepool = UpperLvCandidatePool->rbegin()->array;
 		std::vector<CValue>& thispool = output.values[0].array;
 
@@ -417,20 +511,6 @@ CFunction::ExecutionInBraceResult	CFunction::ExecuteInBrace(size_t line, CLocalV
 			thepool.insert(thepool.end(), output.Output());
 		else
 			thepool.insert(thepool.end(), thispool.begin(), thispool.end());
-		output.clear();
-	}
-
-	if(meltblock){
-		std::vector<CValue>& pool_of_uplv = UpperLvCandidatePool->rbegin()->array;
-		CValue result = output.Output();
-
-		if (result.GetType() == F_TAG_ARRAY) {
-			for(size_t j = 0; j < result.array_size(); ++j) {
-				pool_of_uplv.emplace_back(CValue(result.array()[j]));
-			}
-		}
-		else
-			pool_of_uplv.emplace_back(result);
 		output.clear();
 	}
 	// 終了時の処理
@@ -520,7 +600,7 @@ void	CFunction::Foreach(CLocalVariable &lvar, CSelecter &output,size_t line,int 
 			break;
 		}
 
-		t_value = ExecuteInBrace(line + 3, lvar, BRACE_LOOP, exitcode, UpperLvCandidatePool, inpool, pReturnExpr);
+		t_value = ExecuteInBrace(line + 3, lvar, BRACE_LOOP, exitcode, &output, UpperLvCandidatePool, inpool, pReturnExpr);
 		output.Append(t_value);
 
 		if (exitcode == ST_BREAK) {
@@ -584,8 +664,10 @@ const CValue& CFunction::GetFormulaAnswer(CLocalVariable &lvar, CStatement &st)
 			case F_TAG_SURPEQUAL_D:
 			case F_TAG_COMMAEQUAL:
 				{
+					// 代入文の最後の代入は結果を使わないので、値を複製しない
+					bool need_answer = (st.type != ST_FORMULA_SUBST) || (it + 1 != st.serial().end());
 					std_shared_ptr<CValue> tmp_ansv = o_cell.ansv_shared_create();
-					if (Subst(o_cell.value_GetType(), *tmp_ansv.get(), it->index, st, lvar)) {
+					if (Subst(o_cell.value_GetType(), *tmp_ansv.get(), it->index, st, lvar, need_answer)) {
 						pvm->logger().Error(E_E, 33, L"=", dicfilename, st.linecount);
 					}
 					o_cell.ansv_shared() = tmp_ansv;
@@ -691,7 +773,7 @@ const CValue& CFunction::GetFormulaAnswer(CLocalVariable &lvar, CStatement &st)
 				{
 					std_shared_ptr<CValue> tmp_ansv = o_cell.ansv_shared_create();
 					if (ExecFunctionWithArgs(*tmp_ansv.get(), it->index, st, lvar)) {
-						pvm->logger().Error(E_E, 33, pvm->function_exec().func[st.cell()[it->index[0]].index].name, dicfilename, st.linecount);
+						pvm->logger().Error(E_E, 33, st.cell()[it->index[0]].name, dicfilename, st.linecount);
 					}
 					o_cell.ansv_shared() = tmp_ansv;
 				}
@@ -759,9 +841,14 @@ const CValue& CFunction::GetValueRefForCalc(CCell &cell, CStatement &st, CLocalV
 			return cell.ansv();
 		}
 	case F_TAG_USERFUNC: {
+		CFunction	*pfunc = GetUserFunction(cell);
+		if (pfunc == NULL) {
+			pvm->logger().Error(E_E, 71, cell.name, dicfilename, st.linecount);
+			return emptyvalue;
+		}
 		CValue	arg(F_TAG_ARRAY, 0/*dmy*/);
 		CLocalVariable	t_lvar(*pvm);
-		cell.ansv() = pvm->function_exec().func[cell.index].Execute(arg, t_lvar);
+		cell.ansv() = pfunc->Execute(arg, t_lvar);
 		return cell.ansv();
 	}
 	case F_TAG_VARIABLE:
@@ -969,13 +1056,34 @@ char	CFunction::CommaAdd(CValue &answer, std::vector<size_t> &sid, CStatement &s
 }
 
 /* -----------------------------------------------------------------------
+ *  関数名  ：  CFunction::GetSubstVariable
+ *  機能概要：  代入先の変数（グローバル変数/ローカル変数の項）を取得します
+ *
+ *  変数はvectorに入っているので、関数を実行して変数が増えると得られたポインタは無効になります。
+ *  関数を実行したあとは引き直してください。
+ * -----------------------------------------------------------------------
+ */
+CVariable*	CFunction::GetSubstVariable(const CCell &vcell, CLocalVariable &lvar)
+{
+	if ( vcell.value_GetType() == F_TAG_VARIABLE ) {
+		return pvm->variable().GetPtr(vcell.index);
+	}
+	else {
+		return lvar.GetPtr(vcell.name);
+	}
+}
+
+/* -----------------------------------------------------------------------
  *  関数名  ：  CFunction::Subst
  *  機能概要：  代入演算子を処理します
+ *
+ *  need_answerがfalseなら、変数への代入ではanswerに結果を入れません
+ *  （入れると文字列や配列を変数と共有し、次の+=などで毎回全体が複製されて2乗の時間がかかる）
  *
  *  返値　　：  0/1=成功/エラー
  * -----------------------------------------------------------------------
  */
-char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
+char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar, bool need_answer)
 {
 	CCell	*sid_0_cell = &(st.cell()[sid[0]]);
 	CCell	*sid_1_cell = &(st.cell()[sid[1]]);
@@ -984,20 +1092,23 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 
 	//既存変数への代入の場合だけは特殊扱いする
 	if ( sid_0_cell_type == F_TAG_VARIABLE || sid_0_cell_type == F_TAG_LOCALVARIABLE ) {
-		CVariable* pSubstTo;
-
-		if ( sid_0_cell_type == F_TAG_VARIABLE ) {
-			pSubstTo = pvm->variable().GetPtr(sid_0_cell->index);
-		}
-		else {
-			pSubstTo = lvar.GetPtr(sid_0_cell->name);
-		}
+		CVariable* pSubstTo = GetSubstVariable(*sid_0_cell, lvar);
 
 		CValue varback;
 
 		if ( pSubstTo ) {
-			varback = pSubstTo->value();
-			CValue &substTo = pSubstTo->value();
+			// 変更前の値はsetterにしか使わない
+			// 常に取っておくと文字列や配列を共有するため、書き換えのたびに丸ごと複製される
+			if ( pSubstTo->setter.size() ) {
+				varback = pSubstTo->value();
+			}
+
+			// 右辺の関数やEVALの中で変数が増えるとpSubstToは無効になるので、値だけを持っておき、
+			// 代入が終わったら変数を引き直す
+			pSubstTo->value();
+			std_shared_ptr<CValue> substToHolder = pSubstTo->value_shared();
+			pSubstTo = NULL;
+			CValue &substTo = *substToHolder;
 
 			answer.array_clear();
 
@@ -1039,14 +1150,35 @@ char	CFunction::Subst(int type, CValue &answer, std::vector<size_t> &sid, CState
 
 			// **HACK** constにしてarrayの場合answerと強制共有
 			// 後で代入演算がもしあった時に配列の時の代入コストを省略できる
-			answer = const_cast<const CValue&>(substTo);
+			if ( need_answer ) {
+				answer = const_cast<const CValue&>(substTo);
+			}
+			else {
+				answer = CValue();
+			}
 
 			// グローバル変数の場合、削除済みの場合があるのでここで再Enable
 			if ( sid_0_cell_type == F_TAG_VARIABLE ) {
 				pvm->variable().EnableValue(sid_0_cell->index);
 			}
 
-			pSubstTo->call_setter(*pvm,varback);
+			pSubstTo = GetSubstVariable(*sid_0_cell, lvar);
+			if ( ! pSubstTo ) {
+				return 0;
+			}
+			// 右辺の中でERASEVARされていても、代入した値を変数に戻す
+			if ( pSubstTo->value_shared() != substToHolder ) {
+				pSubstTo->value_shared() = substToHolder;
+			}
+
+			CValue setter_result;
+			if ( pSubstTo->call_setter(*pvm, varback, setter_result) ) {
+				// setterの中で変数が増えることがあるので、もう一度引き直す
+				pSubstTo = GetSubstVariable(*sid_0_cell, lvar);
+				if ( pSubstTo ) {
+					pSubstTo->value() = setter_result;
+				}
+			}
 
 			return 0;
 		}
@@ -1212,6 +1344,36 @@ bool CFunction::not_in_(const CValue &src, const CValue &dst)
 }
 
 /* -----------------------------------------------------------------------
+ *  関数名  ：  CFunction::GetUserFunction
+ *  機能概要：  F_TAG_USERFUNCの項が指す関数を、現在の関数表から取得します
+ *
+ *  項のindexは解析したときの関数表での位置です。実行中にDICUNLOAD/UNDEFFUNCなどで
+ *  関数表が差し替えられると位置がずれるため、名前が一致しなければ名前で引き直します。
+ *  位置がずれるのは差し替えたrequestの中（古い関数表を取っておいている間）だけです。
+ *
+ *  返値　　：  関数　見つからなければNULL
+ * -----------------------------------------------------------------------
+ */
+CFunction*	CFunction::GetUserFunction(const CCell &cell)
+{
+	CFunctionDef	&def = pvm->function_exec();
+
+	if (!pvm->func_swapped()) {
+		return &def.func[size_t(cell.index)];
+	}
+
+	if (cell.index >= 0 && size_t(cell.index) < def.func.size() && def.func[size_t(cell.index)].name == cell.name) {
+		return &def.func[size_t(cell.index)];
+	}
+
+	ptrdiff_t	index = def.GetFunctionIndexFromName(cell.name);
+	if (index < 0) {
+		return NULL;
+	}
+	return &def.func[size_t(index)];
+}
+
+/* -----------------------------------------------------------------------
  *  関数名  ：  CFunction::ExecFunctionWithArgs
  *  機能概要：  引数付きの関数を実行します
  *
@@ -1220,9 +1382,8 @@ bool CFunction::not_in_(const CValue &src, const CValue &dst)
  */
 char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar)
 {
-	// 関数の格納位置を取得
 	std::vector<size_t>::iterator it = sid.begin();
-	size_t index = st.cell()[*it].index;
+	CCell	&fcell = st.cell()[*it];
 	it++;
 
 	// 引数作成
@@ -1245,9 +1406,17 @@ char	CFunction::ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, C
 		}
 	}
 
+	// 関数を取得　引数の中で関数表が差し替えられることがあるので、引数を作ってから引く
+	CFunction	*pfunc = GetUserFunction(fcell);
+	if (pfunc == NULL) {
+		pvm->logger().Error(E_E, 71, fcell.name, dicfilename, st.linecount);
+		answer = CValue();
+		return 0;
+	}
+
 	// 実行
 	CLocalVariable	t_lvar(*pvm);
-	answer = pvm->function_exec().func[index].Execute(arg, t_lvar);
+	answer = pfunc->Execute(arg, t_lvar);
 
 	// フィードバック
 	const CValue *v_argv = &(t_lvar.GetArgvPtr()->value_const());

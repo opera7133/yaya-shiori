@@ -112,6 +112,17 @@ public:
 		return *m_serial;
 	}
 	//////////////////////////////////////////////
+	// 各セルの一時値をpからの領域（1セルにつき3つ）と交換し、次の領域を返します
+	std_shared_ptr<CValue> *cell_swap_tmpdata(std_shared_ptr<CValue> *p) const {
+		if ( ! m_cell.get() ) {
+			return p;
+		}
+		for ( size_t i = 0 ; i < m_cell->size() ; ++i ) {
+			(*m_cell)[i].tmpdata_swap(p);
+			p += 3;
+		}
+		return p;
+	}
 	void cell_cleanup(void) const {
 		const std::vector<CCell>& c = cell();
 
@@ -138,6 +149,9 @@ public:
 protected:
 	size_t					statelenm1;		// statementの長さ-1（1を減じているのは終端の"}"を処理しないためです）
 	size_t					linecount;		// 定義された行
+	size_t					execdepth;		// 実行中の呼び出しの数（再帰の検出用）
+
+	friend class CFunctionReentryGuard;
 
 private:
 	CFunction(void);
@@ -168,6 +182,7 @@ public:
 	ExecutionResult	Execute();
 	ExecutionResult	Execute(const CValue& arg);
 	ExecutionResult	Execute(const CValue &arg, CLocalVariable &lvar);
+	ExecutionResult	ExecuteEval(CLocalVariable &lvar);
 private:
 	void Execute_SEHhelper(ExecutionResult& aret, CLocalVariable& lvar, int& exitcode);
 	void Execute_SEHbody(ExecutionResult& retas, CLocalVariable& lvar, int& exitcode);
@@ -196,7 +211,7 @@ protected:
 		SReturnWithParamExpr() : used(false) {}
 	};
 
-	ExecutionInBraceResult	ExecuteInBrace(size_t line, CLocalVariable& lvar, yaya::int_t type, int& exitcode, std::vector<CVecValue>* UpperLvCandidatePool, bool inpool, SReturnWithParamExpr* pReturnExpr = NULL);
+	ExecutionInBraceResult	ExecuteInBrace(size_t line, CLocalVariable& lvar, yaya::int_t type, int& exitcode, CSelecter* pUpperOutput, std::vector<CVecValue>* UpperLvCandidatePool, bool inpool, SReturnWithParamExpr* pReturnExpr = NULL);
 
 	void	Foreach(CLocalVariable& lvar, CSelecter& output, size_t line, int& exitcode, std::vector<CVecValue>* UpperLvCandidatePool, bool inpool, SReturnWithParamExpr* pReturnExpr = NULL);
 
@@ -206,11 +221,13 @@ protected:
 
 	char	Comma(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
 	char	CommaAdd(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
-	char	Subst(int type, CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
+	CVariable*	GetSubstVariable(const CCell &vcell, CLocalVariable &lvar);
+	char	Subst(int type, CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar, bool need_answer = true);
 	char	SubstToArray(CCell &vcell, CCell &ocell, CValue &answer, CStatement &st, CLocalVariable &lvar);
 	char	Array(CCell &anscell, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
 	bool	_in_(const CValue &src, const CValue &dst);
 	bool	not_in_(const CValue &src, const CValue &dst);
+	CFunction*	GetUserFunction(const CCell &cell);
 	char	ExecFunctionWithArgs(CValue &answer, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
 	char	ExecSystemFunctionWithArgs(CCell& cell, std::vector<size_t> &sid, CStatement &st, CLocalVariable &lvar);
 	void	ExecHistoryP1(size_t start_index, CCell& cell, const CValue &arg, CStatement &st);

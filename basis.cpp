@@ -18,6 +18,12 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <math.h>
+#if defined(_MSC_VER)
+# include <float.h>
+#else
+# include <cmath>
+#endif
 //#include <filesystem>
 
 #include "fix_unistd.h"
@@ -328,16 +334,26 @@ void	CBasis::Configure(void)
 {
 	// 基礎設定ファイル（例えばaya.txt）を読み取り
 	std::vector<CDic1>	dics;
-	LoadBaseConfigureFile(dics);
+	bool	config_found = LoadBaseConfigureFile(dics);
 	// 基礎設定ファイル読み取りで重篤なエラーが発生した場合はここで終了
 	if (suppress)
 		return;
+
+	// 基礎設定ファイルが無い場合は変数の自動保存・復元を行わない
+	if (!config_found)
+		auto_save = false;
 
 	// ロギングを開始
 	SetLogger();
 
 	// 辞書読み込みと構文解析
-	if (vm.parser0().Parse(dic_charset, dics))
+	// 通常モードで読む辞書が1つも無い場合は、requestの入力をEVALして返すだけの組み込み辞書で動作する（シェルモード）
+	if (dics.empty() && modename == L"normal") {
+		vm.logger().Error(E_N, 2);
+		if (vm.parser0().ParseShellDictionary())
+			SetSuppress();
+	}
+	else if (vm.parser0().Parse(dic_charset, dics))
 		SetSuppress();
 
 	{
@@ -347,7 +363,8 @@ void	CBasis::Configure(void)
 			logex.OutExecutionCodeForCheck();
 
 		// 前回終了時に保存した変数を復元
-		RestoreVariable();
+		if (config_found)
+			RestoreVariable();
 
 		if (checkparser)
 			logex.OutVariableInfoForCheck();
@@ -389,6 +406,17 @@ void	CBasis::Termination(void)
 	vm.logger().Termination();
 
 	//
+	ResetFuncPos();
+}
+
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CBasis::ResetFuncPos
+ *  機能概要：  load/unload/request関数の位置のキャッシュを捨てます
+ *  　　　　　  関数表を差し替えると位置が変わるため、その都度呼びます
+ * -----------------------------------------------------------------------
+ */
+void	CBasis::ResetFuncPos(void)
+{
 	loadindex.Init();
 	unloadindex.Init();
 	requestindex.Init();
@@ -480,9 +508,13 @@ void	CBasis::ResetSuppress(void)
  *  この基礎設定ファイルはOSデフォルトのコードで読み取られることに注意してください。
  *  国際化に関して考慮する場合は、このファイル内の記述にマルチバイト文字を使用するべきでは
  *  ありません（文字コード0x7F以下のASCII文字のみで記述すべきです）。
+ *
+ *  返値　　：  true/false=設定ファイルを読んだ/通常モードで設定ファイルが無かった
+ *
+ *  通常モードで設定ファイルが無い場合はエラーにせず、辞書なし（シェルモード）として扱います。
  * -----------------------------------------------------------------------
  */
-void	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
+bool	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
 {
 	// 設定ファイル("name".txt)読み取り
 
@@ -491,6 +523,15 @@ void	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
 
 	// 先に互換用にエラーメッセージテーブルを読んでおく。
 	SetParameter(L"messagetxt",MsgLangToMessageTxt(msglang_for_compat));
+
+	// 通常モードで設定ファイルが無ければシェルモードにする（緊急モードでは従来どおりエラー）
+	if ( modename == L"normal" ) {
+		FILE	*fp = yaya::w_fopen(filename.c_str(), L"r");
+		if ( fp == NULL ) {
+			return false;
+		}
+		fclose(fp);
+	}
 
 	// いったん退避（messagetxt_path は設定ファイルでの明示指定を検出するために控える）
 	char old_msglang = msglang_for_compat;
@@ -504,6 +545,8 @@ void	CBasis::LoadBaseConfigureFile(std::vector<CDic1> &dics)
 	if ( old_msglang != msglang_for_compat && old_messagetxt_path == messagetxt_path ) {
 		SetParameter(L"messagetxt",MsgLangToMessageTxt(msglang_for_compat));
 	}
+
+	return true;
 }
 
 void	CBasis::LoadBaseConfigureFile_Base(yaya::string_t filename,std::vector<CDic1> &dics,char cset)
@@ -1038,6 +1081,127 @@ CValue CBasis::GetParameter(const yaya::string_t &cmd)
 	return yaya::string_t();
 }
 
+// VC6のbasic_stringは容量を32文字ずつしか増やさず、要素ごとに足すと2乗の時間がかかるので倍々に確保する
+// 区切りの":"などの分も見込んで少し多めに確保する
+static void ReserveSaveString(yaya::string_t &str, yaya::string_t::size_type add)
+{
+	yaya::string_t::size_type need = str.size() + add + 16;
+	if (need > str.capacity()) {
+		str.reserve(need * 2);
+	}
+}
+
+static bool IsSaveNan(double d)
+{
+#if defined(_MSC_VER)
+	return _isnan(d) != 0;
+#else
+	return std::isnan(d);
+#endif
+}
+
+static bool IsSaveFinite(double d)
+{
+#if defined(_MSC_VER)
+	return _finite(d) != 0;
+#else
+	return std::isfinite(d);
+#endif
+}
+
+// 実数を保存用の文字列にして追加する
+// %fでは小数6桁に丸まり、無限大もCRTごとに違う表記（VC6は"1.#INF00"）になって読み戻せないため、
+// 読み戻して同じ値になる桁数（%.15gか%.17g）を取り、指数を使わない小数の表記に直す
+// （以前の版の復元処理は指数表記を実数と認めないので、指数は使わない）
+static void AppendSaveDouble(yaya::string_t &str, double d)
+{
+	if (IsSaveNan(d)) {
+		str += L"nan";
+		return;
+	}
+	if (!IsSaveFinite(d)) {
+		str += (d < 0) ? L"-inf" : L"inf";
+		return;
+	}
+
+	char buf[64];
+	sprintf(buf, "%.15g", d);
+	if (strtod(buf, NULL) != d) {
+		sprintf(buf, "%.17g", d);
+	}
+
+	// 符号、仮数の数字の並び、小数点の位置、指数に分ける
+	std::string out;
+	const char *p = buf;
+	if (*p == '-') {
+		out += '-';
+		++p;
+	}
+	std::string digits;
+	int point = -1;
+	for( ; *p && *p != 'e' && *p != 'E'; ++p) {
+		if (*p == '.') {
+			point = static_cast<int>(digits.size());
+		}
+		else {
+			digits += *p;
+		}
+	}
+	if (point < 0) {
+		point = static_cast<int>(digits.size());
+	}
+	if (*p) {
+		point += atoi(p + 1);
+	}
+
+	if (point <= 0) {
+		out += "0.";
+		out.append(static_cast<size_t>(-point), '0');
+		out += digits;
+	}
+	else if (static_cast<size_t>(point) >= digits.size()) {
+		out += digits;
+		out.append(static_cast<size_t>(point) - digits.size(), '0');
+		out += ".0";
+	}
+	else {
+		out.append(digits, 0, static_cast<size_t>(point));
+		out += '.';
+		out.append(digits, static_cast<size_t>(point), std::string::npos);
+	}
+
+	ReserveSaveString(str, out.size());
+	for(std::string::const_iterator it = out.begin(); it != out.end(); ++it) {
+		str += static_cast<yaya::char_t>(*it);
+	}
+}
+
+// 保存された無限大とNaNを読む
+// 以前の版が%fで書いた表記（VC6の"1.#INF00" "-1.#IND00" "1.#QNAN0"、gccの"inf" "-nan"）も受け付ける
+static bool ParseSaveSpecialDouble(const yaya::string_t &str, double &d)
+{
+	if (str == L"inf" || str == L"1.#INF00") {
+		d = HUGE_VAL;
+		return true;
+	}
+	if (str == L"-inf" || str == L"-1.#INF00") {
+		d = -HUGE_VAL;
+		return true;
+	}
+	if (str == L"nan" || str == L"-nan" ||
+		str == L"1.#QNAN0" || str == L"-1.#QNAN0" || str == L"1.#IND00" || str == L"-1.#IND00") {
+		// inf - inf はVC6の最適化で0にされてしまうので、ビット列（quiet NaN）から作る
+		union {
+			std::uint64_t u;
+			double d;
+		} v;
+		v.u = static_cast<std::uint64_t>(0x7FF80000) << 32;
+		d = v.d;
+		return true;
+	}
+	return false;
+}
+
 /* -----------------------------------------------------------------------
  *  関数名  ：  CBasis::SaveVariable
  *  機能概要：  変数値をファイルに保存します
@@ -1164,7 +1328,7 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 			str += L',';
 			break;
 		case F_TAG_DOUBLE:
-			str += yaya::ws_ftoa(var->value_const().d_value);
+			AppendSaveDouble(str, var->value_const().d_value);
 			str += L',';
 			break;
 		case F_TAG_STRING:
@@ -1185,8 +1349,13 @@ void	CBasis::SaveVariable(const yaya::char_t* pName)
 				for(itv = itvbegin; itv != var->value_const().array().end(); itv++) {
 					if(itv != itvbegin)
 						str += L':';
+					if (itv->GetType() == F_TAG_DOUBLE) {
+						AppendSaveDouble(str, itv->d_value);
+						continue;
+					}
 					wstr = itv->GetValueString();
 					EscapeString(wstr);
+					ReserveSaveString(str, wstr.size() + 2);
 
 					if (itv->GetType() == F_TAG_STRING) {
 						str += L"\"";
@@ -1370,12 +1539,18 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 			delimiter = parseline;
 		// 値をチェックして型を判定
 		int	type;
+		double	special_d = 0.0;
+		bool	is_special_d = false;
 
 		if (IsIntString(value)) {
 			type = F_TAG_INT;
 		}
 		else if (IsDoubleButNotIntString(value)) {
 			type = F_TAG_DOUBLE;
+		}
+		else if (ParseSaveSpecialDouble(value, special_d)) {
+			type = F_TAG_DOUBLE;
+			is_special_d = true;
 		}
 		else if (!IsLegalStrLiteral(value)) {
 			type = F_TAG_STRING;
@@ -1402,7 +1577,7 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 		}
 		else if (type == F_TAG_DOUBLE) {
 			// 実数型
-			vm.variable().SetValue(index, yaya::ws_atof(value));
+			vm.variable().SetValue(index, is_special_d ? special_d : yaya::ws_atof(value));
 		}
 		else if (type == F_TAG_STRING) {
 			// 文字列型
@@ -1433,6 +1608,32 @@ void	CBasis::RestoreVariable(const yaya::char_t* pName)
 	vm.logger().Message(8);
 }
 
+// Split_IgnoreDQと同じくダブル/シングルクォートの内側を無視して":"を探す
+// 要素ごとに残りの文字列をコピーすると要素数の2乗の時間がかかるので、位置を進めながら探す
+static yaya::string_t::size_type FindSaveArraySep(const yaya::string_t &str, yaya::string_t::size_type begin)
+{
+	bool dq = false;
+	bool quote = false;
+
+	for(yaya::string_t::size_type i = begin; i < str.size(); ++i) {
+		yaya::char_t c = str[i];
+		if (c == L'\"') {
+			if (!quote) {
+				dq = !dq;
+			}
+		}
+		else if (c == L'\'') {
+			if (!dq) {
+				quote = !quote;
+			}
+		}
+		else if (c == L':' && !dq && !quote) {
+			return i;
+		}
+	}
+	return yaya::string_t::npos;
+}
+
 /* -----------------------------------------------------------------------
  *  関数名  ：  CBasis::RestoreArrayVariable
  *  機能概要：  RestoreVariableから呼ばれます。配列変数の内容を復元します
@@ -1442,14 +1643,21 @@ void	CBasis::RestoreArrayVariable(CValue &var, yaya::string_t &value)
 {
 	var.array().clear();
 
-	yaya::string_t	par, remain;
-	char splitResult;
+	yaya::string_t	par;
+	yaya::string_t::size_type begin = 0;
+	double	special_d;
 
 	for( ; ; ) {
-		splitResult = Split_IgnoreDQ(value, par, remain, L":");
-		if (!splitResult) {
-			par = value;
+		yaya::string_t::size_type seppoint = FindSaveArraySep(value, begin);
+		yaya::string_t::size_type end = (seppoint == yaya::string_t::npos) ? value.size() : seppoint;
+
+		while (begin < end && IsSpace(value[begin])) {
+			++begin;
 		}
+		while (begin < end && IsSpace(value[end - 1])) {
+			--end;
+		}
+		par.assign(value, begin, end - begin);
 
 		if (par != ESC_IARRAY) {
 			if (par == ESC_IVOID) {
@@ -1461,6 +1669,9 @@ void	CBasis::RestoreArrayVariable(CValue &var, yaya::string_t &value)
 			else if (IsDoubleButNotIntString(par)) {
 				var.array().emplace_back(CValueSub( yaya::ws_atof(par) ));
 			}
+			else if (ParseSaveSpecialDouble(par, special_d)) {
+				var.array().emplace_back(CValueSub(special_d));
+			}
 			else {
 				CutDoubleQuote(par);
 				UnescapeString(par);
@@ -1468,10 +1679,10 @@ void	CBasis::RestoreArrayVariable(CValue &var, yaya::string_t &value)
 			}
 		}
 
-		if (!splitResult) {
+		if (seppoint == yaya::string_t::npos) {
 			break;
 		}
-		value = remain;
+		begin = seppoint + 1;
 	}
 }
 

@@ -349,6 +349,8 @@ constexpr CSF_FUNCTABLE CSystemFunction::sysfunc[] = {
 	{ &CSystemFunction::DIRECTSSTP , L"DIRECTSSTP" } ,
 	// ファイル操作(9)
 	{ &CSystemFunction::FSTATUS , L"FSTATUS" } ,
+	//LINT(2)
+	{ &CSystemFunction::LINT_GetVarRefs , L"LINT.GetVarRefs" } ,
 };
 
 #define SYSFUNC_NUM (sizeof(CSystemFunction::sysfunc)/sizeof(CSystemFunction::sysfunc[0]))
@@ -995,7 +997,13 @@ CValue	CSystemFunction::CHARSETTEXTTOID(CSF_FUNCPARAM &p)
 		return CValue(F_TAG_NOP, 0/*dmy*/);
 	}
 
-	return CValue(Ccct::CharsetTextToID(p.arg.array()[0].s_value.c_str()));
+	int charset = Ccct::CharsetTextToIDStrict(p.arg.array()[0].s_value.c_str());
+	if (charset < 0) {
+		vm.logger().Error(E_W, 12, L"CHARSETTEXTTOID : " + p.arg.array()[0].s_value, p.dicname, p.line);
+		SetError(12);
+		return CValue(-1);
+	}
+	return CValue(charset);
 }
 
 /* -----------------------------------------------------------------------
@@ -1953,7 +1961,20 @@ CValue	CSystemFunction::INSERT(CSF_FUNCPARAM &p)
 	}
 
 	yaya::string_t str = p.arg.array()[0].GetValueString();
-	return CValue(str.insert(static_cast<size_t>( p.arg.array()[1].GetValueInt() ), p.arg.array()[2].s_value));
+	yaya::int_t pos = p.arg.array()[1].GetValueInt();
+
+	// 負の位置は末尾から数える　範囲外は先頭か末尾に寄せる
+	if ( pos < 0 ) {
+		pos += str.length();
+		if ( pos < 0 ) {
+			pos = 0;
+		}
+	}
+	if ( pos > static_cast<yaya::int_t>(str.length()) ) {
+		pos = str.length();
+	}
+
+	return CValue(str.insert(static_cast<size_t>(pos), p.arg.array()[2].GetValueString()));
 }
 
 /* -----------------------------------------------------------------------
@@ -3238,10 +3259,14 @@ CValue	CSystemFunction::DICLOAD(CSF_FUNCPARAM &p)
 #endif
 	char cset = vm.basis().GetDicCharset();
 
-	if ( p.arg.array_size() >= 2 && p.arg.array()[1].s_value.size() ) {
-		char cx = Ccct::CharsetTextToID(p.arg.array()[1].s_value.c_str());
+	// 文字コードは空文字列・空値なら省略扱い。defaultなら設定ファイルの辞書の文字コードのまま
+	if ( p.arg.array_size() >= 2 && ! p.arg.array()[1].IsVoid() && ! (p.arg.array()[1].IsString() && p.arg.array()[1].s_value.empty()) ) {
+		int cx = GetCharset(p.arg.array()[1], L"DICLOAD", p.dicname, p.line);
+		if ( cx < 0 ) {
+			return CValue(1);
+		}
 		if ( cx != CHARSET_DEFAULT ) {
-			cset = cx;
+			cset = static_cast<char>(cx);
 		}
 	}
 
@@ -3515,6 +3540,38 @@ CValue CSystemFunction::PROCESSGLOBALDEFINE(CSF_FUNCPARAM &p)
 }
 
 /* -----------------------------------------------------------------------
+ *  関数名  ：  FuncDeclGetVariable
+ *  機能概要：  FUNCDECL_READ/WRITE/ERASEでフックを登録する変数を取得します
+ *
+ *  createがtrueなら、変数がまだ無いときは空の変数を作ります（あとで代入したときにもフックが働くように）
+ *  名前が空ならNULLを返します
+ * -----------------------------------------------------------------------
+ */
+static CVariable* FuncDeclGetVariable(CAyaVM &vm, CLocalVariable &lvar, const yaya::string_t &var_name, bool create)
+{
+	if ( var_name.empty() ) {
+		return NULL;
+	}
+
+	if ( var_name[0] == L'_' ) {
+		CVariable *pv = lvar.GetPtr(var_name);
+		if ( ! pv && create ) {
+			lvar.Make(var_name);
+			pv = lvar.GetPtr(var_name);
+		}
+		return pv;
+	}
+
+	CVariable *pv = vm.variable().GetPtr(var_name);
+	if ( ! pv && create ) {
+		int index = vm.variable().Make(var_name, 0);
+		vm.variable().EnableValue(index);
+		pv = vm.variable().GetPtr(index);
+	}
+	return pv;
+}
+
+/* -----------------------------------------------------------------------
  *  関数名  ：  CSystemFunction::FUNCDECL_READ
  *  変数読み込みフック　FUNCDECL_READ(変数名,関数名)
  * -----------------------------------------------------------------------
@@ -3544,33 +3601,29 @@ CValue CSystemFunction::FUNCDECL_READ(CSF_FUNCPARAM& p)
 	const yaya::string_t &var_name = p.arg.array()[0].GetValueString();
 	const yaya::string_t &func_name = p.arg.array()[1].GetValueString();
 
-	CVariable* pv;
-	if (var_name[0] == L'_') {
-		pv=p.lvar.GetPtr(var_name);
-	}
-	else {
-		pv=vm.variable().GetPtr(var_name);
-	}
-
-	if (pv) {
-		if ( func_name.empty() ) {
-			pv->set_watcher(yaya::string_t());
-			return CValue(1);
+	if ( func_name.empty() ) {
+		CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, false);
+		if ( ! pv ) {
+			return CValue(0);
 		}
-		else {
-			ptrdiff_t i = vm.function_exec().GetFunctionIndexFromName(func_name);
-
-			if(i != -1) {
-				pv->set_watcher(func_name);
-				return CValue(1);
-			}
-			else {
-				vm.logger().Error(E_W, 9, L"FUNCDECL_READ", p.dicname, p.line);
-			}
-		}
+		pv->set_watcher(yaya::string_t());
+		return CValue(1);
 	}
 
-	return CValue(0);
+	if ( vm.function_exec().GetFunctionIndexFromName(func_name) == -1 ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_READ", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+
+	CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, true);
+	if ( ! pv ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_READ", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+	pv->set_watcher(func_name);
+	return CValue(1);
 }
 
 /* -----------------------------------------------------------------------
@@ -3603,33 +3656,29 @@ CValue CSystemFunction::FUNCDECL_WRITE(CSF_FUNCPARAM& p)
 	const yaya::string_t &var_name = p.arg.array()[0].GetValueString();
 	const yaya::string_t &func_name = p.arg.array()[1].GetValueString();
 
-	CVariable* pv;
-	if (var_name[0] == L'_') {
-		pv=p.lvar.GetPtr(var_name);
-	}
-	else {
-		pv=vm.variable().GetPtr(var_name);
-	}
-
-	if (pv) {
-		if ( func_name.empty() ) {
-			pv->set_setter(yaya::string_t());
-			return CValue(1);
+	if ( func_name.empty() ) {
+		CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, false);
+		if ( ! pv ) {
+			return CValue(0);
 		}
-		else {
-			ptrdiff_t i = vm.function_exec().GetFunctionIndexFromName(func_name);
-
-			if(i != -1) {
-				pv->set_setter(func_name);
-				return CValue(1);
-			}
-			else {
-				vm.logger().Error(E_W, 9, L"FUNCDECL_WRITE", p.dicname, p.line);
-			}
-		}
+		pv->set_setter(yaya::string_t());
+		return CValue(1);
 	}
 
-	return CValue(0);
+	if ( vm.function_exec().GetFunctionIndexFromName(func_name) == -1 ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_WRITE", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+
+	CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, true);
+	if ( ! pv ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_WRITE", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+	pv->set_setter(func_name);
+	return CValue(1);
 }
 
 /* -----------------------------------------------------------------------
@@ -3662,33 +3711,29 @@ CValue CSystemFunction::FUNCDECL_ERASE(CSF_FUNCPARAM& p)
 	const yaya::string_t &var_name = p.arg.array()[0].GetValueString();
 	const yaya::string_t &func_name = p.arg.array()[1].GetValueString();
 
-	CVariable* pv;
-	if (var_name[0] == L'_') {
-		pv=p.lvar.GetPtr(var_name);
-	}
-	else {
-		pv=vm.variable().GetPtr(var_name);
-	}
-
-	if (pv) {
-		if ( func_name.empty() ) {
-			pv->set_destorier(yaya::string_t());
-			return CValue(1);
+	if ( func_name.empty() ) {
+		CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, false);
+		if ( ! pv ) {
+			return CValue(0);
 		}
-		else {
-			ptrdiff_t i = vm.function_exec().GetFunctionIndexFromName(func_name);
-
-			if(i != -1) {
-				pv->set_destorier(func_name);
-				return CValue(1);
-			}
-			else {
-				vm.logger().Error(E_W, 9, L"FUNCDECL_ERASE", p.dicname, p.line);
-			}
-		}
+		pv->set_destorier(yaya::string_t());
+		return CValue(1);
 	}
 
-	return CValue(0);
+	if ( vm.function_exec().GetFunctionIndexFromName(func_name) == -1 ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_ERASE", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+
+	CVariable* pv = FuncDeclGetVariable(vm, p.lvar, var_name, true);
+	if ( ! pv ) {
+		vm.logger().Error(E_W, 9, L"FUNCDECL_ERASE", p.dicname, p.line);
+		SetError(9);
+		return CValue(0);
+	}
+	pv->set_destorier(func_name);
+	return CValue(1);
 }
 
 /* -----------------------------------------------------------------------
@@ -4005,7 +4050,14 @@ CValue	CSystemFunction::ISEVALUABLE(CSF_FUNCPARAM &p)
 	bool result;
 	vm.logger().lock();
 	try {
-		result = !vm.parser0().ParseEmbedString(str, t_state, p.dicname, p.line);
+		// EVALと同じく、文の並びなら一時関数として解析する
+		if (vm.parser0().IsEvalBlock(str)) {
+			CFunction	t_func(vm, p.thisfunc->name + L".EVAL", p.dicname, (int)p.line);
+			result = !vm.parser0().ParseEvalBlock(str, t_func, p.dicname, p.line);
+		}
+		else {
+			result = !vm.parser0().ParseEmbedString(str, t_state, p.dicname, p.line);
+		}
 	}
 	catch (...) {
 		vm.logger().unlock();
@@ -4032,8 +4084,18 @@ CValue	CSystemFunction::EVAL(CSF_FUNCPARAM &p)
 		SetError(9);
 	}
 
-	// 数式へ展開
 	yaya::string_t	str = p.arg.array()[0].GetValueString();
+
+	// 文の並びなら一時関数にして、呼び出し元のローカル変数のもとで実行する
+	if (vm.parser0().IsEvalBlock(str)) {
+		CFunction	t_func(vm, p.thisfunc->name + L".EVAL", p.dicname, (int)p.line);
+		if (vm.parser0().ParseEvalBlock(str, t_func, p.dicname, p.line))
+			return CValue(p.arg.array()[0].GetValueString());
+
+		return t_func.ExecuteEval(p.lvar).Output();
+	}
+
+	// 数式へ展開
 	CStatement	t_state(ST_FORMULA, p.line);
 	if (vm.parser0().ParseEmbedString(str, t_state, p.dicname, p.line))
 		return CValue(p.arg.array()[0].GetValueString());
@@ -4083,7 +4145,15 @@ CValue	CSystemFunction::ERASEVAR(CSF_FUNCPARAM &p)
 			pv=vm.variable().GetPtr(arg0);
 		if (pv) {
 			pv->call_destorier(vm);
-			pv->Erase();
+
+			// destorierの中で変数が増えるとpvは無効になるので引き直す
+			if (arg0[0] == L'_')
+				pv=p.lvar.GetPtr(arg0);
+			else
+				pv=vm.variable().GetPtr(arg0);
+			if (pv) {
+				pv->Erase();
+			}
 		}
 	}
 
@@ -4342,8 +4412,8 @@ CValue	CSystemFunction::GETSECCOUNT(CSF_FUNCPARAM &p)
 			input_time.tm_min = static_cast<int>(p.arg.array()[5].GetValueInt());
 		case 5:
 			input_time.tm_hour = static_cast<int>(p.arg.array()[4].GetValueInt());
-		/*case 4:
-			input_time.tm_wday = static_cast<int>( p.arg.array()[3].GetValueInt());*/ //代入禁止
+		case 4:
+			//input_time.tm_wday = static_cast<int>( p.arg.array()[3].GetValueInt()); //代入禁止
 		case 3:
 			input_time.tm_mday = static_cast<int>(p.arg.array()[2].GetValueInt());
 		case 2:
@@ -6739,7 +6809,12 @@ int CSystemFunction::GetCharset(const CValueSub &var,const wchar_t *fname, const
 
 	if (var.IsString()) {
 		yaya::string_t cset = var.GetValueString();
-		int	charset = Ccct::CharsetTextToID(cset.c_str());
+		int	charset = Ccct::CharsetTextToIDStrict(cset.c_str());
+		if (charset < 0) {
+			vm.logger().Error(E_W, 12, yaya::string_t(fname) + L" : " + cset, d, l);
+			SetError(12);
+			return -1;
+		}
 		return charset;
 	}
 
@@ -6767,7 +6842,7 @@ CValue CSystemFunction::READFMO(CSF_FUNCPARAM &p)
 	if (p.arg.array_size() >= 2) {
 		charset = GetCharset(p.arg.array()[1],L"READFMO", p.dicname, p.line);
 		if ( charset < 0 ) {
-			charset = CHARSET_DEFAULT;
+			return CValue(F_TAG_NOP, 0/*dmy*/);
 		}
 	}
 
@@ -7385,7 +7460,7 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 
 	HWND hwnd = (HWND)p.arg.array()[0].GetValueInt();
 
-	if ( ! hwnd ) {
+	if ( ! hwnd || ! ::IsWindow(hwnd) ) {
 		vm.logger().Error(E_W, 12, L"DIRECTSSTP", p.dicname, p.line);
 		SetError(12);
 		return CValue(-1);
@@ -7393,9 +7468,9 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 
 	int	charset = CHARSET_UTF8;
 	if (p.arg.array_size() > 2) {
-		int cs = GetCharset(p.arg.array()[2],L"DIRECTSSTP", p.dicname, p.line);
-		if ( cs >= 0 ) {
-			charset = cs;
+		charset = GetCharset(p.arg.array()[2],L"DIRECTSSTP", p.dicname, p.line);
+		if ( charset < 0 ) {
+			return CValue(-1);
 		}
 	}
 
@@ -7437,14 +7512,25 @@ CValue	CSystemFunction::DIRECTSSTP(CSF_FUNCPARAM &p)
 	cds.cbData = strlen(req);
 	cds.lpData = req;
 
+	//相手はWM_COPYDATAの処理中に、こちらのウインドウへWM_COPYDATAで返信してくるので、
+	//待っている間も送られてきたメッセージを処理できるよう、SMTO_BLOCKは付けないこと
 	DWORD_PTR res_dword = 0;
-	::SendMessageTimeout((HWND)hwnd, WM_COPYDATA, (WPARAM)propertyWindow, (LPARAM)&cds, SMTO_ABORTIFHUNG | SMTO_BLOCK, 5000, &res_dword);
+	LRESULT sent = ::SendMessageTimeout((HWND)hwnd, WM_COPYDATA, (WPARAM)propertyWindow, (LPARAM)&cds, SMTO_ABORTIFHUNG, 5000, &res_dword);
+	DWORD sent_error = sent ? 0 : ::GetLastError();
 	
 	//リソースの開放
 	free(req);
 	
 	::DestroyWindow(propertyWindow);
 	::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
+
+	//送れなかった、もしくは相手が応答しなかった
+	if ( ! sent ) {
+		yaya::string_t reason = (sent_error == ERROR_TIMEOUT) ? L"DIRECTSSTP : timeout" : L"DIRECTSSTP : send failed";
+		vm.logger().Error(E_W, 13, reason, p.dicname, p.line);
+		SetError(13);
+		return CValue(-1);
+	}
 
 	wchar_t *res = Ccct::MbcsToUcs2(res_str,charset);
 
@@ -7533,6 +7619,39 @@ CValue	CSystemFunction::LICENSE(CSF_FUNCPARAM &p)
 	v.array().emplace_back(L"");
 
 	return v;
+}
+
+/* -----------------------------------------------------------------------
+ *  LINT.* 用ヘルパ
+ * -----------------------------------------------------------------------
+ */
+// 代入演算子のserialから代入先の変数セル位置を求める（代入でなければ-1）
+// 配列要素への代入は直前の変数本体を返す（CFunction::Subst と同じ規則）
+static ptrdiff_t LintGetLetTargetCellIndex(const CStatement &st, const CSerial &se)
+{
+	if ( ! F_TAG_ISLET(st.cell()[se.tindex].value_GetType()) || se.index.empty() ) {
+		return -1;
+	}
+	size_t idx = se.index[0];
+	if ( st.cell()[idx].value_GetType() == F_TAG_ARRAYORDER ) {
+		if ( idx == 0 ) {
+			return -1;
+		}
+		--idx;
+	}
+	return ptrdiff_t(idx);
+}
+
+// foreach _list ; _v の _v 側ステートメント（代入先変数のみ）か
+static bool LintIsForeachVarStatement(const std::vector<CStatement> &statement, std::vector<CStatement>::const_iterator s)
+{
+	return s != statement.begin() && (s - 1)->type == ST_FOREACH && s->cell_size() == 1;
+}
+
+// case構文が内部で生成するローカル変数か
+static bool LintIsInternalLocalVarName(const yaya::string_t &name)
+{
+	return ::wcsncmp(PREFIX_CASE_VAR, name.c_str(), PREFIX_CASE_VAR_SIZE) == 0;
 }
 
 /* -----------------------------------------------------------------------
@@ -7696,10 +7815,28 @@ CValue	CSystemFunction::LINT_GetLocalVarUsedBy(CSF_FUNCPARAM &p)
 			array.emplace_back(L"}");
 		}
 		else {
-			for ( std::vector<CCell>::const_iterator c = s->cell().begin() ; c != s->cell().end() ; ++c ) {
-				if ( c->value_GetType() == F_TAG_LOCALVARIABLE ) {
-					array.emplace_back(c->name);
-					++value_count;
+			// 代入は右辺の評価後に行われるので、代入先は同一ステートメント内の最後に並べる
+			const std::vector<CCell> &cells = s->cell();
+			std::vector<bool> is_let_target(cells.size(), false);
+			for ( std::vector<CSerial>::const_iterator se = s->serial().begin() ; se != s->serial().end() ; ++se ) {
+				ptrdiff_t t = LintGetLetTargetCellIndex(*s, *se);
+				if ( t >= 0 ) {
+					is_let_target[size_t(t)] = true;
+				}
+			}
+			if ( LintIsForeachVarStatement(it->statement, s) ) {
+				is_let_target[0] = true;
+			}
+
+			for ( int pass = 0 ; pass < 2 ; ++pass ) {
+				for ( size_t i = 0 ; i < cells.size() ; ++i ) {
+					if ( is_let_target[i] != (pass == 1) ) {
+						continue;
+					}
+					if ( cells[i].value_GetType() == F_TAG_LOCALVARIABLE && ! LintIsInternalLocalVarName(cells[i].name) ) {
+						array.emplace_back(cells[i].name);
+						++value_count;
+					}
 				}
 			}
 		}
@@ -7741,19 +7878,23 @@ CValue	CSystemFunction::LINT_GetGlobalVarLetted(CSF_FUNCPARAM &p)
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 	const CFunction *it = &vm.function_exec().func[size_t(index)];
 	std::set<yaya::string_t> name_set;
-	const CCell* sid_0_cell = 0;
-	size_t o_index;
 
 	for ( std::vector<CStatement>::const_iterator s = it->statement.begin() ; s != it->statement.end() ; ++s ) {
+		if ( LintIsForeachVarStatement(it->statement, s) ) {
+			const CCell &v_cell = s->cell()[0];
+			if ( v_cell.value_GetType() == F_TAG_VARIABLE ) {
+				name_set.insert(vm.variable().GetName(v_cell.index));
+			}
+			continue;
+		}
 		for ( std::vector<CSerial>::const_iterator se = s->serial().begin() ; se != s->serial().end() ; ++se ) {
-			o_index = se->tindex;
-			const CCell& o_cell = s->cell()[o_index];
-
-			if ( F_TAG_ISLET(o_cell.value_GetType()) ) {
-				sid_0_cell = &(s->cell()[se->index[0]]);
-				if ( sid_0_cell->value_GetType()==F_TAG_VARIABLE ) {
-					name_set.insert(vm.variable().GetName(sid_0_cell->index));
-				}
+			ptrdiff_t t = LintGetLetTargetCellIndex(*s, *se);
+			if ( t < 0 ) {
+				continue;
+			}
+			const CCell &sid_0_cell = s->cell()[size_t(t)];
+			if ( sid_0_cell.value_GetType() == F_TAG_VARIABLE ) {
+				name_set.insert(vm.variable().GetName(sid_0_cell.index));
 			}
 		}
 	}
@@ -7790,8 +7931,6 @@ CValue	CSystemFunction::LINT_GetLocalVarLetted(CSF_FUNCPARAM &p)
 	CValue result(F_TAG_ARRAY, 0/*dmy*/);
 	const CFunction *it = &vm.function_exec().func[size_t(index)];
 	std::vector<CValueSub>& array = result.array();
-	const CCell* sid_0_cell = 0;
-	size_t o_index;
 	size_t value_count = 0;
 
 	for ( std::vector<CStatement>::const_iterator s = it->statement.begin() ; s != it->statement.end() ; ++s ) {
@@ -7801,18 +7940,23 @@ CValue	CSystemFunction::LINT_GetLocalVarLetted(CSF_FUNCPARAM &p)
 		else if (s->type == ST_CLOSE) {
 			array.emplace_back(L"}");
 		}
+		else if ( LintIsForeachVarStatement(it->statement, s) ) {
+			const CCell &v_cell = s->cell()[0];
+			if ( v_cell.value_GetType() == F_TAG_LOCALVARIABLE ) {
+				array.emplace_back(v_cell.name);
+				++value_count;
+			}
+		}
 		else {
 			for ( std::vector<CSerial>::const_iterator se = s->serial().begin() ; se != s->serial().end() ; ++se ) {
-				o_index = se->tindex;
-				const CCell& o_cell = s->cell()[o_index];
-
-				if ( F_TAG_ISLET(o_cell.value_GetType()) ) {
-					sid_0_cell = &(s->cell()[se->index[0]]);
-
-					if(sid_0_cell->value_GetType()==F_TAG_LOCALVARIABLE) {
-						array.emplace_back(sid_0_cell->name);
-						++value_count;
-					}
+				ptrdiff_t t = LintGetLetTargetCellIndex(*s, *se);
+				if ( t < 0 ) {
+					continue;
+				}
+				const CCell &sid_0_cell = s->cell()[size_t(t)];
+				if ( sid_0_cell.value_GetType() == F_TAG_LOCALVARIABLE && ! LintIsInternalLocalVarName(sid_0_cell.name) ) {
+					array.emplace_back(sid_0_cell.name);
+					++value_count;
 				}
 			}
 		}
@@ -7821,6 +7965,237 @@ CValue	CSystemFunction::LINT_GetLocalVarLetted(CSF_FUNCPARAM &p)
 	if ( value_count == 0 ) {
 		//no local variable detected. clear all and return empty array.
 		array.clear();
+	}
+
+	return result;
+}
+
+/* -----------------------------------------------------------------------
+ *  LINT.GetVarRefs 用ヘルパ
+ * -----------------------------------------------------------------------
+ */
+// case構文の内部変数セルを含むか（whenから変換されたif/elseifの判定用）
+static bool LintHasCaseVarCell(const CStatement &st)
+{
+	for ( std::vector<CCell>::const_iterator c = st.cell().begin() ; c != st.cell().end() ; ++c ) {
+		if ( c->value_GetType() == F_TAG_LOCALVARIABLE && LintIsInternalLocalVarName(c->name) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+// case構文が変換された「内部変数 = 式」のステートメントか
+static bool LintIsCaseSubst(const CStatement &st)
+{
+	return st.type == ST_FORMULA_SUBST && st.cell_size() > 0 &&
+		st.cell()[0].value_GetType() == F_TAG_LOCALVARIABLE && LintIsInternalLocalVarName(st.cell()[0].name);
+}
+
+// ステートメントの文脈名
+static const yaya::char_t* LintGetStatementContext(const std::vector<CStatement> &statement, size_t i)
+{
+	// for a ; b ; c と foreach a ; b は複数のステートメントに分割されている
+	if ( i >= 1 && statement[i - 1].type == ST_FOR ) {
+		return L"for-cond";
+	}
+	if ( i >= 2 && statement[i - 2].type == ST_FOR ) {
+		return L"for-step";
+	}
+	if ( i >= 1 && statement[i - 1].type == ST_FOREACH ) {
+		return L"foreach-var";
+	}
+
+	const CStatement &st = statement[i];
+	switch ( st.type ) {
+	case ST_FORMULA_OUT_FORMULA:
+		return L"output";
+	case ST_FORMULA_SUBST:
+		return LintIsCaseSubst(st) ? L"case" : L"subst";
+	case ST_IF:
+		return LintHasCaseVarCell(st) ? L"when" : L"if";
+	case ST_ELSEIF:
+		return LintHasCaseVarCell(st) ? L"when" : L"elseif";
+	case ST_WHILE:
+		return L"while";
+	case ST_SWITCH:
+		return L"switch";
+	case ST_FOR:
+		return L"for-init";
+	case ST_FOREACH:
+		return L"foreach";
+	case ST_PARALLEL:
+		return L"parallel";
+	case ST_VOID:
+		return L"void";
+	case ST_RETURN_PARAM:
+		return L"return";
+	default:
+		return L"";
+	}
+}
+
+// ステートメントiの"{"が開くブロックの種別名
+static const yaya::char_t* LintGetBlockType(const std::vector<CStatement> &statement, size_t i, const yaya::char_t *parent)
+{
+	if ( i == 0 ) {
+		return L"function";
+	}
+	if ( i >= 3 && statement[i - 3].type == ST_FOR ) {
+		return L"for";
+	}
+	if ( i >= 2 && statement[i - 2].type == ST_FOREACH ) {
+		return L"foreach";
+	}
+
+	const CStatement &prev = statement[i - 1];
+	switch ( prev.type ) {
+	case ST_IF:
+		return LintHasCaseVarCell(prev) ? L"when" : L"if";
+	case ST_ELSEIF:
+		return LintHasCaseVarCell(prev) ? L"when" : L"elseif";
+	case ST_ELSE:
+		// othersはelseに変換されているので、caseブロック直下かどうかで区別する
+		return ( parent && ::wcscmp(parent, L"case") == 0 ) ? L"others" : L"else";
+	case ST_WHILE:
+		return L"while";
+	case ST_SWITCH:
+		return L"switch";
+	case ST_FORMULA_SUBST:
+		if ( LintIsCaseSubst(prev) ) {
+			return L"case";
+		}
+		break;
+	default:
+		break;
+	}
+	return L"plain";
+}
+
+// kind,category,name,access,line,depth,context の1件を作る
+static yaya::string_t LintMakeRef(const yaya::char_t *kind, const yaya::char_t *category, const yaya::string_t &name,
+	const yaya::char_t *access, const yaya::string_t &line, size_t depth, const yaya::char_t *context)
+{
+	yaya::string_t r(kind);
+	r += L',';
+	r += category;
+	r += L',';
+	r += name;
+	r += L',';
+	r += access;
+	r += L',';
+	r += line;
+	r += L',';
+	r += yaya::ws_itoa(int(depth));
+	r += L',';
+	r += context;
+	return r;
+}
+
+/* -----------------------------------------------------------------------
+ *  関数名  ：  CSystemFunction::LINT.GetVarRefs
+ *
+ *  関数内の変数・関数の出現とブロックの出入りを、1件ずつ
+ *  "kind,category,name,access,line,depth,context" の文字列で返します
+ * -----------------------------------------------------------------------
+ */
+CValue	CSystemFunction::LINT_GetVarRefs(CSF_FUNCPARAM &p)
+{
+	if (!p.arg.array_size()) {
+		vm.logger().Error(E_W, 8, L"LINT.GetVarRefs", p.dicname, p.line);
+		SetError(8);
+		return CValue(-1);
+	}
+
+	if (!p.arg.array()[0].IsString()) {
+		vm.logger().Error(E_W, 9, L"LINT.GetVarRefs", p.dicname, p.line);
+		SetError(9);
+		return CValue(-1);
+	}
+
+	ptrdiff_t index = vm.function_exec().GetFunctionIndexFromName(p.arg.array()[0].s_value);
+	if ( index < 0 ) {
+		vm.logger().Error(E_W, 12, L"LINT.GetVarRefs", p.dicname, p.line);
+		SetError(12);
+		return CValue(-1);
+	}
+
+	CValue result(F_TAG_ARRAY, 0/*dmy*/);
+	const CFunction *it = &vm.function_exec().func[size_t(index)];
+	const std::vector<CStatement> &statement = it->statement;
+	std::vector<CValueSub>& array = result.array();
+	std::vector<const yaya::char_t*> block_stack;
+	const yaya::string_t empty_name;
+
+	for ( size_t i = 0 ; i < statement.size() ; ++i ) {
+		const CStatement &st = statement[i];
+		const yaya::string_t line = yaya::ws_itoa(int(st.linecount));
+
+		if ( st.type == ST_OPEN ) {
+			const yaya::char_t *blocktype = LintGetBlockType(statement, i, block_stack.empty() ? NULL : block_stack.back());
+			block_stack.push_back(blocktype);
+			array.emplace_back(LintMakeRef(L"{", blocktype, empty_name, L"", line, block_stack.size(), L""));
+			continue;
+		}
+		if ( st.type == ST_CLOSE ) {
+			if ( ! block_stack.empty() ) {
+				array.emplace_back(LintMakeRef(L"}", block_stack.back(), empty_name, L"", line, block_stack.size(), L""));
+				block_stack.pop_back();
+			}
+			continue;
+		}
+
+		const std::vector<CCell> &cells = st.cell();
+		if ( cells.empty() ) {
+			continue;
+		}
+
+		const yaya::char_t *context = LintGetStatementContext(statement, i);
+
+		// 代入先のセルを調べる（=は書き込みのみ、複合代入は読み書き）
+		std::vector<const yaya::char_t*> access(cells.size(), (const yaya::char_t*)NULL);
+		for ( std::vector<CSerial>::const_iterator se = st.serial().begin() ; se != st.serial().end() ; ++se ) {
+			ptrdiff_t t = LintGetLetTargetCellIndex(st, *se);
+			if ( t >= 0 ) {
+				int optype = cells[se->tindex].value_GetType();
+				access[size_t(t)] = ( optype == F_TAG_EQUAL || optype == F_TAG_EQUAL_D ) ? L"w" : L"rw";
+			}
+		}
+		if ( LintIsForeachVarStatement(statement, statement.begin() + i) ) {
+			access[0] = L"w";
+		}
+
+		// 代入は右辺の評価後に行われるので、代入先は同一ステートメント内の最後に並べる
+		for ( int pass = 0 ; pass < 2 ; ++pass ) {
+			for ( size_t c = 0 ; c < cells.size() ; ++c ) {
+				if ( (access[c] != NULL) != (pass == 1) ) {
+					continue;
+				}
+				const CCell &cell = cells[c];
+				const yaya::char_t *acc = access[c] ? access[c] : L"r";
+
+				switch ( cell.value_GetType() ) {
+				case F_TAG_LOCALVARIABLE:
+					if ( ! LintIsInternalLocalVarName(cell.name) ) {
+						array.emplace_back(LintMakeRef(L"var", L"local", cell.name, acc, line, block_stack.size(), context));
+					}
+					break;
+				case F_TAG_VARIABLE:
+					array.emplace_back(LintMakeRef(L"var", L"global", cell.name, acc, line, block_stack.size(), context));
+					break;
+				case F_TAG_USERFUNC:
+					array.emplace_back(LintMakeRef(L"func", L"user", cell.name, L"call", line, block_stack.size(), context));
+					break;
+				case F_TAG_SYSFUNC:
+					if ( cell.name.size() ) {
+						array.emplace_back(LintMakeRef(L"func", L"system", cell.name, L"call", line, block_stack.size(), context));
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 	return result;

@@ -92,6 +92,9 @@ public:
 			delete vme;
 		}
 		vm->basis().ExecuteLoad();
+
+		// load関数の中で差し替えた古い関数表を解放
+		vm->func_destruct_clear();
 	}
 	virtual ~CAyaVMWrapper() {
 		vm->basis().Termination();

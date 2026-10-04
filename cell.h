@@ -203,6 +203,12 @@ public:
 		return *m_emb_ansv;
 	}
 	//////////////////////////////////////
+	// 一時値（ansv/order/emb_ansv）をp[0]～p[2]と交換します
+	void tmpdata_swap(std_shared_ptr<CValue> *p) const {
+		m_ansv.swap(p[0]);
+		m_order.swap(p[1]);
+		m_emb_ansv.swap(p[2]);
+	}
 	void tmpdata_cleanup(void) const {
 		{
 			const CValue &c = ansv_const();
